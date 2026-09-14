@@ -397,6 +397,14 @@
     background: #ffffff !important;
     border: 1px solid #000000 !important;
     box-shadow: none !important;
+    /* Enforce clean page breaks between major sections to prevent split regions */
+    page-break-before: always;
+    break-before: page;
+  }
+  /* Keep header & first section together on page 1 */
+  body.pdf-export-mode .panel:first-of-type {
+    page-break-before: avoid;
+    break-before: avoid;
   }
   body.pdf-export-mode .panel h2 {
     color: #000000 !important;
@@ -423,7 +431,6 @@
     -webkit-appearance: none;
     -moz-appearance: textfield;
   }
-  /* Hide spinner arrows on inputs during PDF export for a clean report look */
   body.pdf-export-mode input[type="number"]::-webkit-outer-spin-button,
   body.pdf-export-mode input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -482,6 +489,8 @@
   body.pdf-export-mode footer {
     border-top: 1px solid #000000 !important;
     color: #333333 !important;
+    page-break-before: always;
+    break-before: page;
   }
   body.pdf-export-mode footer strong {
     color: #000000 !important;
@@ -578,7 +587,7 @@
 
     <!-- RIGHT: RESULTS -->
     <div>
-      <div class="panel" style="position:sticky; top:20px;">
+      <div class="panel" style="position:relative;">
         <h2 data-i18n="panel_return">Return on the programme</h2>
         <p class="sub" data-i18n="sub_return">Estimated net benefit for the whole plantation, per year.</p>
 
@@ -749,7 +758,6 @@
     const element = document.getElementById('pdf-container');
     const watermark = document.getElementById('watermark');
     
-    // Enable pure black-and-white professional PDF theme
     document.body.classList.add('pdf-export-mode');
     watermark.style.display = 'block';
 
@@ -762,7 +770,6 @@
     };
 
     html2pdf().from(element).set(opt).save().then(() => {
-      // Revert theme back to normal dark mode UI
       document.body.classList.remove('pdf-export-mode');
       watermark.style.display = 'none';
     });
