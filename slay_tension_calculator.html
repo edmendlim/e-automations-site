@@ -249,7 +249,7 @@
   <div class="top-bar">
     <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Main Platform</span></a>
     <div class="top-actions">
-      <button onclick="exportPDF()" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
+      <button onclick="trackUniqueClick('slay_tension_calculator'); exportPDF();" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
       <div class="lang-switcher">
         <button onclick="setLanguage('en')" id="lang-en" class="lang-btn active">EN</button>
         <button onclick="setLanguage('zh')" id="lang-zh" class="lang-btn">中文</button>
@@ -405,6 +405,24 @@
 
 <script>
 (function(){
+  // Unique Click Tracker via localStorage
+  window.trackUniqueClick = function(calculatorName) {
+    const storageKey = `clicked_${calculatorName}`;
+    if (!localStorage.getItem(storageKey)) {
+      localStorage.setItem(storageKey, 'true');
+      const clickData = {
+        calculator: calculatorName,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      };
+      // Example endpoint or GA4 event dispatch
+      if (typeof gtag === 'function') {
+        gtag('event', 'unique_calculator_click', { 'calculator_name': calculatorName });
+      }
+      console.log(`Unique click recorded for: ${calculatorName}`);
+    }
+  };
+
   const translations = {
     en: {
       back_home: "Back to Main Platform",
