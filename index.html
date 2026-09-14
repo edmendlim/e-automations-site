@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E Automations Offshore Engineering | AI & Energy Solutions</title>
+    <title>E Automations | Autonomous Offshore Energy Systems</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -11,226 +11,220 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            dark: '#0B132B',
-                            card: '#1C2541',
-                            accent: '#3A86FF',
-                            glow: '#00F5D4',
-                            light: '#F8F9FA'
+                        spacex: {
+                            dark: '#050505',
+                            card: '#0c0d10',
+                            border: '#1f242d',
+                            accent: '#ffffff',
+                            muted: '#9ca3af'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-brand-dark text-brand-light font-sans antialiased selection:bg-brand-accent selection:text-white">
+<body class="bg-spacex-dark text-white font-sans antialiased selection:bg-white selection:text-black">
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- SpaceX Style Fixed Minimal Nav -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-black/80 via-black/40 to-transparent backdrop-blur-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 group">
-                <!-- Custom Logo Icon -->
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-accent to-brand-glow p-0.5 flex items-center justify-center shadow-lg shadow-brand-accent/25 group-hover:scale-105 transition">
-                    <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
-                        <svg class="w-5 h-5 text-brand-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </div>
-                </div>
-                <div>
-                    <span class="text-lg font-bold tracking-tight block group-hover:text-brand-glow transition">E AUTOMATIONS</span>
-                    <span class="text-xs text-brand-accent font-medium tracking-widest uppercase">Offshore & AI Energy</span>
+                <!-- SpaceX Minimalist Emblem Logo -->
+                <div class="flex items-center space-x-1 font-extrabold tracking-widest text-lg uppercase">
+                    <span class="text-white group-hover:text-gray-300 transition">E-AUTOMATIONS</span>
                 </div>
             </a>
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-                <a href="#vision" class="hover:text-brand-glow transition">Vision</a>
-                <a href="#solutions" class="hover:text-brand-glow transition">Solutions</a>
-                <a href="#expertise" class="hover:text-brand-glow transition">Expertise</a>
-                <a href="#founder" class="hover:text-brand-glow transition">Founder</a>
-                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-brand-accent hover:text-brand-glow transition">
-                    <i class="fa-brands fa-linkedin text-lg"></i>
-                    <span>LinkedIn</span>
+            
+            <div class="hidden lg:flex items-center space-x-10 text-xs font-semibold tracking-widest uppercase text-gray-300">
+                <a href="#systems" class="hover:text-white transition py-1 border-b border-transparent hover:border-white">Systems</a>
+                <a href="#architecture" class="hover:text-white transition py-1 border-b border-transparent hover:border-white">Architecture</a>
+                <a href="#capabilities" class="hover:text-white transition py-1 border-b border-transparent hover:border-white">Capabilities</a>
+                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1">LinkedIn</a>
+            </div>
+
+            <div>
+                <a href="#contact" class="px-5 py-2.5 rounded-none border border-white/40 text-xs uppercase font-bold tracking-widest hover:bg-white hover:text-black transition duration-300">
+                    Inquire
                 </a>
-                <a href="#contact" class="px-5 py-2.5 rounded-full bg-brand-accent text-white hover:bg-blue-600 transition shadow-lg shadow-brand-accent/20">Connect</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden py-24 lg:py-32 border-b border-white/10">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-accent/15 via-brand-dark to-brand-dark -z-10"></div>
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brand-card border border-white/10 text-brand-glow text-xs font-semibold mb-8 uppercase tracking-wider">
-                <i class="fa-solid fa-bolt text-xs"></i>
-                <span>Next-Gen Energy Intelligence</span>
-            </div>
-            <h1 class="text-4xl lg:text-7xl font-extrabold tracking-tight max-w-5xl mx-auto leading-tight mb-8">
-                Pioneering the Future of <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-glow">Offshore Energy</span> with Artificial Intelligence
+    <!-- Hero Section: SpaceX Cinematic Full-Screen Impact Style -->
+    <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-36 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/40 via-black to-black">
+        <!-- Background Grid Effect -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f242d15_1px,transparent_1px),linear-gradient(to_bottom,#1f242d15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+            <p class="text-xs font-mono tracking-[0.3em] uppercase text-gray-400">E Automations Offshore Engineering Sdn Bhd</p>
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                Autonomous <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">Offshore Energy</span>
             </h1>
-            <p class="text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto mb-12 font-normal leading-relaxed">
-                Merging decades of heavy subsea engineering and EPCI execution rigor with autonomous AI systems to optimize complex offshore infrastructure.
+            <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed pt-2">
+                Merging deep subsea installation analysis, EPCI precision engineering, and autonomous artificial intelligence architecture to redefine global energy infrastructure.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-5">
-                <a href="#solutions" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-accent to-blue-600 text-white font-semibold hover:opacity-95 transition shadow-xl shadow-brand-accent/25">
-                    Explore Solutions
-                </a>
-                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-card border border-white/10 font-semibold hover:border-brand-accent transition flex items-center justify-center space-x-2">
-                    <i class="fa-brands fa-linkedin text-brand-accent"></i>
-                    <span>Visit LinkedIn</span>
-                </a>
-            </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div class="relative z-10 animate-bounce">
+            <a href="#systems" class="text-gray-500 hover:text-white transition">
+                <i class="fa-solid fa-arrow-down text-xl"></i>
+            </a>
         </div>
     </header>
 
-    <!-- Vision / Stats -->
-    <section id="vision" class="py-20 bg-brand-card/30">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-2xl bg-brand-card border border-white/5 relative overflow-hidden">
-                    <div class="text-brand-glow text-3xl font-bold mb-2">EPCI Precision</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">Infusing deep subsea installation analysis and lifecycle engineering expertise with predictive software architecture.</p>
-                </div>
-                <div class="p-8 rounded-2xl bg-brand-card border border-white/5 relative overflow-hidden">
-                    <div class="text-brand-glow text-3xl font-bold mb-2">AI-Driven Ops</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">Leveraging machine learning models to minimize downtime, maximize energy output, and optimize offshore logistics.</p>
-                </div>
-                <div class="p-8 rounded-2xl bg-brand-card border border-white/5 relative overflow-hidden">
-                    <div class="text-brand-glow text-3xl font-bold mb-2">Autonomous Scale</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">Designing intelligent systems capable of real-time structural health monitoring and subsea risk mitigation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Core Solutions -->
-    <section id="solutions" class="py-24 max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">Intelligent Engineering Solutions</h2>
-            <p class="text-gray-400">Bridging the gap between heavy marine operations and cutting-edge artificial intelligence.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="p-8 rounded-2xl bg-brand-card border border-white/5 hover:border-brand-accent/50 transition group">
-                <div class="w-12 h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent text-xl mb-6 group-hover:bg-brand-accent group-hover:text-white transition">
-                    <i class="fa-solid fa-brain"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">AI Subsea Analytics</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Advanced installation analysis workflows automated through deep learning algorithms to predict fatigue, stress, and behavioral responses in harsh environments.</p>
-            </div>
-            <div class="p-8 rounded-2xl bg-brand-card border border-white/5 hover:border-brand-accent/50 transition group">
-                <div class="w-12 h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent text-xl mb-6 group-hover:bg-brand-accent group-hover:text-white transition">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Energy Grid Optimization</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Smart algorithms designed to balance energy loads, forecast consumption peaks, and integrate renewable offshore power sources seamlessly.</p>
-            </div>
-            <div class="p-8 rounded-2xl bg-brand-card border border-white/5 hover:border-brand-accent/50 transition group">
-                <div class="w-12 h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent text-xl mb-6 group-hover:bg-brand-accent group-hover:text-white transition">
-                    <i class="fa-solid fa-ship"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Autonomous EPCI Support</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Specialized project execution frameworks empowered by AI-driven resource tracking, man-hour simulations, and risk assessment engines.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Expertise Section -->
-    <section id="expertise" class="py-20 bg-brand-card/20 border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="text-brand-accent text-sm font-semibold uppercase tracking-widest">Engineering Excellence</span>
-                <h2 class="text-3xl lg:text-4xl font-bold mt-2 mb-6">Rooted in Field Experience, Powered by Code</h2>
-                <p class="text-gray-300 mb-6 leading-relaxed">
-                    At E Automations Offshore Engineering, we understand that reliable AI cannot exist in a vacuum. True digital transformation in the energy space requires an intimate understanding of complex subsea architecture, offshore logistics, and strict engineering codes.
+    <!-- Full-Screen Feature 1: Subsea Systems -->
+    <section id="systems" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-spacex-border bg-black">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-6">
+                <span class="text-xs font-mono tracking-[0.2em] uppercase text-gray-500">01 / Analytics & Automation</span>
+                <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight">AI Subsea Installation Analysis</h2>
+                <p class="text-gray-400 text-base sm:text-lg font-light leading-relaxed">
+                    Heavy marine operations demand absolute mathematical certainty. Our intelligent software models predict complex structural responses, fatigue limits, and environmental loads in hostile deep-water environments prior to execution.
                 </p>
-                <ul class="space-y-4 text-gray-300">
-                    <li class="flex items-center space-x-3">
-                        <i class="fa-solid fa-check text-brand-glow"></i>
-                        <span>PMP-certified project management methodology</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <i class="fa-solid fa-check text-brand-glow"></i>
-                        <span>Specialized subsea installation and analysis framework</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <i class="fa-solid fa-check text-brand-glow"></i>
-                        <span>Custom automation software development tailored for energy operators</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="p-8 rounded-3xl bg-brand-card border border-white/10 relative">
-                <div class="absolute -top-4 -right-4 bg-brand-glow text-brand-dark text-xs font-bold px-3 py-1 rounded-full uppercase">Active R&D</div>
-                <h3 class="text-xl font-bold mb-4">The Convergence Frontier</h3>
-                <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                    We are building tools that bridge physical maritime assets with cloud-based intelligence—lowering carbon footprints, optimizing offshore expenditures, and driving safety standards higher than ever before.
-                </p>
-                <div class="p-4 rounded-xl bg-brand-dark/50 border border-white/5 flex items-center justify-between">
-                    <span class="text-sm font-medium">Status: Ready for Enterprise Collaboration</span>
-                    <span class="w-3 h-3 rounded-full bg-brand-glow animate-pulse"></span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Founder Section -->
-    <section id="founder" class="py-24 max-w-7xl mx-auto px-6">
-        <div class="bg-gradient-to-r from-brand-card to-brand-dark border border-white/10 rounded-3xl p-8 lg:p-14 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div class="lg:col-span-4 text-center lg:text-left flex flex-col items-center lg:items-start">
-                <div class="w-28 h-28 rounded-2xl bg-gradient-to-tr from-brand-accent to-brand-glow p-1 mb-6 shadow-xl shadow-brand-accent/20">
-                    <div class="w-full h-full bg-brand-dark rounded-[14px] flex items-center justify-center text-brand-glow text-4xl font-bold">
-                        EL
+                <div class="pt-4 grid grid-cols-2 gap-6 border-t border-spacex-border font-mono text-xs">
+                    <div>
+                        <div class="text-2xl font-bold text-white mb-1">100%</div>
+                        <div class="text-gray-500 uppercase tracking-wider">Deterministic Modeling</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-white mb-1">Real-Time</div>
+                        <div class="text-gray-500 uppercase tracking-wider">Stress Telemetry</div>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold">Edmend Lim Hock Ann</h3>
-                <p class="text-brand-accent text-sm font-medium mt-1">Founder, Director & Shareholder</p>
-                <p class="text-gray-400 text-xs mt-0.5">E Automations Offshore Engineering Sdn Bhd</p>
             </div>
-            <div class="lg:col-span-8 space-y-4 text-gray-300 leading-relaxed text-sm lg:text-base border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-10">
-                <h4 class="text-xl font-bold text-white mb-2">Engineering Leadership & Vision</h4>
-                <p>
-                    As a seasoned Senior Subsea and Installation Analysis Engineer, Edmend brings extensive domain experience across complex EPCI project scopes, heavy subsea engineering, and offshore structural deployment. 
+            <div class="p-8 rounded-none bg-spacex-card border border-spacex-border relative group">
+                <div class="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none"></div>
+                <div class="font-mono text-xs text-gray-500 mb-4 tracking-widest">SYSTEM SPECIFICATION // MODULE A</div>
+                <div class="space-y-4 font-mono text-sm">
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Execution Scope</span>
+                        <span class="text-white font-bold">EPCI Lifecycle</span>
+                    </div>
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Core Engine</span>
+                        <span class="text-white font-bold">Neural Dynamic Simulation</span>
+                    </div>
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Compliance Standard</span>
+                        <span class="text-white font-bold">International Marine Codes</span>
+                    </div>
+                    <div class="flex justify-between py-3">
+                        <span class="text-gray-400">Safety Threshold</span>
+                        <span class="text-white font-bold">Zero Failure Tolerance</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full-Screen Feature 2: Energy Architecture -->
+    <section id="architecture" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-spacex-border bg-[#030304]">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 p-8 rounded-none bg-spacex-card border border-spacex-border relative">
+                <div class="font-mono text-xs text-gray-500 mb-4 tracking-widest">NETWORK TOPOLOGY // MODULE B</div>
+                <div class="space-y-4 font-mono text-sm">
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Grid Load Balancing</span>
+                        <span class="text-white font-bold">Autonomous AI Core</span>
+                    </div>
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Power Integration</span>
+                        <span class="text-white font-bold">Hybrid Off-Grid / Marine</span>
+                    </div>
+                    <div class="flex justify-between py-3 border-b border-spacex-border">
+                        <span class="text-gray-400">Downtime Mitigation</span>
+                        <span class="text-white font-bold">Predictive Maintenance</span>
+                    </div>
+                    <div class="flex justify-between py-3">
+                        <span class="text-gray-400">Response Latency</span>
+                        <span class="text-white font-bold">&lt; 15 Milliseconds</span>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 space-y-6">
+                <span class="text-xs font-mono tracking-[0.2em] uppercase text-gray-500">02 / Grid Optimization</span>
+                <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight">Autonomous Energy Distribution</h2>
+                <p class="text-gray-400 text-base sm:text-lg font-light leading-relaxed">
+                    Deploying machine learning topologies to autonomously balance complex multi-source energy grids, forecast peak load demands, and optimize asset distribution across massive commercial footprints.
                 </p>
-                <p>
-                    Holding a Project Management Professional (PMP) credential, he founded E Automations Offshore Engineering to drive a paradigm shift in the energy sector—combining rigorous maritime engineering standards with intelligent automation and AI-driven solutions to optimize offshore workflows and asset performance.
-                </p>
-                <div class="pt-4 flex flex-wrap gap-3">
-                    <span class="px-3 py-1.5 rounded-lg bg-brand-dark border border-white/10 text-xs font-semibold text-brand-glow">PMP Certified</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-brand-dark border border-white/10 text-xs font-semibold text-brand-glow">Subsea Installation Analysis</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-brand-dark border border-white/10 text-xs font-semibold text-brand-glow">EPCI Specialist</span>
+                <div class="pt-4">
+                    <a href="#contact" class="inline-flex items-center space-x-3 text-xs uppercase font-mono tracking-widest text-white hover:text-gray-400 transition">
+                        <span>Explore Architecture specs</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Grid -->
+    <section id="capabilities" class="py-32 px-6 border-t border-spacex-border bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-2xl mb-20">
+                <span class="text-xs font-mono tracking-[0.2em] uppercase text-gray-500">Core Competencies</span>
+                <h2 class="text-4xl sm:text-5xl font-black uppercase tracking-tight mt-3">Engineering Rigor. Autonomous Scale.</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-spacex-border">
+                <div class="bg-spacex-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-gray-500">01 // STRUCTURAL</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide">Subsea Engineering</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">
+                        Comprehensive installation analysis, pipeline routing, riser mechanics, and heavy lift engineering execution protocols.
+                    </p>
+                </div>
+                <div class="bg-spacex-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-gray-500">02 // SOFTWARE</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide">AI Automation</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">
+                        Custom automation suites designed to drastically reduce manual computation times and eliminate human error variables.
+                    </p>
+                </div>
+                <div class="bg-spacex-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-gray-500">03 // METHODOLOGY</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide">PMP Governance</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">
+                        Strict project management frameworks ensuring multi-million dollar asset scopes are delivered on schedule and within parameters.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 max-w-4xl mx-auto px-6 text-center">
-        <div class="p-10 lg:p-16 rounded-3xl bg-gradient-to-b from-brand-card to-brand-dark border border-white/10 relative overflow-hidden">
-            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl -z-10"></div>
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">Ready to Transform Your Energy Operations?</h2>
-            <p class="text-gray-400 max-w-xl mx-auto mb-8">Collaborate with us on bespoke offshore engineering consultancy, AI automation integrations, or joint venture inquiries.</p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="mailto:contact@eautomations.com" class="px-8 py-4 rounded-xl bg-brand-accent text-white font-semibold hover:bg-blue-600 transition shadow-xl shadow-brand-accent/20 flex items-center space-x-2">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>Get in Touch</span>
+    <section id="contact" class="py-32 px-6 border-t border-spacex-border bg-[#030304] text-center">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <span class="text-xs font-mono tracking-[0.3em] uppercase text-gray-500">Inquiries & Partnerships</span>
+            <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight">Secure Your Mission Parameters</h2>
+            <p class="text-gray-400 font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                Connect with our engineering directorate for enterprise offshore consultancy, infrastructure automation contracts, or joint venture collaborations.
+            </p>
+            <div class="pt-6 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="mailto:contact@eautomations.com" class="w-full sm:w-auto px-8 py-4 bg-white text-black text-xs uppercase font-bold tracking-widest hover:bg-gray-200 transition">
+                    Initiate Contact
                 </a>
-                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-xl bg-brand-card border border-white/10 text-white font-semibold hover:border-brand-accent transition flex items-center space-x-2">
-                    <i class="fa-brands fa-linkedin text-brand-accent"></i>
-                    <span>Connect on LinkedIn</span>
+                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 border border-white/40 text-white text-xs uppercase font-bold tracking-widest hover:border-white transition flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-linkedin text-sm"></i>
+                    <span>LinkedIn Dashboard</span>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-white/10 text-center text-sm text-gray-500">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+    <footer class="py-12 px-6 border-t border-spacex-border bg-black text-xs font-mono text-gray-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
             <div>&copy; 2026 E Automations Offshore Engineering Sdn Bhd. All rights reserved.</div>
-            <div class="flex space-x-6">
-                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-glow transition flex items-center space-x-1.5">
-                    <i class="fa-brands fa-linkedin"></i>
-                    <span>LinkedIn Dashboard</span>
-                </a>
+            <div class="flex space-x-8 uppercase tracking-widest">
+                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">LinkedIn</a>
+                <a href="#systems" class="hover:text-white transition">Privacy</a>
+                <a href="#systems" class="hover:text-white transition">Terms</a>
             </div>
         </div>
     </footer>
