@@ -135,8 +135,33 @@
             </div>
         </section>
 
+        <!-- STANDALONE TOOL ACCESS CARD WITH FREE TRIAL NOTICE -->
+        <section class="py-20 px-6 border-t border-brand-border bg-[#05080E]">
+            <div class="max-w-4xl mx-auto p-8 sm:p-12 rounded-2xl bg-brand-card border border-brand-primary/40 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 space-y-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-primary/20 border border-brand-primary/40 text-brand-glow text-xs font-mono uppercase tracking-wider">
+                            <i class="fa-solid fa-gift"></i>
+                            <span data-i18n="trial_badge">Free Full-Access Trial Period Active Now</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-black uppercase tracking-tight" data-i18n="tool_card_title">S-Lay Catenary Parameter Tool</h3>
+                        <p class="text-brand-muted text-sm font-light max-w-xl leading-relaxed" data-i18n="tool_card_desc">
+                            Launch our dedicated interactive web application to compute bottom tension, top tension, suspended arc length, and sag-bend radius in real time.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="slay_tension_calculator.html" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-primary text-white text-xs uppercase font-bold tracking-widest hover:bg-blue-600 transition shadow-xl shadow-brand-primary/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
+                            <span data-i18n="tool_card_btn">Launch Calculator</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-brand-glow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Section 1: SURF Scope -->
-        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="surf_tag">01 / Complete SURF Scope</span>
@@ -181,7 +206,7 @@
         </section>
 
         <!-- Section 2: Rigid S-Lay & J-Lay Installation -->
-        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="order-2 lg:order-1 p-8 rounded-none bg-brand-card border border-brand-border relative shadow-2xl">
                     <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="lay_mod_title">INSTALLATION DYNAMICS // MODULE L</div>
@@ -215,7 +240,7 @@
         </section>
 
         <!-- Section 3: Subsea Structure Installation -->
-        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="struct_tag">03 / Heavy Lift & Placement</span>
@@ -424,7 +449,7 @@
     </div>
 
     <!-- Common Capabilities Grid -->
-    <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-brand-dark">
+    <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-[#05080E]">
         <div class="max-w-7xl mx-auto">
             <div class="max-w-2xl mb-20">
                 <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="cap_eyebrow">Core Competencies</span>
@@ -458,7 +483,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-32 px-6 border-t border-brand-border bg-[#05080E] text-center">
+    <section id="contact" class="py-32 px-6 border-t border-brand-border bg-brand-dark text-center">
         <div class="max-w-3xl mx-auto space-y-8">
             <span class="text-xs font-mono tracking-[0.3em] uppercase text-brand-glow" data-i18n="contact_tag">Inquiries & Partnerships</span>
             <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="contact_title">Secure Your Mission Parameters</h2>
@@ -525,6 +550,11 @@
                 
                 photo_heading: "Heavy Marine & Platform Engineering",
                 photo_sub: "Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.",
+
+                trial_badge: "Free Full-Access Trial Period Active Now",
+                tool_card_title: "S-Lay Catenary Parameter Tool",
+                tool_card_desc: "Launch our dedicated interactive web application to compute bottom tension, top tension, suspended arc length, and sag-bend radius in real time.",
+                tool_card_btn: "Launch Calculator",
 
                 surf_tag: "01 / Complete SURF Scope",
                 surf_title: "Subsea, Umbilicals, Risers & Flowlines",
@@ -642,6 +672,11 @@
                 
                 photo_heading: "重型海洋与平台工程",
                 photo_sub: "在严格的工程治理与先进模拟模型管理下进行的真实海上基础设施部署。",
+
+                trial_badge: "全功能免费试用期现已全面开启",
+                tool_card_title: "S铺管线悬链线张力计算工具",
+                tool_card_desc: "启动我们专用的交互式网络应用程序，即时计算底部张力、顶部张力、悬挂弧长以及下弯段半径。",
+                tool_card_btn: "启动计算器",
 
                 surf_tag: "01 / 完整 SURF 范围",
                 surf_title: "水下设施、脐带缆、立管与流体管线",
