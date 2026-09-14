@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E Automations | Autonomous Offshore Energy Systems</title>
+    <title>E Automations | Multi-Sector Energy & Autonomous Systems</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -17,7 +17,9 @@
                             border: '#1E293B',
                             primary: '#0A66C2',
                             glow: '#38BDF8',
-                            muted: '#94A3B8'
+                            muted: '#94A3B8',
+                            green: '#10B981',
+                            amber: '#F59E0B'
                         }
                     },
                     fontFamily: {
@@ -31,8 +33,8 @@
 </head>
 <body class="bg-brand-dark text-white font-sans antialiased selection:bg-brand-primary selection:text-white">
 
-    <!-- Fixed Minimal Nav -->
-    <nav class="fixed top-0 left-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-brand-border transition-all duration-300">
+    <!-- Fixed Minimal Nav with Sector Selector Tabs -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-brand-border transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 group">
                 <!-- Custom Emblem Logo -->
@@ -46,18 +48,24 @@
                 </div>
                 <div>
                     <span class="text-sm font-black tracking-wider uppercase block group-hover:text-brand-glow transition">E-AUTOMATIONS</span>
-                    <span class="text-[10px] font-mono tracking-widest text-brand-muted uppercase" data-i18n="nav_subtitle">Offshore & Energy</span>
+                    <span class="text-[10px] font-mono tracking-widest text-brand-muted uppercase" data-i18n="nav_subtitle">Multi-Sector Energy Intelligence</span>
                 </div>
             </a>
             
-            <div class="hidden lg:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase text-brand-muted">
-                <a href="#surf" class="hover:text-white transition py-1 border-b border-transparent hover:border-brand-primary" data-i18n="nav_surf">SURF Scopes</a>
-                <a href="#lay-systems" class="hover:text-white transition py-1 border-b border-transparent hover:border-brand-primary" data-i18n="nav_laysystems">S-Lay & J-Lay</a>
-                <a href="#structures" class="hover:text-white transition py-1 border-b border-transparent hover:border-brand-primary" data-i18n="nav_structures">Subsea Structures</a>
-                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 flex items-center space-x-1.5">
-                    <i class="fa-brands fa-linkedin text-brand-primary text-sm"></i>
-                    <span>LinkedIn</span>
-                </a>
+            <!-- Sector Selection Tabs -->
+            <div class="hidden xl:flex items-center space-x-1 bg-brand-card border border-brand-border p-1 rounded-xl font-mono text-xs">
+                <button onclick="switchSector('og')" id="tab-og" class="px-4 py-2 rounded-lg transition font-bold bg-brand-primary text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-oil-well"></i>
+                    <span data-i18n="tab_og">Oil & Gas (SURF)</span>
+                </button>
+                <button onclick="switchSector('renewables')" id="tab-renewables" class="px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-wind text-brand-green"></i>
+                    <span data-i18n="tab_renewables">Renewable Energy</span>
+                </button>
+                <button onclick="switchSector('biomass')" id="tab-biomass" class="px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-seedling text-brand-amber"></i>
+                    <span data-i18n="tab_biomass">Palm Oil & Biomass</span>
+                </button>
             </div>
 
             <div class="flex items-center space-x-4">
@@ -72,160 +80,303 @@
                 </a>
             </div>
         </div>
+        <!-- Mobile/Tablet Sector Bar -->
+        <div class="xl:hidden flex items-center justify-center space-x-2 bg-brand-card border-t border-brand-border px-4 py-2 font-mono text-[11px]">
+            <button onclick="switchSector('og')" id="mob-tab-og" class="px-3 py-1 rounded bg-brand-primary text-white font-bold" data-i18n="tab_og">Oil & Gas</button>
+            <button onclick="switchSector('renewables')" id="mob-tab-renewables" class="px-3 py-1 rounded text-brand-muted hover:text-white" data-i18n="tab_renewables">Renewables</button>
+            <button onclick="switchSector('biomass')" id="mob-tab-biomass" class="px-3 py-1 rounded text-brand-muted hover:text-white" data-i18n="tab_biomass">Palm Oil & Biomass</button>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-36 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-primary/15 via-brand-dark to-brand-dark">
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
-            <p class="text-xs font-mono tracking-[0.3em] uppercase text-brand-glow" data-i18n="hero_company">E Automations Offshore Engineering Sdn Bhd</p>
-            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
-                <span data-i18n="hero_title_1">Autonomous</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-glow to-brand-primary" data-i18n="hero_title_2">SURF & Subsea Systems</span>
-            </h1>
-            <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="hero_desc">
-                AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.
-            </p>
-        </div>
-
-        <div class="relative z-10 animate-bounce">
-            <a href="#surf" class="text-brand-muted hover:text-white transition">
-                <i class="fa-solid fa-arrow-down text-xl"></i>
-            </a>
-        </div>
-    </header>
-
-    <!-- Section 1: SURF Scope -->
-    <section id="surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-6">
-                <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="surf_tag">01 / Complete SURF Scope</span>
-                <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="surf_title">Subsea, Umbilicals, Risers & Flowlines</h2>
-                <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="surf_desc">
-                    Comprehensive lifecycle engineering and automation frameworks managing full-scale SURF architecture. From deepwater riser configurations to high-integrity pipeline routing, our AI-assisted design models guarantee structural safety and operational efficiency.
+    <!-- ========================================== -->
+    <!-- SECTOR 1: OIL & GAS (SURF & Subsea)        -->
+    <!-- ========================================== -->
+    <div id="sector-og" class="sector-content">
+        <!-- Hero Section -->
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-primary/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/30 text-brand-glow text-xs font-mono uppercase tracking-widest" data-i18n="og_badge">Oil & Gas Directorate</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="og_title_1">Autonomous</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-glow to-brand-primary" data-i18n="og_title_2">SURF & Subsea Systems</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="og_desc">
+                    AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.
                 </p>
-                <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
-                    <div>
-                        <div class="text-2xl font-bold text-white mb-1">Deepwater</div>
-                        <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat1">Riser Integration</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white mb-1">High Integrity</div>
-                        <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat2">Flowline Routing</div>
-                    </div>
-                </div>
             </div>
-            <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
-                <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
-                <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="surf_mod_title">SURF SPECIFICATION // MODULE S</div>
-                <div class="space-y-4 font-mono text-sm">
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="surf_k1">Umbilical Dynamics</span>
-                        <span class="text-white font-bold" data-i18n="surf_v1">Dynamic Fatigue Simulation</span>
-                    </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="surf_k2">Flowline Insulation</span>
-                        <span class="text-white font-bold" data-i18n="surf_v2">PIP / Thermal Modeling</span>
-                    </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="surf_k3">Riser Touchdown Analysis</span>
-                        <span class="text-white font-bold" data-i18n="surf_v3">Non-Linear FEA Tracking</span>
-                    </div>
-                    <div class="flex justify-between py-3">
-                        <span class="text-brand-muted" data-i18n="surf_k4">EPCI Coordination</span>
-                        <span class="text-white font-bold" data-i18n="surf_v4">PMP Automated Governance</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Section 2: Rigid S-Lay & J-Lay Installation -->
-    <section id="lay-systems" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="order-2 lg:order-1 p-8 rounded-none bg-brand-card border border-brand-border relative shadow-2xl">
-                <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="lay_mod_title">INSTALLATION DYNAMICS // MODULE L</div>
-                <div class="space-y-4 font-mono text-sm">
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="lay_k1">Rigid S-Lay Stinger</span>
-                        <span class="text-white font-bold" data-i18n="lay_v1">Real-Time Roll/Pitch Control</span>
+            <div class="relative z-10 animate-bounce">
+                <a href="#og-surf" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Section 1: SURF Scope -->
+        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="surf_tag">01 / Complete SURF Scope</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="surf_title">Subsea, Umbilicals, Risers & Flowlines</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="surf_desc">
+                        Comprehensive lifecycle engineering and automation frameworks managing full-scale SURF architecture. From deepwater riser configurations to high-integrity pipeline routing, our AI-assisted design models guarantee structural safety and operational efficiency.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Deepwater</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat1">Riser Integration</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">High Integrity</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat2">Flowline Routing</div>
+                        </div>
                     </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="lay_k2">Rigid J-Lay Tower</span>
-                        <span class="text-white font-bold" data-i18n="lay_v2">Deepwater Heavy-Wall Control</span>
-                    </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="lay_k3">Bending Strain Limits</span>
-                        <span class="text-white font-bold" data-i18n="lay_v3">AI-Optimized Overbend</span>
-                    </div>
-                    <div class="flex justify-between py-3">
-                        <span class="text-brand-muted" data-i18n="lay_k4">Vessel Motion Coupling</span>
-                        <span class="text-white font-bold" data-i18n="lay_v4">Dynamic Response Matrix</span>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="surf_mod_title">SURF SPECIFICATION // MODULE S</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k1">Umbilical Dynamics</span>
+                            <span class="text-white font-bold" data-i18n="surf_v1">Dynamic Fatigue Simulation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k2">Flowline Insulation</span>
+                            <span class="text-white font-bold" data-i18n="surf_v2">PIP / Thermal Modeling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k3">Riser Touchdown Analysis</span>
+                            <span class="text-white font-bold" data-i18n="surf_v3">Non-Linear FEA Tracking</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="surf_k4">EPCI Coordination</span>
+                            <span class="text-white font-bold" data-i18n="surf_v4">PMP Automated Governance</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="order-1 lg:order-2 space-y-6">
-                <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="lay_tag">02 / Marine Construction</span>
-                <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="lay_title">Rigid S-Lay & J-Lay Installation</h2>
-                <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="lay_desc">
-                    Advanced installation analysis for rigid pipeline deployment. Whether executing shallow-to-intermediate water S-lay operations with stinger configuration or deepwater ultra-heavy wall J-lay tower deployment, our software predicts structural limits and dynamic vessel interactions with absolute precision.
+        </section>
+
+        <!-- Section 2: Rigid S-Lay & J-Lay Installation -->
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 p-8 rounded-none bg-brand-card border border-brand-border relative shadow-2xl">
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="lay_mod_title">INSTALLATION DYNAMICS // MODULE L</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k1">Rigid S-Lay Stinger</span>
+                            <span class="text-white font-bold" data-i18n="lay_v1">Real-Time Roll/Pitch Control</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k2">Rigid J-Lay Tower</span>
+                            <span class="text-white font-bold" data-i18n="lay_v2">Deepwater Heavy-Wall Control</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k3">Bending Strain Limits</span>
+                            <span class="text-white font-bold" data-i18n="lay_v3">AI-Optimized Overbend</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="lay_k4">Vessel Motion Coupling</span>
+                            <span class="text-white font-bold" data-i18n="lay_v4">Dynamic Response Matrix</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="lay_tag">02 / Marine Construction</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="lay_title">Rigid S-Lay & J-Lay Installation</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="lay_desc">
+                        Advanced installation analysis for rigid pipeline deployment. Whether executing shallow-to-intermediate water S-lay operations with stinger configuration or deepwater ultra-heavy wall J-lay tower deployment, our software predicts structural limits and dynamic vessel interactions with absolute precision.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Subsea Structure Installation -->
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="struct_tag">03 / Heavy Lift & Placement</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="struct_title">Subsea Structure Installation</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="struct_desc">
+                        Engineered precision for subsea manifolds, PLETs, ILTS, templates, and modular protection structures. Using automated hydrodynamic simulations and splash-zone crossing models, we mitigate wave-slam impact and ensure safe touchdown placement on the seabed.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Manifolds & PLETs</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat1">Heavy Lift Simulation</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Splash-Zone</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat2">Hydrodynamic Analysis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="struct_mod_title">STRUCTURE SPECIFICATION // MODULE ST</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k1">Rigging & Sling Tension</span>
+                            <span class="text-white font-bold" data-i18n="struct_v1">Dynamic Load Allocation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k2">Seabed Soil Interaction</span>
+                            <span class="text-white font-bold" data-i18n="struct_v2">Mat/Mud Suction Modeling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k3">ROV Intervention Aids</span>
+                            <span class="text-white font-bold" data-i18n="struct_v3">Standardized Docking Interface</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="struct_k4">Crane Hook Amplitudes</span>
+                            <span class="text-white font-bold" data-i18n="struct_v4">Sea-State Wave Filtering</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTOR 2: RENEWABLE ENERGY                 -->
+    <!-- ========================================== -->
+    <div id="sector-renewables" class="sector-content hidden">
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#10b98115_1px,transparent_1px),linear-gradient(to_bottom,#10b98115_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/35 text-brand-green text-xs font-mono uppercase tracking-widest" data-i18n="ren_badge">Clean Energy Directorate</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="ren_title_1">Offshore Wind</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-300 to-brand-green" data-i18n="ren_title_2">& Renewable Grids</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="ren_desc">
+                    Leveraging offshore engineering expertise to support fixed and floating wind turbine installation, substructure geotechnics, and AI-optimized green energy grids.
                 </p>
-                <div class="pt-4">
-                    <a href="#structures" class="inline-flex items-center space-x-3 text-xs uppercase font-mono tracking-widest text-brand-glow hover:text-white transition">
-                        <span data-i18n="lay_link">Explore Subsea Structures</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+            </div>
+
+            <div class="relative z-10 animate-bounce">
+                <a href="#ren-content" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
+
+        <section id="ren-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-green" data-i18n="ren_sec_tag">01 / Clean Transition</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="ren_sec_title">Floating & Fixed Wind Architecture</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="ren_sec_desc">
+                        Translating heavy subsea installation and mooring experience into wind farm deployment. Our automation frameworks optimize cable inter-array routing, jacket/monopile load testing, and floating turbine dynamic stability modeling.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Mooring Line</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="ren_stat1">Tension Simulation</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Substation</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="ren_stat2">Offshore Placement</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-green/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-green mb-4 tracking-widest" data-i18n="ren_mod_title">RENEWABLE SPEC // MODULE W</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k1">Floating Turbine Dynamics</span>
+                            <span class="text-white font-bold" data-i18n="ren_v1">6-DOF Wave Motion Coupling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k2">Subsea Power Export Cables</span>
+                            <span class="text-white font-bold" data-i18n="ren_v2">Dynamic Burial & Protection</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k3">Green Grid Balancing</span>
+                            <span class="text-white font-bold" data-i18n="ren_v3">AI Load Shedding Algorithms</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="ren_k4">Installation Weather Window</span>
+                            <span class="text-white font-bold" data-i18n="ren_v4">Stochastic Meteocean Analysis</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- Section 3: Subsea Structure Installation -->
-    <section id="structures" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-6">
-                <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="struct_tag">03 / Heavy Lift & Placement</span>
-                <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="struct_title">Subsea Structure Installation</h2>
-                <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="struct_desc">
-                    Engineered precision for subsea manifolds, PLETs, ILTS, templates, and modular protection structures. Using automated hydrodynamic simulations and splash-zone crossing models, we mitigate wave-slam impact and ensure safe touchdown placement on the seabed.
+    <!-- ========================================== -->
+    <!-- SECTOR 3: PALM OIL & BIOMASS ENERGY        -->
+    <!-- ========================================== -->
+    <div id="sector-biomass" class="sector-content hidden">
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-amber/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b15_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-amber/10 border border-brand-amber/35 text-brand-amber text-xs font-mono uppercase tracking-widest" data-i18n="bio_badge">Bioenergy & Mill Automation</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="bio_title_1">Palm Oil & Biomass</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-brand-amber" data-i18n="bio_title_2">Energy Automation</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="bio_desc">
+                    Intelligent mill automation, palm oil processing efficiency models, and biomass waste-to-energy conversion systems engineered for sustainable agricultural processing.
                 </p>
-                <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
-                    <div>
-                        <div class="text-2xl font-bold text-white mb-1">Manifolds & PLETs</div>
-                        <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat1">Heavy Lift Simulation</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white mb-1">Splash-Zone</div>
-                        <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat2">Hydrodynamic Analysis</div>
-                    </div>
-                </div>
             </div>
-            <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
-                <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
-                <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="struct_mod_title">STRUCTURE SPECIFICATION // MODULE ST</div>
-                <div class="space-y-4 font-mono text-sm">
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="struct_k1">Rigging & Sling Tension</span>
-                        <span class="text-white font-bold" data-i18n="struct_v1">Dynamic Load Allocation</span>
-                    </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="struct_k2">Seabed Soil Interaction</span>
-                        <span class="text-white font-bold" data-i18n="struct_v2">Mat/Mud Suction Modeling</span>
-                    </div>
-                    <div class="flex justify-between py-3 border-b border-brand-border">
-                        <span class="text-brand-muted" data-i18n="struct_k3">ROV Intervention Aids</span>
-                        <span class="text-white font-bold" data-i18n="struct_v3">Standardized Docking Interface</span>
-                    </div>
-                    <div class="flex justify-between py-3">
-                        <span class="text-brand-muted" data-i18n="struct_k4">Crane Hook Amplitudes</span>
-                        <span class="text-white font-bold" data-i18n="struct_v4">Sea-State Wave Filtering</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Capabilities Grid -->
+            <div class="relative z-10 animate-bounce">
+                <a href="#bio-content" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
+
+        <section id="bio-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-amber" data-i18n="bio_sec_tag">01 / Agro-Industrial Efficiency</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="bio_sec_title">Smart Mill Automation & Biomass Power</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="bio_sec_desc">
+                        Optimizing palm oil mill processing lines (CPO extraction, sterilization, clarification) and converting palm kernel shells (PKS) and empty fruit bunches (EFB) into high-efficiency cogeneration biomass power streams through advanced industrial automation.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Cogeneration</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="bio_stat1">Biomass Boiler Control</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Mill Yield</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="bio_stat2">AI Process Optimization</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-amber/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-amber mb-4 tracking-widest" data-i18n="bio_mod_title">BIOMASS SPEC // MODULE BIO</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k1">Sterilizer Steam Automation</span>
+                            <span class="text-white font-bold" data-i18n="bio_v1">Closed-Loop Pressure Regulation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k2">EFB / PKS Fuel Combustion</span>
+                            <span class="text-white font-bold" data-i18n="bio_v2">Thermal Efficiency Optimization</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k3">Effluent Treatment (POME)</span>
+                            <span class="text-white font-bold" data-i18n="bio_v3">Biogas Capture & Methane Control</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="bio_k4">SCADA Integration</span>
+                            <span class="text-white font-bold" data-i18n="bio_v4">Real-Time Mill Telemetry</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Common Capabilities Grid -->
     <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-[#05080E]">
         <div class="max-w-7xl mx-auto">
             <div class="max-w-2xl mb-20">
@@ -235,10 +386,10 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-brand-border">
                 <div class="bg-brand-dark p-10 space-y-4">
-                    <div class="font-mono text-xs text-brand-glow">01 // STRUCTURAL</div>
-                    <h3 class="text-xl font-bold uppercase tracking-wide" data-i18n="card1_title">Subsea Engineering</h3>
+                    <div class="font-mono text-xs text-brand-glow">01 // STRUCTURAL & PROCESS</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide" data-i18n="card1_title">Multidisciplinary Engineering</h3>
                     <p class="text-brand-muted text-sm font-light leading-relaxed" data-i18n="card1_desc">
-                        Comprehensive installation analysis, pipeline routing, riser mechanics, and heavy lift engineering execution protocols.
+                        Advanced structural analysis, thermal modeling, and industrial processing protocols spanning marine and agro-energy sectors.
                     </p>
                 </div>
                 <div class="bg-brand-dark p-10 space-y-4">
@@ -285,25 +436,49 @@
             <div data-i18n="footer_rights">&copy; 2026 E Automations Offshore Engineering Sdn Bhd. All rights reserved.</div>
             <div class="flex space-x-8 uppercase tracking-widest">
                 <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">LinkedIn</a>
-                <a href="#surf" class="hover:text-white transition" data-i18n="footer_privacy">Privacy</a>
-                <a href="#surf" class="hover:text-white transition" data-i18n="footer_terms">Terms</a>
+                <a href="#contact" class="hover:text-white transition" data-i18n="footer_privacy">Privacy</a>
+                <a href="#contact" class="hover:text-white transition" data-i18n="footer_terms">Terms</a>
             </div>
         </div>
     </footer>
 
-    <!-- Bilingual Translation Script -->
+    <!-- Multi-Sector & Bilingual Switcher Script -->
     <script>
+        function switchSector(sectorId) {
+            // Hide all sectors
+            document.querySelectorAll('.sector-content').forEach(el => el.classList.add('hidden'));
+            // Show selected sector
+            document.getElementById('sector-' + sectorId).classList.remove('hidden');
+
+            // Reset desktop tab styles
+            ['og', 'renewables', 'biomass'].forEach(s => {
+                const dt = document.getElementById('tab-' + s);
+                const mob = document.getElementById('mob-tab-' + s);
+                if (dt) dt.className = "px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2";
+                if (mob) mob.className = "px-3 py-1 rounded text-brand-muted hover:text-white";
+            });
+
+            // Highlight active tab
+            const activeDt = document.getElementById('tab-' + sectorId);
+            const activeMob = document.getElementById('mob-tab-' + sectorId);
+            if (activeDt) activeDt.className = "px-4 py-2 rounded-lg transition font-bold bg-brand-primary text-white flex items-center space-x-2";
+            if (activeMob) activeMob.className = "px-3 py-1 rounded bg-brand-primary text-white font-bold";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         const translations = {
             en: {
-                nav_subtitle: "Offshore & Energy",
-                nav_surf: "SURF Scopes",
-                nav_laysystems: "S-Lay & J-Lay",
-                nav_structures: "Subsea Structures",
+                nav_subtitle: "Multi-Sector Energy Intelligence",
+                tab_og: "Oil & Gas (SURF)",
+                tab_renewables: "Renewable Energy",
+                tab_biomass: "Palm Oil & Biomass",
                 nav_inquire: "Inquire",
-                hero_company: "E Automations Offshore Engineering Sdn Bhd",
-                hero_title_1: "Autonomous",
-                hero_title_2: "SURF & Subsea Systems",
-                hero_desc: "AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.",
+
+                og_badge: "Oil & Gas Directorate",
+                og_title_1: "Autonomous",
+                og_title_2: "SURF & Subsea Systems",
+                og_desc: "AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.",
                 
                 surf_tag: "01 / Complete SURF Scope",
                 surf_title: "Subsea, Umbilicals, Risers & Flowlines",
@@ -323,7 +498,6 @@
                 lay_tag: "02 / Marine Construction",
                 lay_title: "Rigid S-Lay & J-Lay Installation",
                 lay_desc: "Advanced installation analysis for rigid pipeline deployment. Whether executing shallow-to-intermediate water S-lay operations with stinger configuration or deepwater ultra-heavy wall J-lay tower deployment, our software predicts structural limits and dynamic vessel interactions with absolute precision.",
-                lay_link: "Explore Subsea Structures",
                 lay_mod_title: "INSTALLATION DYNAMICS // MODULE L",
                 lay_k1: "Rigid S-Lay Stinger",
                 lay_v1: "Real-Time Roll/Pitch Control",
@@ -349,10 +523,48 @@
                 struct_k4: "Crane Hook Amplitudes",
                 struct_v4: "Sea-State Wave Filtering",
 
+                ren_badge: "Clean Energy Directorate",
+                ren_title_1: "Offshore Wind",
+                ren_title_2: "& Renewable Grids",
+                ren_desc: "Leveraging offshore engineering expertise to support fixed and floating wind turbine installation, substructure geotechnics, and AI-optimized green energy grids.",
+                ren_sec_tag: "01 / Clean Transition",
+                ren_sec_title: "Floating & Fixed Wind Architecture",
+                ren_sec_desc: "Translating heavy subsea installation and mooring experience into wind farm deployment. Our automation frameworks optimize cable inter-array routing, jacket/monopile load testing, and floating turbine dynamic stability modeling.",
+                ren_stat1: "Tension Simulation",
+                ren_stat2: "Offshore Placement",
+                ren_mod_title: "RENEWABLE SPEC // MODULE W",
+                ren_k1: "Floating Turbine Dynamics",
+                ren_v1: "6-DOF Wave Motion Coupling",
+                ren_k2: "Subsea Power Export Cables",
+                ren_v2: "Dynamic Burial & Protection",
+                ren_k3: "Green Grid Balancing",
+                ren_v3: "AI Load Shedding Algorithms",
+                ren_k4: "Installation Weather Window",
+                ren_v4: "Stochastic Meteocean Analysis",
+
+                bio_badge: "Bioenergy & Mill Automation",
+                bio_title_1: "Palm Oil & Biomass",
+                bio_title_2: "Energy Automation",
+                bio_desc: "Intelligent mill automation, palm oil processing efficiency models, and biomass waste-to-energy conversion systems engineered for sustainable agricultural processing.",
+                bio_sec_tag: "01 / Agro-Industrial Efficiency",
+                bio_sec_title: "Smart Mill Automation & Biomass Power",
+                bio_sec_desc: "Optimizing palm oil mill processing lines (CPO extraction, sterilization, clarification) and converting palm kernel shells (PKS) and empty fruit bunches (EFB) into high-efficiency cogeneration biomass power streams through advanced industrial automation.",
+                bio_stat1: "Biomass Boiler Control",
+                bio_stat2: "AI Process Optimization",
+                bio_mod_title: "BIOMASS SPEC // MODULE BIO",
+                bio_k1: "Sterilizer Steam Automation",
+                bio_v1: "Closed-Loop Pressure Regulation",
+                bio_k2: "EFB / PKS Fuel Combustion",
+                bio_v2: "Thermal Efficiency Optimization",
+                bio_k3: "Effluent Treatment (POME)",
+                bio_v3: "Biogas Capture & Methane Control",
+                bio_k4: "SCADA Integration",
+                bio_v4: "Real-Time Mill Telemetry",
+
                 cap_eyebrow: "Core Competencies",
                 cap_title: "Engineering Rigor. Autonomous Scale.",
-                card1_title: "Subsea Engineering",
-                card1_desc: "Comprehensive installation analysis, pipeline routing, riser mechanics, and heavy lift engineering execution protocols.",
+                card1_title: "Multidisciplinary Engineering",
+                card1_desc: "Advanced structural analysis, thermal modeling, and industrial processing protocols spanning marine and agro-energy sectors.",
                 card2_title: "AI Automation",
                 card2_desc: "Custom automation suites designed to drastically reduce manual computation times and eliminate human error variables.",
                 card3_title: "PMP Governance",
@@ -367,15 +579,16 @@
                 footer_terms: "Terms"
             },
             zh: {
-                nav_subtitle: "海洋工程与能源",
-                nav_surf: "SURF 范围",
-                nav_laysystems: "S铺与J铺",
-                nav_structures: "水下结构安装",
+                nav_subtitle: "多行业能源智能化",
+                tab_og: "油气 (SURF)",
+                tab_renewables: "新能源与风电",
+                tab_biomass: "棕榈油与生物质能",
                 nav_inquire: "业务咨询",
-                hero_company: "E Automations Offshore Engineering Sdn Bhd",
-                hero_title_1: "自主化",
-                hero_title_2: "SURF 与水下系统",
-                hero_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术。",
+
+                og_badge: "油气工程董事会",
+                og_title_1: "自主化",
+                og_title_2: "SURF 与水下系统",
+                og_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术。",
                 
                 surf_tag: "01 / 完整 SURF 范围",
                 surf_title: "水下设施、脐带缆、立管与流体管线",
@@ -395,7 +608,6 @@
                 lay_tag: "02 / 海洋施工",
                 lay_title: "刚性 S铺与 J铺安装",
                 lay_desc: "刚性管道铺设的高级安装分析。无论是利用滑道配置执行浅水到中水S铺作业，还是深水超厚壁J铺塔部署，我们的软件都能以绝对精度预测结构极限和动态船舶相互作用。",
-                lay_link: "探索水下结构",
                 lay_mod_title: "安装动力学 // 模块 L",
                 lay_k1: "刚性S铺滑道(Stinger)",
                 lay_v1: "实时横摇/纵摇控制",
@@ -413,7 +625,6 @@
                 struct_stat2: "流体力学分析",
                 struct_mod_title: "结构规格 // 模块 ST",
                 struct_k1: "索具与吊索张力",
-                v1: "动态载荷分配",
                 struct_v1: "动态载荷分配",
                 struct_k2: "海底土壤相互作用",
                 struct_v2: "垫层/吸力锚建模",
@@ -422,10 +633,48 @@
                 struct_k4: "起重机吊钩振幅",
                 struct_v4: "海况波浪滤波",
 
+                ren_badge: "清洁能源董事会",
+                ren_title_1: "海上风电",
+                ren_title_2: "与可再生电网",
+                ren_desc: "依托海洋工程专长，支持固定式与漂浮式风机安装、下部结构岩土工程及AI优化的绿色能源电网。",
+                ren_sec_tag: "01 / 清洁转型",
+                ren_sec_title: "漂浮式与固定式风电架构",
+                ren_sec_desc: "将重型水下安装与系泊经验转化为风电场部署。我们的自动化框架优化了海缆阵列路由、导管架/单桩载荷测试以及漂浮式风机动态稳定性建模。",
+                ren_stat1: "张力模拟",
+                ren_stat2: "海上就位",
+                ren_mod_title: "新能源规格 // 模块 W",
+                ren_k1: "漂浮式风机动力学",
+                ren_v1: "六自由度波浪运动耦合",
+                ren_k2: "海底电力输出电缆",
+                ren_v2: "动态埋设与保护",
+                ren_k3: "绿色电网平衡",
+                ren_v3: "AI 负荷脱卸算法",
+                ren_k4: "安装气象窗口",
+                ren_v4: "随机海洋气象分析",
+
+                bio_badge: "生物能源与压榨厂自动化",
+                bio_title_1: "棕榈油与生物质",
+                bio_title_2: "能源自动化",
+                bio_desc: "专为可持续农业加工设计的智能化压榨厂自动化、棕榈油加工效率模型以及生物质废物转能源转化系统。",
+                bio_sec_tag: "01 / 农工一体化效率",
+                bio_sec_title: "智能压榨厂自动化与生物质发电",
+                bio_sec_desc: "优化棕榈油压榨厂加工线（CPO提取、杀菌、澄清），并通过先进的工业自动化将棕榈壳（PKS）和空果串（EFB）转化为高效热电联产生物质电源流。",
+                bio_stat1: "生物质锅炉控制",
+                bio_stat2: "AI 工艺优化",
+                bio_mod_title: "生物质规格 // 模块 BIO",
+                bio_k1: "杀菌罐蒸汽自动化",
+                bio_v1: "闭环压力调节",
+                bio_k2: "EFB / PKS 燃料燃烧",
+                bio_v2: "热效率优化",
+                bio_k3: "废水处理 (POME)",
+                bio_v3: "沼气捕集与甲烷控制",
+                bio_k4: "SCADA 集成",
+                bio_v4: "实时压榨厂遥测",
+
                 cap_eyebrow: "核心优势",
                 cap_title: "工程严谨度。自主化规模。",
-                card1_title: "水下海洋工程",
-                card1_desc: "全面的安装分析、管道路由规划、立管力学以及重型吊装工程执行协议。",
+                card1_title: "多学科综合工程",
+                card1_desc: "跨越海洋与农业能源领域的先进结构分析、热力学建模及工业加工协议。",
                 card2_title: "人工智能自动化",
                 card2_desc: "定制化自动化套件，旨在大幅缩短人工计算时间并消除人为错误变量。",
                 card3_title: "PMP 项目管理治理",
@@ -441,7 +690,10 @@
             }
         };
 
+        let currentLang = 'en';
+
         function setLanguage(lang) {
+            currentLang = lang;
             if (lang === 'en') {
                 document.getElementById('lang-en').className = "px-3 py-1.5 rounded transition bg-brand-primary text-white font-bold";
                 document.getElementById('lang-zh').className = "px-3 py-1.5 rounded transition text-brand-muted hover:text-white";
