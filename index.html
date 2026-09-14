@@ -1,748 +1,814 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fertilizer &amp; Return Planner — Oil Palm | E Automations</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- html2pdf library for clean client-side PDF export with watermarks -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<style>
-  :root{
-    --bg: #142B1C;
-    --bg-panel: #1B3524;
-    --bg-panel-raised: #21402C;
-    --line: #3A5943;
-    --cream: #F4EEDB;
-    --cream-dim: #C9C4AC;
-    --gold: #C99A3B;
-    --gold-bright: #E0B454;
-    --rust: #A6602E;
-    --danger: #C1573F;
-    --good: #7FA65B;
-    --radius: 3px;
-  }
-
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background: var(--bg);
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 78px, rgba(244,238,219,0.025) 79px, transparent 80px);
-    color: var(--cream);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 100vh;
-  }
-
-  .wrap{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 28px 24px 64px;
-    position: relative;
-  }
-
-  .top-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    border-bottom:1px solid var(--line);
-    padding-bottom:12px;
-  }
-  .back-link{
-    font-size: 12px;
-    font-family: 'Inter', sans-serif;
-    color: var(--cream-dim);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .back-link:hover{ color: var(--cream); }
-
-  .top-actions{display:flex;align-items:center;gap:12px;}
-  .pdf-btn{
-    background: var(--gold);
-    color: var(--bg);
-    border: none;
-    padding: 6px 12px;
-    border-radius: var(--radius);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 11.5px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s;
-  }
-  .pdf-btn:hover{ background: var(--gold-bright); }
-
-  .lang-switcher{
-    display:flex;
-    background: var(--bg-panel);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 2px;
-    font-size: 11px;
-  }
-  .lang-btn{
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: none;
-    background: transparent;
-    color: var(--cream-dim);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .lang-btn.active{
-    background: var(--gold);
-    color: var(--bg);
-    font-weight: 600;
-  }
-
-  header{
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  header h1{
-    font-family:'Zilla Slab', serif;
-    font-weight:600;
-    font-size: 2.1rem;
-    margin: 0 0 6px 0;
-    color: var(--cream);
-    letter-spacing: -0.01em;
-  }
-  header p{
-    margin:0;
-    color: var(--cream-dim);
-    max-width: 480px;
-    font-size: 0.92rem;
-  }
-  .palm-mark{
-    font-family:'Zilla Slab', serif;
-    font-size: 0.85rem;
-    color: var(--gold);
-    text-align:right;
-    line-height:1.4;
-  }
-  .palm-mark strong{ display:block; font-size:1rem; color: var(--gold-bright); }
-
-  .trial-banner{
-    background: rgba(201, 154, 59, 0.15);
-    border: 1px solid rgba(201, 154, 59, 0.4);
-    color: var(--gold-bright);
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    font-size: 0.85rem;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .grid{
-    display:grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 28px;
-    align-items:start;
-  }
-  @media (max-width: 880px){
-    .grid{ grid-template-columns: 1fr; }
-  }
-
-  .panel{
-    background: var(--bg-panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 24px 26px;
-  }
-  .panel + .panel{ margin-top: 20px; }
-
-  .panel h2{
-    font-family:'Zilla Slab', serif;
-    font-weight:600;
-    font-size: 1.15rem;
-    margin: 0 0 4px 0;
-    color: var(--gold-bright);
-  }
-  .panel .sub{
-    color: var(--cream-dim);
-    font-size: 0.82rem;
-    margin: 0 0 18px 0;
-  }
-
-  .field-row{
-    display:grid;
-    grid-template-columns: 1fr 110px;
-    gap: 14px;
-    align-items:center;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--line);
-  }
-  .field-row:last-child{ border-bottom:none; }
-  .field-row label{
-    font-size: 0.88rem;
-    color: var(--cream);
-  }
-  .field-row .hint{
-    display:block;
-    font-size: 0.74rem;
-    color: var(--cream-dim);
-    margin-top: 2px;
-  }
-  input[type="number"]{
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    color: var(--cream);
-    font-family:'Inter', sans-serif;
-    font-size: 0.95rem;
-    padding: 7px 9px;
-    border-radius: var(--radius);
-    text-align: right;
-  }
-  input[type="number"]:focus{
-    outline: none;
-    border-color: var(--gold);
-  }
-
-  table{
-    width:100%;
-    border-collapse: collapse;
-    font-size: 0.86rem;
-  }
-  thead th{
-    text-align:left;
-    font-weight:500;
-    color: var(--cream-dim);
-    font-size: 0.74rem;
-    padding: 0 6px 8px;
-    border-bottom: 1px solid var(--line);
-  }
-  thead th.num{ text-align:right; }
-  tbody td{
-    padding: 9px 6px;
-    border-bottom: 1px dashed var(--line);
-    vertical-align: middle;
-  }
-  tbody tr:last-child td{ border-bottom:none; }
-  tbody td.name{ color: var(--cream); }
-  tbody td.name small{ display:block; color: var(--cream-dim); font-size:0.72rem; }
-  td.num input{ text-align:right; }
-  td.result{ text-align:right; color: var(--gold-bright); font-variant-numeric: tabular-nums; white-space:nowrap; }
-
-  /* results panel */
-  .hero-number{
-    font-family:'Zilla Slab', serif;
-    font-size: 2.6rem;
-    font-weight: 700;
-    color: var(--gold-bright);
-    line-height: 1;
-    margin: 4px 0 2px;
-  }
-  .hero-number.negative{ color: var(--danger); }
-  .hero-label{
-    font-size: 0.82rem;
-    color: var(--cream-dim);
-  }
-  .hero-caption{
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--line);
-    font-size: 0.82rem;
-    color: var(--cream-dim);
-  }
-
-  .stat-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 18px;
-  }
-  .stat{
-    background: var(--bg-panel-raised);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-  }
-  .stat .v{
-    font-family:'Zilla Slab', serif;
-    font-size: 1.3rem;
-    font-weight:600;
-    color: var(--cream);
-  }
-  .stat .l{
-    font-size: 0.72rem;
-    color: var(--cream-dim);
-    margin-top: 2px;
-  }
-
-  .bar-row{
-    display:grid;
-    grid-template-columns: 110px 1fr 70px;
-    gap: 10px;
-    align-items:center;
-    font-size: 0.78rem;
-    padding: 6px 0;
-  }
-  .bar-track{
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    height: 10px;
-    overflow:hidden;
-  }
-  .bar-fill{
-    height:100%;
-    background: linear-gradient(90deg, var(--rust), var(--gold));
-  }
-  .bar-row .amt{ text-align:right; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
-
-  .roi-badge{
-    display:inline-block;
-    margin-top: 14px;
-    padding: 6px 12px;
-    border-radius: var(--radius);
-    font-size: 0.8rem;
-    font-weight: 600;
-    background: rgba(127,166,91,0.15);
-    color: var(--good);
-    border: 1px solid rgba(127,166,91,0.35);
-  }
-  .roi-badge.warn{
-    background: rgba(193,87,63,0.12);
-    color: var(--danger);
-    border-color: rgba(193,87,63,0.35);
-  }
-
-  footer{
-    margin-top: 30px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    font-size: 0.78rem;
-    color: var(--cream-dim);
-  }
-  footer strong{ color: var(--cream); }
-
-  .currency-note{
-    font-size: 0.74rem;
-    color: var(--cream-dim);
-    margin-top: -8px;
-    margin-bottom: 16px;
-  }
-
-  /* Watermark styling for exported PDF view */
-  .pdf-watermark {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-35deg);
-    font-family: 'Zilla Slab', serif;
-    font-weight: 800;
-    font-size: 72px;
-    color: rgba(224, 180, 84, 0.04);
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 999;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E Automations | Multi-Sector Energy & Autonomous Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#070A10',
+                            card: '#0D1322',
+                            border: '#1E293B',
+                            primary: '#0A66C2',
+                            glow: '#38BDF8',
+                            muted: '#94A3B8',
+                            green: '#10B981',
+                            amber: '#F59E0B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-<div class="wrap" id="pdf-container">
+<body class="bg-brand-dark text-white font-sans antialiased selection:bg-brand-primary selection:text-white">
 
-  <!-- Watermark Element (visible during PDF generation) -->
-  <div class="pdf-watermark" id="watermark">E AUTOMATIONS OFFSHORE</div>
+    <!-- Fixed Minimal Nav with Sector Selector Tabs -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-brand-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-brand-primary to-brand-glow p-0.5 flex items-center justify-center shadow-lg shadow-brand-primary/20 group-hover:scale-105 transition">
+                    <div class="w-full h-full bg-brand-dark rounded-[6px] flex items-center justify-center">
+                        <svg class="w-5 h-5 text-brand-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-sm font-black tracking-wider uppercase block group-hover:text-brand-glow transition">E-AUTOMATIONS</span>
+                    <span class="text-[10px] font-mono tracking-widest text-brand-muted uppercase" data-i18n="nav_subtitle">Multi-Sector Energy Intelligence</span>
+                </div>
+            </a>
+            
+            <!-- Sector Selection Tabs -->
+            <div class="hidden xl:flex items-center space-x-1 bg-brand-card border border-brand-border p-1 rounded-xl font-mono text-xs">
+                <button onclick="switchSector('og')" id="tab-og" class="px-4 py-2 rounded-lg transition font-bold bg-brand-primary text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-oil-well"></i>
+                    <span data-i18n="tab_og">Oil & Gas (SURF)</span>
+                </button>
+                <button onclick="switchSector('renewables')" id="tab-renewables" class="px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-wind text-brand-green"></i>
+                    <span data-i18n="tab_renewables">Renewable Energy</span>
+                </button>
+                <button onclick="switchSector('biomass')" id="tab-biomass" class="px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-seedling text-brand-amber"></i>
+                    <span data-i18n="tab_biomass">Palm Oil & Biomass</span>
+                </button>
+            </div>
 
-  <div class="top-bar">
-    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Main Platform</span></a>
-    <div class="top-actions">
-      <button onclick="exportPDF()" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
-      <div class="lang-switcher">
-        <button onclick="setLanguage('en')" id="lang-en" class="lang-btn active">EN</button>
-        <button onclick="setLanguage('zh')" id="lang-zh" class="lang-btn">中文</button>
-      </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center bg-brand-card border border-brand-border rounded-lg p-1 text-xs font-mono">
+                    <button onclick="setLanguage('en')" id="lang-en" class="px-3 py-1.5 rounded transition bg-brand-primary text-white font-bold">EN</button>
+                    <button onclick="setLanguage('zh')" id="lang-zh" class="px-3 py-1.5 rounded transition text-brand-muted hover:text-white">中文</button>
+                </div>
+
+                <a href="#contact" class="hidden sm:inline-block px-5 py-2.5 rounded-none border border-brand-primary text-xs uppercase font-bold tracking-widest bg-brand-primary text-white hover:bg-blue-600 transition duration-300 shadow-lg shadow-brand-primary/25" data-i18n="nav_inquire">
+                    Inquire
+                </a>
+            </div>
+        </div>
+        <div class="xl:hidden flex items-center justify-center space-x-2 bg-brand-card border-t border-brand-border px-4 py-2 font-mono text-[11px]">
+            <button onclick="switchSector('og')" id="mob-tab-og" class="px-3 py-1 rounded bg-brand-primary text-white font-bold" data-i18n="tab_og">Oil & Gas</button>
+            <button onclick="switchSector('renewables')" id="mob-tab-renewables" class="px-3 py-1 rounded text-brand-muted hover:text-white" data-i18n="tab_renewables">Renewables</button>
+            <button onclick="switchSector('biomass')" id="mob-tab-biomass" class="px-3 py-1 rounded text-brand-muted hover:text-white" data-i18n="tab_biomass">Palm Oil & Biomass</button>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- SECTOR 1: OIL & GAS (SURF & Subsea)        -->
+    <!-- ========================================== -->
+    <div id="sector-og" class="sector-content">
+        <!-- Hero Section -->
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-primary/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/30 text-brand-glow text-xs font-mono uppercase tracking-widest" data-i18n="og_badge">Oil & Gas Directorate</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="og_title_1">Autonomous</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-glow to-brand-primary" data-i18n="og_title_2">SURF & Subsea Systems</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="og_desc">
+                    AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.
+                </p>
+            </div>
+
+            <div class="relative z-10 animate-bounce">
+                <a href="#og-visual" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Visual Showcase with Offshore Platform Photo -->
+        <section id="og-visual" class="py-24 px-6 bg-brand-dark border-t border-brand-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow">FIELD OPERATIONS // OFFSHORE DEPLOYMENT</span>
+                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight" data-i18n="photo_heading">Heavy Marine & Platform Engineering</h2>
+                    <p class="text-brand-muted text-sm sm:text-base font-light" data-i18n="photo_sub">Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.</p>
+                </div>
+                
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group bg-brand-card">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60 z-10 pointer-events-none"></div>
+                    <img src="images/offshore-platform.jpg" alt="Offshore Platform Installation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80';">
+                    <div class="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-brand-dark/80 backdrop-blur-md p-6 border border-brand-border">
+                        <div>
+                            <div class="text-xs font-mono text-brand-glow mb-1">FIELD TELEMETRY // ASSET DEPLOYMENT</div>
+                            <div class="text-lg font-bold uppercase tracking-wide">Complex Offshore Platform Construction & Lifting</div>
+                        </div>
+                        <div class="mt-4 sm:mt-0 font-mono text-xs text-brand-muted">
+                            Status: <span class="text-emerald-400 font-bold">Active Operation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STANDALONE TOOL ACCESS CARD WITH FREE TRIAL NOTICE -->
+        <section class="py-20 px-6 border-t border-brand-border bg-[#05080E]">
+            <div class="max-w-4xl mx-auto p-8 sm:p-12 rounded-2xl bg-brand-card border border-brand-primary/40 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 space-y-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-primary/20 border border-brand-primary/40 text-brand-glow text-xs font-mono uppercase tracking-wider">
+                            <i class="fa-solid fa-gift"></i>
+                            <span data-i18n="trial_badge">Free Full-Access Trial Period Active Now</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-black uppercase tracking-tight" data-i18n="tool_card_title">S-Lay Catenary Parameter Tool</h3>
+                        <p class="text-brand-muted text-sm font-light max-w-xl leading-relaxed" data-i18n="tool_card_desc">
+                            Launch our dedicated interactive web application to compute bottom tension, top tension, suspended arc length, and sag-bend radius in real time.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="slay_tension_calculator.html" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-primary text-white text-xs uppercase font-bold tracking-widest hover:bg-blue-600 transition shadow-xl shadow-brand-primary/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
+                            <span data-i18n="tool_card_btn">Launch Calculator</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-brand-glow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: SURF Scope -->
+        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="surf_tag">01 / Complete SURF Scope</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="surf_title">Subsea, Umbilicals, Risers & Flowlines</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="surf_desc">
+                        Comprehensive lifecycle engineering and automation frameworks managing full-scale SURF architecture. From deepwater riser configurations to high-integrity pipeline routing, our AI-assisted design models guarantee structural safety and operational efficiency.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Deepwater</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat1">Riser Integration</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">High Integrity</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="surf_stat2">Flowline Routing</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="surf_mod_title">SURF SPECIFICATION // MODULE S</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k1">Umbilical Dynamics</span>
+                            <span class="text-white font-bold" data-i18n="surf_v1">Dynamic Fatigue Simulation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k2">Flowline Insulation</span>
+                            <span class="text-white font-bold" data-i18n="surf_v2">PIP / Thermal Modeling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="surf_k3">Riser Touchdown Analysis</span>
+                            <span class="text-white font-bold" data-i18n="surf_v3">Non-Linear FEA Tracking</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="surf_k4">EPCI Coordination</span>
+                            <span class="text-white font-bold" data-i18n="surf_v4">PMP Automated Governance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Rigid S-Lay & J-Lay Installation -->
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 p-8 rounded-none bg-brand-card border border-brand-border relative shadow-2xl">
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="lay_mod_title">INSTALLATION DYNAMICS // MODULE L</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k1">Rigid S-Lay Stinger</span>
+                            <span class="text-white font-bold" data-i18n="lay_v1">Real-Time Roll/Pitch Control</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k2">Rigid J-Lay Tower</span>
+                            <span class="text-white font-bold" data-i18n="lay_v2">Deepwater Heavy-Wall Control</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="lay_k3">Bending Strain Limits</span>
+                            <span class="text-white font-bold" data-i18n="lay_v3">AI-Optimized Overbend</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="lay_k4">Vessel Motion Coupling</span>
+                            <span class="text-white font-bold" data-i18n="lay_v4">Dynamic Response Matrix</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="lay_tag">02 / Marine Construction</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="lay_title">Rigid S-Lay & J-Lay Installation</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="lay_desc">
+                        Advanced installation analysis for rigid pipeline deployment. Whether executing shallow-to-intermediate water S-lay operations with stinger configuration or deepwater ultra-heavy wall J-lay tower deployment, our software predicts structural limits and dynamic vessel interactions with absolute precision.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Subsea Structure Installation -->
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="struct_tag">03 / Heavy Lift & Placement</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="struct_title">Subsea Structure Installation</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="struct_desc">
+                        Engineered precision for subsea manifolds, PLETs, ILTS, templates, and modular protection structures. Using automated hydrodynamic simulations and splash-zone crossing models, we mitigate wave-slam impact and ensure safe touchdown placement on the seabed.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Manifolds & PLETs</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat1">Heavy Lift Simulation</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Splash-Zone</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="struct_stat2">Hydrodynamic Analysis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="struct_mod_title">STRUCTURE SPECIFICATION // MODULE ST</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k1">Rigging & Sling Tension</span>
+                            <span class="text-white font-bold" data-i18n="struct_v1">Dynamic Load Allocation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k2">Seabed Soil Interaction</span>
+                            <span class="text-white font-bold" data-i18n="struct_v2">Mat/Mud Suction Modeling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="struct_k3">ROV Intervention Aids</span>
+                            <span class="text-white font-bold" data-i18n="struct_v3">Standardized Docking Interface</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="struct_k4">Crane Hook Amplitudes</span>
+                            <span class="text-white font-bold" data-i18n="struct_v4">Sea-State Wave Filtering</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
 
-  <div class="trial-banner">
-    <i class="fa-solid fa-gift"></i>
-    <span data-i18n="trial_notice">Limited-Time Offer: Free Full-Access Trial Period Active Now</span>
-  </div>
+    <!-- ========================================== -->
+    <!-- SECTOR 2: RENEWABLE ENERGY                 -->
+    <!-- ========================================== -->
+    <div id="sector-renewables" class="sector-content hidden">
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-green/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#10b98115_1px,transparent_1px),linear-gradient(to_bottom,#10b98115_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/35 text-brand-green text-xs font-mono uppercase tracking-widest" data-i18n="ren_badge">Clean Energy Directorate</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="ren_title_1">Offshore Wind</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-300 to-brand-green" data-i18n="ren_title_2">& Renewable Grids</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="ren_desc">
+                    Leveraging offshore engineering expertise to support fixed and floating wind turbine installation, substructure geotechnics, and AI-optimized green energy grids.
+                </p>
+            </div>
 
-  <header>
-    <div>
-      <h1 data-i18n="page_title">Fertilizer &amp; Return Planner</h1>
-      <p data-i18n="page_subtitle">Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.</p>
-    </div>
-    <div class="palm-mark"><span data-i18n="header_badge_top">Oil Palm Estate Tool</span><strong data-i18n="header_badge_bot">FFB &amp; Nutrient Economics</strong></div>
-  </header>
+            <div class="relative z-10 animate-bounce">
+                <a href="#ren-content" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
 
-  <div class="grid">
-
-    <!-- LEFT: INPUTS -->
-    <div>
-      <div class="panel">
-        <h2 data-i18n="panel_plantation">Plantation</h2>
-        <p class="sub" data-i18n="sub_plantation">Set the size and current performance of the block you're planning for.</p>
-
-        <div class="field-row">
-          <label><span data-i18n="lbl_area">Plantation area</span>
-            <span class="hint" data-i18n="hint_area">Total mature area to be fertilized</span>
-          </label>
-          <input type="number" id="area" value="50" min="0" step="1">
-        </div>
-        <div class="field-row">
-          <label><span data-i18n="lbl_density">Palm density</span>
-            <span class="hint" data-i18n="hint_density">Palms per hectare — 136 is a common 9m triangular spacing</span>
-          </label>
-          <input type="number" id="density" value="136" min="0" step="1">
-        </div>
-        <div class="field-row">
-          <label><span data-i18n="lbl_yield">Current FFB yield</span>
-            <span class="hint" data-i18n="hint_yield">Tonnes of fresh fruit bunches per hectare per year</span>
-          </label>
-          <input type="number" id="yield" value="18" min="0" step="0.1">
-        </div>
-        <div class="field-row">
-          <label><span data-i18n="lbl_uplift">Expected yield increase</span>
-            <span class="hint" data-i18n="hint_uplift">From improved fertilization — base this on soil/leaf analysis or trial results, not a guess</span>
-          </label>
-          <input type="number" id="uplift" value="15" min="0" step="0.5">
-        </div>
-        <div class="field-row">
-          <label><span data-i18n="lbl_ffb_price">FFB price</span>
-            <span class="hint" data-i18n="hint_ffb_price">Farm-gate price your mill pays, per tonne</span>
-          </label>
-          <input type="number" id="ffbPrice" value="750" min="0" step="10">
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2 data-i18n="panel_prog">Fertilizer programme</h2>
-        <p class="sub" data-i18n="sub_prog">Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.</p>
-        <div class="currency-note" data-i18n="currency_note">All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.</div>
-        <table>
-          <thead>
-            <tr>
-              <th data-i18n="th_fert">Fertilizer</th>
-              <th class="num" data-i18n="th_rate">Rate<br>(kg/palm/yr)</th>
-              <th class="num" data-i18n="th_price">Price<br>(per kg)</th>
-              <th class="num" data-i18n="th_cost">Total cost</th>
-            </tr>
-          </thead>
-          <tbody id="fertBody"></tbody>
-        </table>
-      </div>
+        <section id="ren-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-green" data-i18n="ren_sec_tag">01 / Clean Transition</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="ren_sec_title">Floating & Fixed Wind Architecture</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="ren_sec_desc">
+                        Translating heavy subsea installation and mooring experience into wind farm deployment. Our automation frameworks optimize cable inter-array routing, jacket/monopile load testing, and floating turbine dynamic stability modeling.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Mooring Line</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="ren_stat1">Tension Simulation</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Substation</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="ren_stat2">Offshore Placement</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-green/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-green mb-4 tracking-widest" data-i18n="ren_mod_title">RENEWABLE SPEC // MODULE W</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k1">Floating Turbine Dynamics</span>
+                            <span class="text-white font-bold" data-i18n="ren_v1">6-DOF Wave Motion Coupling</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k2">Subsea Power Export Cables</span>
+                            <span class="text-white font-bold" data-i18n="ren_v2">Dynamic Burial & Protection</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="ren_k3">Green Grid Balancing</span>
+                            <span class="text-white font-bold" data-i18n="ren_v3">AI Load Shedding Algorithms</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="ren_k4">Installation Weather Window</span>
+                            <span class="text-white font-bold" data-i18n="ren_v4">Stochastic Meteocean Analysis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- RIGHT: RESULTS -->
-    <div>
-      <div class="panel" style="position:sticky; top:20px;">
-        <h2 data-i18n="panel_return">Return on the programme</h2>
-        <p class="sub" data-i18n="sub_return">Estimated net benefit for the whole plantation, per year.</p>
+    <!-- ========================================== -->
+    <!-- SECTOR 3: PALM OIL & BIOMASS ENERGY        -->
+    <!-- ========================================== -->
+    <div id="sector-biomass" class="sector-content hidden">
+        <header class="relative h-screen flex flex-col justify-between items-center text-center px-6 pt-40 pb-20 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-amber/15 via-brand-dark to-brand-dark">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b15_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-6 my-auto">
+                <span class="px-3 py-1 rounded-full bg-brand-amber/10 border border-brand-amber/35 text-brand-amber text-xs font-mono uppercase tracking-widest" data-i18n="bio_badge">Bioenergy & Mill Automation</span>
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none">
+                    <span data-i18n="bio_title_1">Palm Oil & Biomass</span> <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-brand-amber" data-i18n="bio_title_2">Energy Automation</span>
+                </h1>
+                <p class="text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed pt-2" data-i18n="bio_desc">
+                    Intelligent mill automation, palm oil processing efficiency models, and biomass waste-to-energy conversion systems engineered for sustainable agricultural processing.
+                </p>
+            </div>
 
-        <div class="hero-number" id="heroNet">RM 0</div>
-        <div class="hero-label" data-i18n="hero_label">Extra revenue minus fertilizer cost, per year</div>
-        <div id="roiBadgeWrap"></div>
+            <div class="relative z-10 animate-bounce">
+                <a href="#bio-visual" class="text-brand-muted hover:text-white transition">
+                    <i class="fa-solid fa-arrow-down text-xl"></i>
+                </a>
+            </div>
+        </header>
 
-        <div class="stat-grid">
-          <div class="stat">
-            <div class="v" id="statFertCost">RM 0</div>
-            <div class="l" data-i18n="stat_l1">Total fertilizer cost / yr</div>
-          </div>
-          <div class="stat">
-            <div class="v" id="statExtraRevenue">RM 0</div>
-            <div class="l" data-i18n="stat_l2">Extra FFB revenue / yr</div>
-          </div>
-          <div class="stat">
-            <div class="v" id="statCostPerHa">RM 0</div>
-            <div class="l" data-i18n="stat_l3">Fertilizer cost / ha</div>
-          </div>
-          <div class="stat">
-            <div class="v" id="statExtraFFB">0 t</div>
-            <div class="l" data-i18n="stat_l4">Extra FFB / yr</div>
-          </div>
-        </div>
+        <!-- Visual Showcase with Palm Oil Plantation Photo -->
+        <section id="bio-visual" class="py-24 px-6 bg-brand-dark border-t border-brand-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-amber">AGRO-INDUSTRIAL LANDSCAPE // SUSTAINABLE BIOMASS</span>
+                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight" data-i18n="bio_photo_heading">Sustainable Palm Oil & Feedstock Integration</h2>
+                    <p class="text-brand-muted text-sm sm:text-base font-light" data-i18n="bio_photo_sub">Managing agricultural processing footprints and converting organic biomass by-products into high-value cogeneration power streams.</p>
+                </div>
+                
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group bg-brand-card">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60 z-10 pointer-events-none"></div>
+                    <img src="images/palm-oil-plantation.jpg" alt="Palm Oil Plantation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=1600&q=80';">
+                    <div class="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-brand-dark/80 backdrop-blur-md p-6 border border-brand-border">
+                        <div>
+                            <div class="text-xs font-mono text-brand-amber mb-1">PLANTATION TELEMETRY // BIOMASS FEEDSTOCK</div>
+                            <div class="text-lg font-bold uppercase tracking-wide">Sustainable Estate & Mill Waste Valorization</div>
+                        </div>
+                        <div class="mt-4 sm:mt-0 font-mono text-xs text-brand-muted">
+                            Status: <span class="text-amber-400 font-bold">Automation Optimized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class="hero-caption">
-          <strong data-i18n="cap_palms">Total palms:</strong> <span id="capTotalPalms">0</span> &nbsp;·&nbsp;
-          <strong data-i18n="cap_yield">New yield:</strong> <span id="capNewYield">0</span> t/ha/yr
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2 data-i18n="panel_breakdown">Cost breakdown</h2>
-        <p class="sub" data-i18n="sub_breakdown">Share of total fertilizer spend by input.</p>
-        <div id="barRows"></div>
-      </div>
+        <section id="bio-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-amber" data-i18n="bio_sec_tag">01 / Agro-Industrial Efficiency</span>
+                    <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="bio_sec_title">Smart Mill Automation & Biomass Power</h2>
+                    <p class="text-brand-muted text-base sm:text-lg font-light leading-relaxed" data-i18n="bio_sec_desc">
+                        Optimizing palm oil mill processing lines (CPO extraction, sterilization, clarification) and converting palm kernel shells (PKS) and empty fruit bunches (EFB) into high-efficiency cogeneration biomass power streams through advanced industrial automation.
+                    </p>
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-brand-border font-mono text-xs">
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Cogeneration</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="bio_stat1">Biomass Boiler Control</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white mb-1">Mill Yield</div>
+                            <div class="text-brand-muted uppercase tracking-wider" data-i18n="bio_stat2">AI Process Optimization</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 rounded-none bg-brand-card border border-brand-border relative group shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-amber/10 to-transparent pointer-events-none"></div>
+                    <div class="font-mono text-xs text-brand-amber mb-4 tracking-widest" data-i18n="bio_mod_title">BIOMASS SPEC // MODULE BIO</div>
+                    <div class="space-y-4 font-mono text-sm">
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k1">Sterilizer Steam Automation</span>
+                            <span class="text-white font-bold" data-i18n="bio_v1">Closed-Loop Pressure Regulation</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k2">EFB / PKS Fuel Combustion</span>
+                            <span class="text-white font-bold" data-i18n="bio_v2">Thermal Efficiency Optimization</span>
+                        </div>
+                        <div class="flex justify-between py-3 border-b border-brand-border">
+                            <span class="text-brand-muted" data-i18n="bio_k3">Effluent Treatment (POME)</span>
+                            <span class="text-white font-bold" data-i18n="bio_v3">Biogas Capture & Methane Control</span>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <span class="text-brand-muted" data-i18n="bio_k4">SCADA Integration</span>
+                            <span class="text-white font-bold" data-i18n="bio_v4">Real-Time Mill Telemetry</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-  </div>
+    <!-- Common Capabilities Grid -->
+    <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-[#05080E]">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-2xl mb-20">
+                <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="cap_eyebrow">Core Competencies</span>
+                <h2 class="text-4xl sm:text-5xl font-black uppercase tracking-tight mt-3" data-i18n="cap_title">Engineering Rigor. Autonomous Scale.</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-brand-border">
+                <div class="bg-brand-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-brand-glow">01 // STRUCTURAL & PROCESS</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide" data-i18n="card1_title">Multidisciplinary Engineering</h3>
+                    <p class="text-brand-muted text-sm font-light leading-relaxed" data-i18n="card1_desc">
+                        Advanced structural analysis, thermal modeling, and industrial processing protocols spanning marine and agro-energy sectors.
+                    </p>
+                </div>
+                <div class="bg-brand-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-brand-glow">02 // SOFTWARE</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide" data-i18n="card2_title">AI Automation</h3>
+                    <p class="text-brand-muted text-sm font-light leading-relaxed" data-i18n="card2_desc">
+                        Custom automation suites designed to drastically reduce manual computation times and eliminate human error variables.
+                    </p>
+                </div>
+                <div class="bg-brand-dark p-10 space-y-4">
+                    <div class="font-mono text-xs text-brand-glow">03 // METHODOLOGY</div>
+                    <h3 class="text-xl font-bold uppercase tracking-wide" data-i18n="card3_title">PMP Governance</h3>
+                    <p class="text-brand-muted text-sm font-light leading-relaxed" data-i18n="card3_desc">
+                        Strict project management frameworks ensuring multi-million dollar asset scopes are delivered on schedule and within parameters.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    <strong data-i18n="footer_note_title">Note:</strong> <span data-i18n="footer_note_text">This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status.</span>
-  </footer>
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 px-6 border-t border-brand-border bg-brand-dark text-center">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <span class="text-xs font-mono tracking-[0.3em] uppercase text-brand-glow" data-i18n="contact_tag">Inquiries & Partnerships</span>
+            <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="contact_title">Secure Your Mission Parameters</h2>
+            <p class="text-brand-muted font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed" data-i18n="contact_desc">
+                Connect with our engineering directorate for enterprise offshore consultancy, infrastructure automation contracts, or joint venture collaborations.
+            </p>
+            <div class="pt-6 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="mailto:contact@eautomations.com" class="w-full sm:w-auto px-8 py-4 bg-brand-primary text-white text-xs uppercase font-bold tracking-widest hover:bg-blue-600 transition shadow-xl shadow-brand-primary/25" data-i18n="contact_btn">
+                    Initiate Contact
+                </a>
+                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 border border-brand-border text-white text-xs uppercase font-bold tracking-widest hover:border-brand-primary transition flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-linkedin text-brand-glow text-sm"></i>
+                    <span data-i18n="contact_linkedin">LinkedIn Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-</div>
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-brand-border bg-brand-dark text-xs font-mono text-brand-muted">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+            <div data-i18n="footer_rights">&copy; 2026 E Automations Offshore Engineering Sdn Bhd. All rights reserved.</div>
+            <div class="flex space-x-8 uppercase tracking-widest">
+                <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">LinkedIn</a>
+                <a href="#contact" class="hover:text-white transition" data-i18n="footer_privacy">Privacy</a>
+                <a href="#contact" class="hover:text-white transition" data-i18n="footer_terms">Terms</a>
+            </div>
+        </div>
+    </footer>
 
-<script>
-  const fertilizers = [
-    { key: 'urea', name: {en: 'Urea', zh: '尿素'}, note: '46% N', rate: 2.0, price: 2.6 },
-    { key: 'rp',   name: {en: 'Rock Phosphate', zh: '磷矿粉'}, note: '~18% P₂O₅', rate: 1.0, price: 1.4 },
-    { key: 'mop',  name: {en: 'Muriate of Potash', zh: '氯化钾'}, note: '60% K₂O', rate: 2.5, price: 2.9 },
-    { key: 'kieserite', name: {en: 'Kieserite', zh: '硫酸镁肥'}, note: '27% MgO', rate: 1.5, price: 2.2 },
-    { key: 'borate', name: {en: 'Borate', zh: '硼酸盐'}, note: 'Trace boron', rate: 0.08, price: 6.5 },
-  ];
+    <!-- Multi-Sector & Bilingual Switcher Script -->
+    <script>
+        function switchSector(sectorId) {
+            document.querySelectorAll('.sector-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('sector-' + sectorId).classList.remove('hidden');
 
-  const translations = {
-    en: {
-      back_home: "Back to Main Platform",
-      btn_export_pdf: "Export PDF Report",
-      trial_notice: "Limited-Time Offer: Free Full-Access Trial Period Active Now",
-      page_title: "Fertilizer & Return Planner",
-      page_subtitle: "Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.",
-      header_badge_top: "Oil Palm Estate Tool",
-      header_badge_bot: "FFB & Nutrient Economics",
-      panel_plantation: "Plantation",
-      sub_plantation: "Set the size and current performance of the block you're planning for.",
-      lbl_area: "Plantation area",
-      hint_area: "Total mature area to be fertilized",
-      lbl_density: "Palm density",
-      hint_density: "Palms per hectare — 136 is a common 9m triangular spacing",
-      lbl_yield: "Current FFB yield",
-      hint_yield: "Tonnes of fresh fruit bunches per hectare per year",
-      lbl_uplift: "Expected yield increase",
-      hint_uplift: "From improved fertilization — base this on soil/leaf analysis or trial results, not a guess",
-      lbl_ffb_price: "FFB price",
-      hint_ffb_price: "Farm-gate price your mill pays, per tonne",
-      panel_prog: "Fertilizer programme",
-      sub_prog: "Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.",
-      currency_note: "All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.",
-      th_fert: "Fertilizer",
-      th_rate: "Rate\n(kg/palm/yr)",
-      th_price: "Price\n(per kg)",
-      th_cost: "Total cost",
-      panel_return: "Return on the programme",
-      sub_return: "Estimated net benefit for the whole plantation, per year.",
-      hero_label: "Extra revenue minus fertilizer cost, per year",
-      stat_l1: "Total fertilizer cost / yr",
-      stat_l2: "Extra FFB revenue / yr",
-      stat_l3: "Fertilizer cost / ha",
-      stat_l4: "Extra FFB / yr",
-      cap_palms: "Total palms:",
-      cap_yield: "New yield:",
-      panel_breakdown: "Cost breakdown",
-      sub_breakdown: "Share of total fertilizer spend by input.",
-      footer_note_title: "Note:",
-      footer_note_text: "This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status."
-    },
-    zh: {
-      back_home: "返回主平台",
-      btn_export_pdf: "导出PDF报告",
-      trial_notice: "限时优惠：全功能免费试用期现已全面开启",
-      page_title: "肥料与收益规划器",
-      page_subtitle: "计算您的油棕所需肥料量、成本以及可能带来的额外鲜果串(FFB)收益。根据您的庄园情况调整各项数值。",
-      header_badge_top: "油棕庄园工具",
-      header_badge_bot: "鲜果串与养分经济学",
-      panel_plantation: "种植园",
-      sub_plantation: "设定您计划施肥区块的面积与当前产量表现。",
-      lbl_area: "种植面积",
-      hint_area: "需施肥的总成熟面积",
-      lbl_density: "种植密度",
-      hint_density: "每公顷株数 — 136株为常见的9米三角形间距",
-      lbl_yield: "当前FFB产量",
-      hint_yield: "每年每公顷鲜果串吨数",
-      lbl_uplift: "预期增产率",
-      hint_uplift: "基于改良施肥 — 请根据土壤/叶片分析或试验结果设定",
-      lbl_ffb_price: "FFB收购价",
-      hint_ffb_price: "棕油厂支付的每吨厂门收购价",
-      panel_prog: "施肥方案",
-      sub_prog: "成熟棕榈标准养分来源。施肥率为典型起点 — 请根据您的推荐表进行调整。",
-      currency_note: "所有金额单位保持一致 — 可通过下方的FFB价格和肥料价格统一设定。",
-      th_fert: "肥料种类",
-      th_rate: "用量<br>(公斤/株/年)",
-      th_price: "单价<br>(每公斤)",
-      th_cost: "总成本",
-      panel_return: "方案收益",
-      sub_return: "整个种植园每年的预计净收益。",
-      hero_label: "额外收益减去肥料成本，每年",
-      stat_l1: "肥料总成本 / 年",
-      stat_l2: "额外FFB收益 / 年",
-      stat_l3: "每公顷肥料成本",
-      stat_l4: "额外FFB产量 / 年",
-      cap_palms: "总株数：",
-      cap_yield: "新产量：",
-      panel_breakdown: "成本明细",
-      sub_breakdown: "各项肥料开支占总肥料支出的比例。",
-      footer_note_title: "注意：",
-      footer_note_text: "本工具根据您输入的假设预测结果 — 它不用于诊断养分缺乏症或开具施肥处方。实际施肥量应依据土壤及叶片（叶面）分析以及当地农艺建议，因为过量或不足施用都会影响产量和成本。不同土壤、树龄、降雨量及初始养分状况下的产量响应百分比差异很大。"
-    }
-  };
+            ['og', 'renewables', 'biomass'].forEach(s => {
+                const dt = document.getElementById('tab-' + s);
+                const mob = document.getElementById('mob-tab-' + s);
+                if (dt) dt.className = "px-4 py-2 rounded-lg transition text-brand-muted hover:text-white flex items-center space-x-2";
+                if (mob) mob.className = "px-3 py-1 rounded text-brand-muted hover:text-white";
+            });
 
-  function setLanguage(lang) {
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    if(lang === 'en') {
-      document.getElementById('lang-en').classList.add('active');
-    } else {
-      document.getElementById('lang-zh').classList.add('active');
-    }
+            const activeDt = document.getElementById('tab-' + sectorId);
+            const activeMob = document.getElementById('mob-tab-' + sectorId);
+            if (activeDt) activeDt.className = "px-4 py-2 rounded-lg transition font-bold bg-brand-primary text-white flex items-center space-x-2";
+            if (activeMob) activeMob.className = "px-3 py-1 rounded bg-brand-primary text-white font-bold";
 
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if(translations[lang] && translations[lang][key]) {
-        el.innerHTML = translations[lang][key];
-      }
-    });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    // Refresh dynamic table fertilizer names
-    const nameCells = document.querySelectorAll('.fert-name-cell');
-    nameCells.forEach((cell, idx) => {
-      const f = fertilizers[idx];
-      cell.innerHTML = `${f.name[lang]}<small>${f.note}</small>`;
-    });
+        const translations = {
+            en: {
+                nav_subtitle: "Multi-Sector Energy Intelligence",
+                tab_og: "Oil & Gas (SURF)",
+                tab_renewables: "Renewable Energy",
+                tab_biomass: "Palm Oil & Biomass",
+                nav_inquire: "Inquire",
 
-    localStorage.setItem('preferred_lang', lang);
-  }
-  window.setLanguage = setLanguage;
+                og_badge: "Oil & Gas Directorate",
+                og_title_1: "Autonomous",
+                og_title_2: "SURF & Subsea Systems",
+                og_desc: "AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.",
+                
+                photo_heading: "Heavy Marine & Platform Engineering",
+                photo_sub: "Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.",
 
-  function exportPDF(){
-    const element = document.getElementById('pdf-container');
-    const watermark = document.getElementById('watermark');
-    watermark.style.display = 'block';
+                trial_badge: "Free Full-Access Trial Period Active Now",
+                tool_card_title: "S-Lay Catenary Parameter Tool",
+                tool_card_desc: "Launch our dedicated interactive web application to compute bottom tension, top tension, suspended arc length, and sag-bend radius in real time.",
+                tool_card_btn: "Launch Calculator",
 
-    const opt = {
-      margin:       10,
-      filename:     'E_Automations_PalmOil_Fertilizer_Report.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#142B1C' },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    };
+                surf_tag: "01 / Complete SURF Scope",
+                surf_title: "Subsea, Umbilicals, Risers & Flowlines",
+                surf_desc: "Comprehensive lifecycle engineering and automation frameworks managing full-scale SURF architecture. From deepwater riser configurations to high-integrity pipeline routing, our AI-assisted design models guarantee structural safety and operational efficiency.",
+                surf_stat1: "Riser Integration",
+                surf_stat2: "Flowline Routing",
+                surf_mod_title: "SURF SPECIFICATION // MODULE S",
+                surf_k1: "Umbilical Dynamics",
+                surf_v1: "Dynamic Fatigue Simulation",
+                surf_k2: "Flowline Insulation",
+                surf_v2: "PIP / Thermal Modeling",
+                surf_k3: "Riser Touchdown Analysis",
+                surf_v3: "Non-Linear FEA Tracking",
+                surf_k4: "EPCI Coordination",
+                surf_v4: "PMP Automated Governance",
 
-    html2pdf().from(element).set(opt).save().then(() => {
-      watermark.style.display = 'none';
-    });
-  }
-  window.exportPDF = exportPDF;
+                lay_tag: "02 / Marine Construction",
+                lay_title: "Rigid S-Lay & J-Lay Installation",
+                lay_desc: "Advanced installation analysis for rigid pipeline deployment. Whether executing shallow-to-intermediate water S-lay operations with stinger configuration or deepwater ultra-heavy wall J-lay tower deployment, our software predicts structural limits and dynamic vessel interactions with absolute precision.",
+                lay_mod_title: "INSTALLATION DYNAMICS // MODULE L",
+                lay_k1: "Rigid S-Lay Stinger",
+                lay_v1: "Real-Time Roll/Pitch Control",
+                lay_k2: "Rigid J-Lay Tower",
+                lay_v2: "Deepwater Heavy-Wall Control",
+                lay_k3: "Bending Strain Limits",
+                lay_v3: "AI-Optimized Overbend",
+                lay_k4: "Vessel Motion Coupling",
+                lay_v4: "Dynamic Response Matrix",
 
-  const fmt = (n, decimals = 0) => {
-    if (!isFinite(n)) n = 0;
-    return n.toLocaleString('en-MY', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-  };
-  const money = (n) => 'RM ' + fmt(n, 0);
+                struct_tag: "03 / Heavy Lift & Placement",
+                struct_title: "Subsea Structure Installation",
+                struct_desc: "Engineered precision for subsea manifolds, PLETs, ILTS, templates, and modular protection structures. Using automated hydrodynamic simulations and splash-zone crossing models, we mitigate wave-slam impact and ensure safe touchdown placement on the seabed.",
+                struct_stat1: "Heavy Lift Simulation",
+                struct_stat2: "Hydrodynamic Analysis",
+                struct_mod_title: "STRUCTURE SPECIFICATION // MODULE ST",
+                struct_k1: "Rigging & Sling Tension",
+                struct_v1: "Dynamic Load Allocation",
+                struct_k2: "Seabed Soil Interaction",
+                struct_v2: "Mat/Mud Suction Modeling",
+                struct_k3: "ROV Intervention Aids",
+                struct_v3: "Standardized Docking Interface",
+                struct_k4: "Crane Hook Amplitudes",
+                struct_v4: "Sea-State Wave Filtering",
 
-  const fertBody = document.getElementById('fertBody');
+                ren_badge: "Clean Energy Directorate",
+                ren_title_1: "Offshore Wind",
+                ren_title_2: "& Renewable Grids",
+                ren_desc: "Leveraging offshore engineering expertise to support fixed and floating wind turbine installation, substructure geotechnics, and AI-optimized green energy grids.",
+                ren_sec_tag: "01 / Clean Transition",
+                ren_sec_title: "Floating & Fixed Wind Architecture",
+                ren_sec_desc: "Translating heavy subsea installation and mooring experience into wind farm deployment. Our automation frameworks optimize cable inter-array routing, jacket/monopile load testing, and floating turbine dynamic stability modeling.",
+                ren_stat1: "Tension Simulation",
+                ren_stat2: "Offshore Placement",
+                ren_mod_title: "RENEWABLE SPEC // MODULE W",
+                ren_k1: "Floating Turbine Dynamics",
+                ren_v1: "6-DOF Wave Motion Coupling",
+                ren_k2: "Subsea Power Export Cables",
+                ren_v2: "Dynamic Burial & Protection",
+                ren_k3: "Green Grid Balancing",
+                ren_v3: "AI Load Shedding Algorithms",
+                ren_k4: "Installation Weather Window",
+                ren_v4: "Stochastic Meteocean Analysis",
 
-  fertilizers.forEach((f) => {
-    const tr = document.createElement('tr');
-    const currentLang = localStorage.getItem('preferred_lang') || 'en';
-    tr.innerHTML = `
-      <td class="name fert-name-cell">${f.name[currentLang]}<small>${f.note}</small></td>
-      <td class="num"><input type="number" id="rate-${f.key}" value="${f.rate}" min="0" step="0.05"></td>
-      <td class="num"><input type="number" id="price-${f.key}" value="${f.price}" min="0" step="0.05"></td>
-      <td class="result" id="cost-${f.key}">RM 0</td>
-    `;
-    fertBody.appendChild(tr);
-  });
+                bio_badge: "Bioenergy & Mill Automation",
+                bio_title_1: "Palm Oil & Biomass",
+                bio_title_2: "Energy Automation",
+                bio_desc: "Intelligent mill automation, palm oil processing efficiency models, and biomass waste-to-energy conversion systems engineered for sustainable agricultural processing.",
+                
+                bio_photo_heading: "Sustainable Palm Oil & Feedstock Integration",
+                bio_photo_sub: "Managing agricultural processing footprints and converting organic biomass by-products into high-value cogeneration power streams.",
 
-  const barRows = document.getElementById('barRows');
-  fertilizers.forEach((f) => {
-    const row = document.createElement('div');
-    row.className = 'bar-row';
-    row.innerHTML = `
-      <div class="bar-label-cell" data-key="${f.key}">${f.name.en}</div>
-      <div class="bar-track"><div class="bar-fill" id="bar-${f.key}" style="width:0%"></div></div>
-      <div class="amt" id="baramt-${f.key}">RM 0</div>
-    `;
-    barRows.appendChild(row);
-  });
+                bio_sec_tag: "01 / Agro-Industrial Efficiency",
+                bio_sec_title: "Smart Mill Automation & Biomass Power",
+                bio_sec_desc: "Optimizing palm oil mill processing lines (CPO extraction, sterilization, clarification) and converting palm kernel shells (PKS) and empty fruit bunches (EFB) into high-efficiency cogeneration biomass power streams through advanced industrial automation.",
+                bio_stat1: "Biomass Boiler Control",
+                bio_stat2: "AI Process Optimization",
+                bio_mod_title: "BIOMASS SPEC // MODULE BIO",
+                bio_k1: "Sterilizer Steam Automation",
+                bio_v1: "Closed-Loop Pressure Regulation",
+                bio_k2: "EFB / PKS Fuel Combustion",
+                bio_v2: "Thermal Efficiency Optimization",
+                bio_k3: "Effluent Treatment (POME)",
+                bio_v3: "Biogas Capture & Methane Control",
+                bio_k4: "SCADA Integration",
+                bio_v4: "Real-Time Mill Telemetry",
 
-  function num(id) {
-    const v = parseFloat(document.getElementById(id).value);
-    return isFinite(v) ? v : 0;
-  }
+                cap_eyebrow: "Core Competencies",
+                cap_title: "Engineering Rigor. Autonomous Scale.",
+                card1_title: "Multidisciplinary Engineering",
+                card1_desc: "Advanced structural analysis, thermal modeling, and industrial processing protocols spanning marine and agro-energy sectors.",
+                card2_title: "AI Automation",
+                card2_desc: "Custom automation suites designed to drastically reduce manual computation times and eliminate human error variables.",
+                card3_title: "PMP Governance",
+                card3_desc: "Strict project management frameworks ensuring multi-million dollar asset scopes are delivered on schedule and within parameters.",
+                contact_tag: "Inquiries & Partnerships",
+                contact_title: "Secure Your Mission Parameters",
+                contact_desc: "Connect with our engineering directorate for enterprise offshore consultancy, infrastructure automation contracts, or joint venture collaborations.",
+                contact_btn: "Initiate Contact",
+                contact_linkedin: "LinkedIn Dashboard",
+                footer_rights: "© 2026 E Automations Offshore Engineering Sdn Bhd. All rights reserved.",
+                footer_privacy: "Privacy",
+                footer_terms: "Terms"
+            },
+            zh: {
+                nav_subtitle: "多行业能源智能化",
+                tab_og: "油气 (SURF)",
+                tab_renewables: "新能源与风电",
+                tab_biomass: "棕榈油与生物质能",
+                nav_inquire: "业务咨询",
 
-  function recalc() {
-    const area = num('area');
-    const density = num('density');
-    const currentYield = num('yield');
-    const upliftPct = num('uplift');
-    const ffbPrice = num('ffbPrice');
+                og_badge: "油气工程董事会",
+                og_title_1: "自主化",
+                og_title_2: "SURF 与水下系统",
+                og_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术。",
+                
+                photo_heading: "重型海洋与平台工程",
+                photo_sub: "在严格的工程治理与先进模拟模型管理下进行的真实海上基础设施部署。",
 
-    const totalPalms = area * density;
+                trial_badge: "全功能免费试用期现已全面开启",
+                tool_card_title: "S铺管线悬链线张力计算工具",
+                tool_card_desc: "启动我们专用的交互式网络应用程序，即时计算底部张力、顶部张力、悬挂弧长以及下弯段半径。",
+                tool_card_btn: "启动计算器",
 
-    let totalFertCost = 0;
-    const costs = {};
-    fertilizers.forEach((f) => {
-      const rate = num(`rate-${f.key}`);
-      const price = num(`price-${f.key}`);
-      const totalKg = rate * totalPalms;
-      const cost = (totalKg * price);
-      costs[f.key] = cost;
-      totalFertCost += cost;
-      document.getElementById(`cost-${f.key}`).textContent = money(cost);
-    });
+                surf_tag: "01 / 完整 SURF 范围",
+                surf_title: "水下设施、脐带缆、立管与流体管线",
+                surf_desc: "管理全套SURF架构的综合全生命周期工程与自动化框架。从深水立管配置到高完整性管道路由，我们的AI辅助设计模型可确保结构安全与运营效率。",
+                surf_stat1: "立管集成",
+                surf_stat2: "管道路由",
+                surf_mod_title: "SURF 规格 // 模块 S",
+                surf_k1: "脐带缆动力学",
+                surf_v1: "动态疲劳模拟",
+                surf_k2: "管线保温",
+                surf_v2: "PIP/热力学建模",
+                surf_k3: "立管触底分析",
+                surf_v3: "非线性有限元(FEA)追踪",
+                surf_k4: "EPCI 协调",
+                surf_v4: "PMP 自动化治理",
 
-    fertilizers.forEach((f) => {
-      const pct = totalFertCost > 0 ? (costs[f.key] / totalFertCost) * 100 : 0;
-      document.getElementById(`bar-${f.key}`).style.width = pct.toFixed(1) + '%';
-      document.getElementById(`baramt-${f.key}`).textContent = money(costs[f.key]);
-    });
+                lay_tag: "02 / 海洋施工",
+                lay_title: "刚性 S铺与 J铺安装",
+                lay_desc: "刚性管道铺设的高级安装分析。无论是利用滑道配置执行浅水到中水S铺作业，还是深水超厚壁J铺塔部署，我们的软件都能以绝对精度预测结构极限和动态船舶相互作用。",
+                lay_mod_title: "安装动力学 // 模块 L",
+                lay_k1: "刚性S铺滑道(Stinger)",
+                lay_v1: "实时横摇/纵摇控制",
+                lay_k2: "刚性J铺塔",
+                lay_v2: "深水厚壁控制",
+                lay_k3: "弯曲应变极限",
+                lay_v3: "AI优化过弯区",
+                lay_k4: "船舶运动耦合",
+                lay_v4: "动态响应矩阵",
 
-    const currentProduction = area * currentYield;
-    const extraFFB = currentProduction * (upliftPct / 100);
-    const newProduction = currentProduction + extraFFB;
-    const newYieldPerHa = area > 0 ? newProduction / area : 0;
-    const extraRevenue = extraFFB * ffbPrice;
-    const netBenefit = extraRevenue - totalFertCost;
-    const roi = totalFertCost > 0 ? (netBenefit / totalFertCost) * 100 : 0;
-    const costPerHa = area > 0 ? totalFertCost / area : 0;
+                struct_tag: "03 / 重型吊装与就位",
+                struct_title: "水下结构安装",
+                struct_desc: "针对水下管汇、PLET、ILTS、模板及模块化保护结构的工程精密技术。通过自动化流体力学模拟和飞溅区穿越模型，减轻波浪冲击影响并确保海底安全触底就位。",
+                struct_stat1: "重型吊装模拟",
+                struct_stat2: "流体力学分析",
+                struct_mod_title: "结构规格 // 模块 ST",
+                struct_k1: "索具与吊索张力",
+                struct_v1: "动态载荷分配",
+                struct_k2: "海底土壤相互作用",
+                struct_v2: "垫层/吸力锚建模",
+                struct_k3: "ROV干预辅助",
+                struct_v3: "标准化对接接口",
+                struct_k4: "起重机吊钩振幅",
+                struct_v4: "海况波浪滤波",
 
-    const heroEl = document.getElementById('heroNet');
-    heroEl.textContent = money(netBenefit);
-    heroEl.classList.toggle('negative', netBenefit < 0);
+                ren_badge: "清洁能源董事会",
+                ren_title_1: "海上风电",
+                ren_title_2: "与可再生电网",
+                ren_desc: "依托海洋工程专长，支持固定式与漂浮式风机安装、下部结构岩土工程及AI优化的绿色能源电网。",
+                ren_sec_tag: "01 / 清洁转型",
+                ren_sec_title: "漂浮式与固定式风电架构",
+                ren_sec_desc: "将重型水下安装与系泊经验转化为风电场部署。我们的自动化框架优化了海缆阵列路由、导管架/单桩载荷测试以及漂浮式风机动态稳定性建模。",
+                ren_stat1: "张力模拟",
+                ren_stat2: "海上就位",
+                ren_mod_title: "新能源规格 // 模块 W",
+                ren_k1: "漂浮式风机动力学",
+                ren_v1: "六自由度波浪运动耦合",
+                ren_k2: "海底电力输出电缆",
+                ren_v2: "动态埋设与保护",
+                ren_k3: "绿色电网平衡",
+                ren_v3: "AI 负荷脱卸算法",
+                ren_k4: "安装气象窗口",
+                ren_v4: "随机海洋气象分析",
 
-    document.getElementById('statFertCost').textContent = money(totalFertCost);
-    document.getElementById('statExtraRevenue').textContent = money(extraRevenue);
-    document.getElementById('statCostPerHa').textContent = money(costPerHa);
-    document.getElementById('statExtraFFB').textContent = fmt(extraFFB, 1) + ' t';
-    document.getElementById('capTotalPalms').textContent = fmt(totalPalms, 0);
-    document.getElementById('capNewYield').textContent = fmt(newYieldPerHa, 1);
+                bio_badge: "生物能源与压榨厂自动化",
+                bio_title_1: "棕榈油与生物质",
+                bio_title_2: "能源自动化",
+                bio_desc: "专为可持续农业加工设计的智能化压榨厂自动化、棕榈油加工效率模型以及生物质废物转能源转化系统。",
+                
+                bio_photo_heading: "可持续棕榈油与原料集成",
+                bio_photo_sub: "管理农产品加工足迹，并将有机生物质副产品转化为高价值热电联产电源流。",
 
-    const badgeWrap = document.getElementById('roiBadgeWrap');
-    const currentLang = localStorage.getItem('preferred_lang') || 'en';
-    if (totalFertCost > 0) {
-      const good = roi >= 0;
-      const returnText = currentLang === 'zh' ? '% 肥料投资回报率' : '% return on fertilizer spend';
-      badgeWrap.innerHTML = `<div class="roi-badge ${good ? '' : 'warn'}">${good ? '+' : ''}${fmt(roi,0)}${returnText}</div>`;
-    } else {
-      badgeWrap.innerHTML = '';
-    }
-  }
+                bio_sec_tag: "01 / 农工一体化效率",
+                bio_sec_title: "智能压榨厂自动化与生物质发电",
+                bio_sec_desc: "优化棕榈油压榨厂加工线（CPO提取、杀菌、澄清），并通过先进的工业自动化将棕榈壳（PKS）和空果串（EFB）转化为高效热电联产生物质电源流。",
+                bio_stat1: "生物质锅炉控制",
+                bio_stat2: "AI 工艺优化",
+                bio_mod_title: "生物质规格 // 模块 BIO",
+                bio_k1: "杀菌罐蒸汽自动化",
+                bio_v1: "闭环压力调节",
+                bio_k2: "EFB / PKS 燃料燃烧",
+                bio_v2: "热效率优化",
+                bio_k3: "废水处理 (POME)",
+                bio_v3: "沼气捕集与甲烷控制",
+                bio_k4: "SCADA 集成",
+                bio_v4: "实时压榨厂遥测",
 
-  document.querySelectorAll('input[type="number"]').forEach((el) => {
-    el.addEventListener('input', recalc);
-  });
+                cap_eyebrow: "核心优势",
+                cap_title: "工程严谨度。自主化规模。",
+                card1_title: "多学科综合工程",
+                card1_desc: "跨越海洋与农业能源领域的先进结构分析、热力学建模及工业加工协议。",
+                card2_title: "人工智能自动化",
+                card2_desc: "定制化自动化套件，旨在大幅缩短人工计算时间并消除人为错误变量。",
+                card3_title: "PMP 项目管理治理",
+                card3_desc: "严格的项目管理框架，确保数百万美元的资产范围按时按标准交付。",
+                contact_tag: "咨询与合作伙伴关系",
+                contact_title: "确立您的任务参数",
+                contact_desc: "与我们的工程董事会联系，洽谈企业级海洋工程咨询、基础设施自动化合同或合资合作项目。",
+                contact_btn: "发起联络",
+                contact_linkedin: "领英控制台",
+                footer_rights: "© 2026 E Automations Offshore Engineering Sdn Bhd. 保留所有权利。",
+                footer_privacy: "隐私政策",
+                footer_terms: "使用条款"
+            }
+        };
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('preferred_lang') || 'en';
-    setLanguage(savedLang);
-    recalc();
-  });
-</script>
+        let currentLang = 'en';
 
+        function setLanguage(lang) {
+            currentLang = lang;
+            if (lang === 'en') {
+                document.getElementById('lang-en').className = "px-3 py-1.5 rounded transition bg-brand-primary text-white font-bold";
+                document.getElementById('lang-zh').className = "px-3 py-1.5 rounded transition text-brand-muted hover:text-white";
+            } else {
+                document.getElementById('lang-zh').className = "px-3 py-1.5 rounded transition bg-brand-primary text-white font-bold";
+                document.getElementById('lang-en').className = "px-3 py-1.5 rounded transition text-brand-muted hover:text-white";
+            }
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            localStorage.setItem('preferred_lang', lang);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferred_lang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
