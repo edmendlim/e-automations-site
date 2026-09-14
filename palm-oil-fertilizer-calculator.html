@@ -397,11 +397,9 @@
     background: #ffffff !important;
     border: 1px solid #000000 !important;
     box-shadow: none !important;
-    /* Enforce clean page breaks between major sections to prevent split regions */
     page-break-before: always;
     break-before: page;
   }
-  /* Keep header & first section together on page 1 */
   body.pdf-export-mode .panel:first-of-type {
     page-break-before: avoid;
     break-before: avoid;
@@ -506,7 +504,7 @@
   <div class="top-bar">
     <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Main Platform</span></a>
     <div class="top-actions">
-      <button onclick="exportPDF()" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
+      <button onclick="trackUniqueClick('palm_oil_fertilizer_calculator'); exportPDF();" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
       <div class="lang-switcher">
         <button onclick="setLanguage('en')" id="lang-en" class="lang-btn active">EN</button>
         <button onclick="setLanguage('zh')" id="lang-zh" class="lang-btn">中文</button>
@@ -636,6 +634,23 @@
 </div>
 
 <script>
+  // Unique Click Tracker via localStorage
+  window.trackUniqueClick = function(calculatorName) {
+    const storageKey = `clicked_${calculatorName}`;
+    if (!localStorage.getItem(storageKey)) {
+      localStorage.setItem(storageKey, 'true');
+      const clickData = {
+        calculator: calculatorName,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+      };
+      if (typeof gtag === 'function') {
+        gtag('event', 'unique_calculator_click', { 'calculator_name': calculatorName });
+      }
+      console.log(`Unique click recorded for: ${calculatorName}`);
+    }
+  };
+
   const fertilizers = [
     { key: 'urea', name: {en: 'Urea', zh: '尿素'}, note: '46% N', rate: 2.0, price: 2.6 },
     { key: 'rp',   name: {en: 'Rock Phosphate', zh: '磷矿粉'}, note: '~18% P₂O₅', rate: 1.0, price: 1.4 },
