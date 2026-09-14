@@ -37,7 +37,6 @@
     <nav class="fixed top-0 left-0 w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-brand-border transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 group">
-                <!-- Custom Emblem Logo -->
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-brand-primary to-brand-glow p-0.5 flex items-center justify-center shadow-lg shadow-brand-primary/20 group-hover:scale-105 transition">
                     <div class="w-full h-full bg-brand-dark rounded-[6px] flex items-center justify-center">
                         <svg class="w-5 h-5 text-brand-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -69,7 +68,6 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <!-- Language Switcher -->
                 <div class="flex items-center bg-brand-card border border-brand-border rounded-lg p-1 text-xs font-mono">
                     <button onclick="setLanguage('en')" id="lang-en" class="px-3 py-1.5 rounded transition bg-brand-primary text-white font-bold">EN</button>
                     <button onclick="setLanguage('zh')" id="lang-zh" class="px-3 py-1.5 rounded transition text-brand-muted hover:text-white">中文</button>
@@ -80,7 +78,6 @@
                 </a>
             </div>
         </div>
-        <!-- Mobile/Tablet Sector Bar -->
         <div class="xl:hidden flex items-center justify-center space-x-2 bg-brand-card border-t border-brand-border px-4 py-2 font-mono text-[11px]">
             <button onclick="switchSector('og')" id="mob-tab-og" class="px-3 py-1 rounded bg-brand-primary text-white font-bold" data-i18n="tab_og">Oil & Gas</button>
             <button onclick="switchSector('renewables')" id="mob-tab-renewables" class="px-3 py-1 rounded text-brand-muted hover:text-white" data-i18n="tab_renewables">Renewables</button>
@@ -107,14 +104,40 @@
             </div>
 
             <div class="relative z-10 animate-bounce">
-                <a href="#og-surf" class="text-brand-muted hover:text-white transition">
+                <a href="#og-visual" class="text-brand-muted hover:text-white transition">
                     <i class="fa-solid fa-arrow-down text-xl"></i>
                 </a>
             </div>
         </header>
 
+        <!-- Visual Showcase with Your Offshore Platform Photo -->
+        <section id="og-visual" class="py-24 px-6 bg-brand-dark border-t border-brand-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow">FIELD OPERATIONS // OFFSHORE DEPLOYMENT</span>
+                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight" data-i18n="photo_heading">Heavy Marine & Platform Engineering</h2>
+                    <p class="text-brand-muted text-sm sm:text-base font-light" data-i18n="photo_sub">Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.</p>
+                </div>
+                
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60 z-10 pointer-events-none"></div>
+                    <!-- Photo Integration -->
+                    <img src="images/offshore-platform.jpg" alt="Offshore Platform Installation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700">
+                    <div class="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-brand-dark/80 backdrop-blur-md p-6 border border-brand-border">
+                        <div>
+                            <div class="text-xs font-mono text-brand-glow mb-1">FIELD TELEMETRY // ASSET DEPLOYMENT</div>
+                            <div class="text-lg font-bold uppercase tracking-wide">Complex Offshore Platform Construction & Lifting</div>
+                        </div>
+                        <div class="mt-4 sm:mt-0 font-mono text-xs text-brand-muted">
+                            Status: <span class="text-emerald-400 font-bold">Active Operation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Section 1: SURF Scope -->
-        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+        <section id="og-surf" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="surf_tag">01 / Complete SURF Scope</span>
@@ -159,7 +182,7 @@
         </section>
 
         <!-- Section 2: Rigid S-Lay & J-Lay Installation -->
-        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="order-2 lg:order-1 p-8 rounded-none bg-brand-card border border-brand-border relative shadow-2xl">
                     <div class="font-mono text-xs text-brand-glow mb-4 tracking-widest" data-i18n="lay_mod_title">INSTALLATION DYNAMICS // MODULE L</div>
@@ -193,7 +216,7 @@
         </section>
 
         <!-- Section 3: Subsea Structure Installation -->
-        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+        <section class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="struct_tag">03 / Heavy Lift & Placement</span>
@@ -445,12 +468,9 @@
     <!-- Multi-Sector & Bilingual Switcher Script -->
     <script>
         function switchSector(sectorId) {
-            // Hide all sectors
             document.querySelectorAll('.sector-content').forEach(el => el.classList.add('hidden'));
-            // Show selected sector
             document.getElementById('sector-' + sectorId).classList.remove('hidden');
 
-            // Reset desktop tab styles
             ['og', 'renewables', 'biomass'].forEach(s => {
                 const dt = document.getElementById('tab-' + s);
                 const mob = document.getElementById('mob-tab-' + s);
@@ -458,7 +478,6 @@
                 if (mob) mob.className = "px-3 py-1 rounded text-brand-muted hover:text-white";
             });
 
-            // Highlight active tab
             const activeDt = document.getElementById('tab-' + sectorId);
             const activeMob = document.getElementById('mob-tab-' + sectorId);
             if (activeDt) activeDt.className = "px-4 py-2 rounded-lg transition font-bold bg-brand-primary text-white flex items-center space-x-2";
@@ -480,6 +499,9 @@
                 og_title_2: "SURF & Subsea Systems",
                 og_desc: "AI-driven analysis and autonomous engineering precision for rigid S-lay, J-lay, complex subsea structures, and full EPCI execution scopes.",
                 
+                photo_heading: "Heavy Marine & Platform Engineering",
+                photo_sub: "Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.",
+
                 surf_tag: "01 / Complete SURF Scope",
                 surf_title: "Subsea, Umbilicals, Risers & Flowlines",
                 surf_desc: "Comprehensive lifecycle engineering and automation frameworks managing full-scale SURF architecture. From deepwater riser configurations to high-integrity pipeline routing, our AI-assisted design models guarantee structural safety and operational efficiency.",
@@ -590,6 +612,9 @@
                 og_title_2: "SURF 与水下系统",
                 og_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术。",
                 
+                photo_heading: "重型海洋与平台工程",
+                photo_sub: "在严格的工程治理与先进模拟模型管理下进行的真实海上基础设施部署。",
+
                 surf_tag: "01 / 完整 SURF 范围",
                 surf_title: "水下设施、脐带缆、立管与流体管线",
                 surf_desc: "管理全套SURF架构的综合全生命周期工程与自动化框架。从深水立管配置到高完整性管道路由，我们的AI辅助设计模型可确保结构安全与运营效率。",
