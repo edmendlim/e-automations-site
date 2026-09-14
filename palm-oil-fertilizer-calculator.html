@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fertilizer &amp; Return Planner — Oil Palm</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #142B1C;
+    --bg-panel: #1B3524;
+    --bg-panel-raised: #21402C;
+    --line: #3A5943;
+    --cream: #F4EEDB;
+    --cream-dim: #C9C4AC;
+    --gold: #C99A3B;
+    --gold-bright: #E0B454;
+    --rust: #A6602E;
+    --danger: #C1573F;
+    --good: #7FA65B;
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 78px, rgba(244,238,219,0.025) 79px, transparent 80px);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  header{
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  header h1{
+    font-family:'Zilla Slab', serif;
+    font-weight:600;
+    font-size: 2.1rem;
+    margin: 0 0 6px 0;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+  header p{
+    margin:0;
+    color: var(--cream-dim);
+    max-width: 480px;
+    font-size: 0.92rem;
+  }
+  .palm-mark{
+    font-family:'Zilla Slab', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    text-align:right;
+    line-height:1.4;
+  }
+  .palm-mark strong{ display:block; font-size:1rem; color: var(--gold-bright); }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 28px;
+    align-items:start;
+  }
+  @media (max-width: 880px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+  }
+  .panel + .panel{ margin-top: 20px; }
+
+  .panel h2{
+    font-family:'Zilla Slab', serif;
+    font-weight:600;
+    font-size: 1.15rem;
+    margin: 0 0 4px 0;
+    color: var(--gold-bright);
+  }
+  .panel .sub{
+    color: var(--cream-dim);
+    font-size: 0.82rem;
+    margin: 0 0 18px 0;
+  }
+
+  .field-row{
+    display:grid;
+    grid-template-columns: 1fr 110px;
+    gap: 14px;
+    align-items:center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .field-row:last-child{ border-bottom:none; }
+  .field-row label{
+    font-size: 0.88rem;
+    color: var(--cream);
+  }
+  .field-row .hint{
+    display:block;
+    font-size: 0.74rem;
+    color: var(--cream-dim);
+    margin-top: 2px;
+  }
+  input[type="number"]{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--cream);
+    font-family:'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 7px 9px;
+    border-radius: var(--radius);
+    text-align: right;
+  }
+  input[type="number"]:focus{
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
+  thead th{
+    text-align:left;
+    font-weight:500;
+    color: var(--cream-dim);
+    font-size: 0.74rem;
+    padding: 0 6px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  thead th.num{ text-align:right; }
+  tbody td{
+    padding: 9px 6px;
+    border-bottom: 1px dashed var(--line);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody td.name{ color: var(--cream); }
+  tbody td.name small{ display:block; color: var(--cream-dim); font-size:0.72rem; }
+  td.num input{ text-align:right; }
+  td.result{ text-align:right; color: var(--gold-bright); font-variant-numeric: tabular-nums; white-space:nowrap; }
+
+  /* results panel */
+  .hero-number{
+    font-family:'Zilla Slab', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--gold-bright);
+    line-height: 1;
+    margin: 4px 0 2px;
+  }
+  .hero-number.negative{ color: var(--danger); }
+  .hero-label{
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+  }
+  .hero-caption{
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--cream-dim);
+  }
+
+  .stat-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .stat{
+    background: var(--bg-panel-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .stat .v{
+    font-family:'Zilla Slab', serif;
+    font-size: 1.3rem;
+    font-weight:600;
+    color: var(--cream);
+  }
+  .stat .l{
+    font-size: 0.72rem;
+    color: var(--cream-dim);
+    margin-top: 2px;
+  }
+
+  .bar-row{
+    display:grid;
+    grid-template-columns: 110px 1fr 70px;
+    gap: 10px;
+    align-items:center;
+    font-size: 0.78rem;
+    padding: 6px 0;
+  }
+  .bar-track{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    height: 10px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background: linear-gradient(90deg, var(--rust), var(--gold));
+  }
+  .bar-row .amt{ text-align:right; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
+
+  .roi-badge{
+    display:inline-block;
+    margin-top: 14px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(127,166,91,0.15);
+    color: var(--good);
+    border: 1px solid rgba(127,166,91,0.35);
+  }
+  .roi-badge.warn{
+    background: rgba(193,87,63,0.12);
+    color: var(--danger);
+    border-color: rgba(193,87,63,0.35);
+  }
+
+  footer{
+    margin-top: 30px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 0.78rem;
+    color: var(--cream-dim);
+  }
+  footer strong{ color: var(--cream); }
+
+  .currency-note{
+    font-size: 0.74rem;
+    color: var(--cream-dim);
+    margin-top: -8px;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Fertilizer &amp; Return Planner</h1>
+      <p>Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.</p>
+    </div>
+    <div class="palm-mark">Oil Palm Estate Tool<strong>FFB &amp; Nutrient Economics</strong></div>
+  </header>
+
+  <div class="grid">
+
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div class="panel">
+        <h2>Plantation</h2>
+        <p class="sub">Set the size and current performance of the block you're planning for.</p>
+
+        <div class="field-row">
+          <label>Plantation area
+            <span class="hint">Total mature area to be fertilized</span>
+          </label>
+          <input type="number" id="area" value="50" min="0" step="1">
+        </div>
+        <div class="field-row">
+          <label>Palm density
+            <span class="hint">Palms per hectare — 136 is a common 9m triangular spacing</span>
+          </label>
+          <input type="number" id="density" value="136" min="0" step="1">
+        </div>
+        <div class="field-row">
+          <label>Current FFB yield
+            <span class="hint">Tonnes of fresh fruit bunches per hectare per year</span>
+          </label>
+          <input type="number" id="yield" value="18" min="0" step="0.1">
+        </div>
+        <div class="field-row">
+          <label>Expected yield increase
+            <span class="hint">From improved fertilization — base this on soil/leaf analysis or trial results, not a guess</span>
+          </label>
+          <input type="number" id="uplift" value="15" min="0" step="0.5">
+        </div>
+        <div class="field-row">
+          <label>FFB price
+            <span class="hint">Farm-gate price your mill pays, per tonne</span>
+          </label>
+          <input type="number" id="ffbPrice" value="750" min="0" step="10">
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Fertilizer programme</h2>
+        <p class="sub">Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.</p>
+        <div class="currency-note">All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Fertilizer</th>
+              <th class="num">Rate<br>(kg/palm/yr)</th>
+              <th class="num">Price<br>(per kg)</th>
+              <th class="num">Total cost</th>
+            </tr>
+          </thead>
+          <tbody id="fertBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <div class="panel" style="position:sticky; top:20px;">
+        <h2>Return on the programme</h2>
+        <p class="sub">Estimated net benefit for the whole plantation, per year.</p>
+
+        <div class="hero-number" id="heroNet">RM 0</div>
+        <div class="hero-label">Extra revenue minus fertilizer cost, per year</div>
+        <div id="roiBadgeWrap"></div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="v" id="statFertCost">RM 0</div>
+            <div class="l">Total fertilizer cost / yr</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="statExtraRevenue">RM 0</div>
+            <div class="l">Extra FFB revenue / yr</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="statCostPerHa">RM 0</div>
+            <div class="l">Fertilizer cost / ha</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="statExtraFFB">0 t</div>
+            <div class="l">Extra FFB / yr</div>
+          </div>
+        </div>
+
+        <div class="hero-caption">
+          <strong>Total palms:</strong> <span id="capTotalPalms">0</span> &nbsp;·&nbsp;
+          <strong>New yield:</strong> <span id="capNewYield">0</span> t/ha/yr
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Cost breakdown</h2>
+        <p class="sub">Share of total fertilizer spend by input.</p>
+        <div id="barRows"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <strong>Note:</strong> This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status.
+  </footer>
+
+</div>
+
+<script>
+  const fertilizers = [
+    { key: 'urea', name: 'Urea', note: '46% N', rate: 2.0, price: 2.6 },
+    { key: 'rp',   name: 'Rock Phosphate', note: '~18% P₂O₅', rate: 1.0, price: 1.4 },
+    { key: 'mop',  name: 'Muriate of Potash', note: '60% K₂O', rate: 2.5, price: 2.9 },
+    { key: 'kieserite', name: 'Kieserite', note: '27% MgO', rate: 1.5, price: 2.2 },
+    { key: 'borate', name: 'Borate', note: 'Trace boron', rate: 0.08, price: 6.5 },
+  ];
+
+  const fmt = (n, decimals = 0) => {
+    if (!isFinite(n)) n = 0;
+    return n.toLocaleString('en-MY', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  };
+  const money = (n) => 'RM ' + fmt(n, 0);
+
+  const fertBody = document.getElementById('fertBody');
+
+  fertilizers.forEach((f) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="name">${f.name}<small>${f.note}</small></td>
+      <td class="num"><input type="number" id="rate-${f.key}" value="${f.rate}" min="0" step="0.05"></td>
+      <td class="num"><input type="number" id="price-${f.key}" value="${f.price}" min="0" step="0.05"></td>
+      <td class="result" id="cost-${f.key}">RM 0</td>
+    `;
+    fertBody.appendChild(tr);
+  });
+
+  const barRows = document.getElementById('barRows');
+  fertilizers.forEach((f) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div>${f.name}</div>
+      <div class="bar-track"><div class="bar-fill" id="bar-${f.key}" style="width:0%"></div></div>
+      <div class="amt" id="baramt-${f.key}">RM 0</div>
+    `;
+    barRows.appendChild(row);
+  });
+
+  function num(id) {
+    const v = parseFloat(document.getElementById(id).value);
+    return isFinite(v) ? v : 0;
+  }
+
+  function recalc() {
+    const area = num('area');
+    const density = num('density');
+    const currentYield = num('yield');
+    const upliftPct = num('uplift');
+    const ffbPrice = num('ffbPrice');
+
+    const totalPalms = area * density;
+
+    let totalFertCost = 0;
+    const costs = {};
+    fertilizers.forEach((f) => {
+      const rate = num(`rate-${f.key}`);
+      const price = num(`price-${f.key}`);
+      const totalKg = rate * totalPalms;
+      const cost = (totalKg * price);
+      costs[f.key] = cost;
+      totalFertCost += cost;
+      document.getElementById(`cost-${f.key}`).textContent = money(cost);
+    });
+
+    // breakdown bars
+    fertilizers.forEach((f) => {
+      const pct = totalFertCost > 0 ? (costs[f.key] / totalFertCost) * 100 : 0;
+      document.getElementById(`bar-${f.key}`).style.width = pct.toFixed(1) + '%';
+      document.getElementById(`baramt-${f.key}`).textContent = money(costs[f.key]);
+    });
+
+    const currentProduction = area * currentYield; // tonnes/yr
+    const extraFFB = currentProduction * (upliftPct / 100);
+    const newProduction = currentProduction + extraFFB;
+    const newYieldPerHa = area > 0 ? newProduction / area : 0;
+    const extraRevenue = extraFFB * ffbPrice;
+    const netBenefit = extraRevenue - totalFertCost;
+    const roi = totalFertCost > 0 ? (netBenefit / totalFertCost) * 100 : 0;
+    const costPerHa = area > 0 ? totalFertCost / area : 0;
+
+    const heroEl = document.getElementById('heroNet');
+    heroEl.textContent = money(netBenefit);
+    heroEl.classList.toggle('negative', netBenefit < 0);
+
+    document.getElementById('statFertCost').textContent = money(totalFertCost);
+    document.getElementById('statExtraRevenue').textContent = money(extraRevenue);
+    document.getElementById('statCostPerHa').textContent = money(costPerHa);
+    document.getElementById('statExtraFFB').textContent = fmt(extraFFB, 1) + ' t';
+    document.getElementById('capTotalPalms').textContent = fmt(totalPalms, 0);
+    document.getElementById('capNewYield').textContent = fmt(newYieldPerHa, 1);
+
+    const badgeWrap = document.getElementById('roiBadgeWrap');
+    if (totalFertCost > 0) {
+      const good = roi >= 0;
+      badgeWrap.innerHTML = `<div class="roi-badge ${good ? '' : 'warn'}">${good ? '+' : ''}${fmt(roi,0)}% return on fertilizer spend</div>`;
+    } else {
+      badgeWrap.innerHTML = '';
+    }
+  }
+
+  document.querySelectorAll('input[type="number"]').forEach((el) => {
+    el.addEventListener('input', recalc);
+  });
+
+  recalc();
+</script>
+
+</body>
+</html>
