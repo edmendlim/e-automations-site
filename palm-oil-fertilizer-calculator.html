@@ -43,6 +43,7 @@
     margin: 0 auto;
     padding: 28px 24px 64px;
     position: relative;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   .top-bar{
@@ -166,6 +167,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 24px 26px;
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
   .panel + .panel{ margin-top: 20px; }
 
@@ -352,12 +354,137 @@
     font-family: 'Zilla Slab', serif;
     font-weight: 800;
     font-size: 72px;
-    color: rgba(224, 180, 84, 0.04);
+    color: rgba(0, 0, 0, 0.05);
     white-space: nowrap;
     pointer-events: none;
     z-index: 999;
     letter-spacing: 0.15em;
     text-transform: uppercase;
+  }
+
+  /* ========================================== */
+  /* PROFESSIONAL PDF EXPORT THEME (PURE B&W)   */
+  /* ========================================== */
+  body.pdf-export-mode {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .wrap {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .top-bar,
+  body.pdf-export-mode .trial-banner {
+    display: none !important;
+  }
+  body.pdf-export-mode header {
+    border-bottom: 2px solid #000000 !important;
+  }
+  body.pdf-export-mode header h1 {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode header p {
+    color: #333333 !important;
+  }
+  body.pdf-export-mode .palm-mark {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .palm-mark strong {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .panel {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+  }
+  body.pdf-export-mode .panel h2 {
+    color: #000000 !important;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 4px;
+  }
+  body.pdf-export-mode .panel .sub,
+  body.pdf-export-mode .currency-note {
+    color: #444444 !important;
+  }
+  body.pdf-export-mode .field-row {
+    border-bottom: 1px dashed #cccccc !important;
+  }
+  body.pdf-export-mode .field-row label {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .field-row .hint {
+    color: #555555 !important;
+  }
+  body.pdf-export-mode input[type="number"] {
+    background: #ffffff !important;
+    border: 1px solid #666666 !important;
+    color: #000000 !important;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
+  /* Hide spinner arrows on inputs during PDF export for a clean report look */
+  body.pdf-export-mode input[type="number"]::-webkit-outer-spin-button,
+  body.pdf-export-mode input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  body.pdf-export-mode thead th {
+    color: #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+  }
+  body.pdf-export-mode tbody td {
+    border-bottom: 1px dashed #dddddd !important;
+  }
+  body.pdf-export-mode tbody td.name {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode tbody td.name small {
+    color: #555555 !important;
+  }
+  body.pdf-export-mode td.result {
+    color: #000000 !important;
+    font-weight: 600;
+  }
+  body.pdf-export-mode .hero-number {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .hero-label,
+  body.pdf-export-mode .hero-caption {
+    color: #333333 !important;
+    border-top-color: #cccccc !important;
+  }
+  body.pdf-export-mode .stat {
+    background: #f9f9f9 !important;
+    border: 1px solid #cccccc !important;
+  }
+  body.pdf-export-mode .stat .v {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .stat .l {
+    color: #555555 !important;
+  }
+  body.pdf-export-mode .bar-track {
+    background: #eeeeee !important;
+    border: 1px solid #cccccc !important;
+  }
+  body.pdf-export-mode .bar-fill {
+    background: #333333 !important;
+  }
+  body.pdf-export-mode .bar-row .amt {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .roi-badge {
+    background: #eeeeee !important;
+    color: #000000 !important;
+    border: 1px solid #666666 !important;
+  }
+  body.pdf-export-mode footer {
+    border-top: 1px solid #000000 !important;
+    color: #333333 !important;
+  }
+  body.pdf-export-mode footer strong {
+    color: #000000 !important;
   }
 </style>
 </head>
@@ -621,17 +748,22 @@
   function exportPDF(){
     const element = document.getElementById('pdf-container');
     const watermark = document.getElementById('watermark');
+    
+    // Enable pure black-and-white professional PDF theme
+    document.body.classList.add('pdf-export-mode');
     watermark.style.display = 'block';
 
     const opt = {
       margin:       10,
       filename:     'E_Automations_PalmOil_Fertilizer_Report.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#142B1C' },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
     html2pdf().from(element).set(opt).save().then(() => {
+      // Revert theme back to normal dark mode UI
+      document.body.classList.remove('pdf-export-mode');
       watermark.style.display = 'none';
     });
   }
