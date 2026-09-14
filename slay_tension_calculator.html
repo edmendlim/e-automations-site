@@ -32,7 +32,7 @@
   html,body{margin:0;padding:0;background:var(--abyss);color:var(--cream);font-family:'Inter',system-ui,sans-serif;}
   body{min-height:100vh;}
 
-  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;position:relative;}
 
   .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--panel-line);padding-bottom:12px;}
   .back-link{font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--steel-dim);text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
@@ -122,7 +122,6 @@
   footer.credit{margin-top:22px;font-size:11px;color:var(--steel-dim);text-align:center;}
 
   /* Watermark styling for exported PDF view */
-  #pdf-container { position: relative; }
   .pdf-watermark {
     display: none;
     position: absolute;
@@ -132,12 +131,112 @@
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 800;
     font-size: 72px;
-    color: rgba(240, 180, 41, 0.04);
+    color: rgba(0, 0, 0, 0.05);
     white-space: nowrap;
     pointer-events: none;
     z-index: 999;
     letter-spacing: 0.15em;
     text-transform: uppercase;
+  }
+
+  /* ========================================== */
+  /* PROFESSIONAL B&W PDF EXPORT THEME          */
+  /* ========================================== */
+  body.pdf-export-mode {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .wrap {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .top-bar {
+    display: none !important;
+  }
+  body.pdf-export-mode header {
+    border-bottom: 2px solid #000000 !important;
+  }
+  body.pdf-export-mode header .title {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode header .title span {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode header .sub {
+    color: #333333 !important;
+  }
+  body.pdf-export-mode .panel {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 16px;
+  }
+  body.pdf-export-mode .panel-head {
+    border-bottom: 1px solid #000000 !important;
+    background: #f5f5f5 !important;
+  }
+  body.pdf-export-mode .panel-head h2 {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .field label {
+    color: #333333 !important;
+  }
+  body.pdf-export-mode .field label b {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .field .val {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode input[type=number],
+  body.pdf-export-mode select {
+    background: #ffffff !important;
+    border: 1px solid #666666 !important;
+    color: #000000 !important;
+  }
+  body.pdf-export-mode input[type=number]::-webkit-outer-spin-button,
+  body.pdf-export-mode input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  body.pdf-export-mode .readouts {
+    border-top: 1px solid #000000 !important;
+  }
+  body.pdf-export-mode .readout {
+    border-right: 1px solid #cccccc !important;
+    background: #fafafa !important;
+  }
+  body.pdf-export-mode .readout .rlabel {
+    color: #555555 !important;
+  }
+  body.pdf-export-mode .readout .rval {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .readout .runit,
+  body.pdf-export-mode .readout .rsub {
+    color: #555555 !important;
+  }
+  body.pdf-export-mode .table-row {
+    border-bottom: 1px solid #dddddd !important;
+  }
+  body.pdf-export-mode .table-row .k {
+    color: #333333 !important;
+  }
+  body.pdf-export-mode .table-row .v {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode .note {
+    border-top: 1px solid #cccccc !important;
+    color: #333333 !important;
+  }
+  body.pdf-export-mode .note b {
+    color: #000000 !important;
+  }
+  body.pdf-export-mode footer.credit {
+    color: #555555 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 </style>
 </head>
@@ -405,24 +504,23 @@
   }
   window.setLanguage = setLanguage;
 
-  // PDF Export Trigger function with Watermark
   function exportPDF(){
     const element = document.getElementById('pdf-container');
     const watermark = document.getElementById('watermark');
     
-    // Temporarily display watermark for the PDF snapshot
+    document.body.classList.add('pdf-export-mode');
     watermark.style.display = 'block';
 
     const opt = {
       margin:       10,
       filename:     'E_Automations_SLay_Catenary_Report.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#071C2C' },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
     html2pdf().from(element).set(opt).save().then(() => {
-      // Hide watermark again after export completes
+      document.body.classList.remove('pdf-export-mode');
       watermark.style.display = 'none';
     });
   }
