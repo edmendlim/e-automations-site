@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fertilizer &amp; Return Planner — Oil Palm</title>
+<title>Fertilizer &amp; Return Planner — Oil Palm | E Automations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- html2pdf library for clean client-side PDF export with watermarks -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
-
   :root{
     --bg: #142B1C;
     --bg-panel: #1B3524;
@@ -33,13 +36,73 @@
     font-size: 15px;
     line-height: 1.5;
     min-height: 100vh;
-    padding: 0;
   }
 
   .wrap{
     max-width: 1180px;
     margin: 0 auto;
-    padding: 40px 24px 64px;
+    padding: 28px 24px 64px;
+    position: relative;
+  }
+
+  .top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:12px;
+  }
+  .back-link{
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    color: var(--cream-dim);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-link:hover{ color: var(--cream); }
+
+  .top-actions{display:flex;align-items:center;gap:12px;}
+  .pdf-btn{
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+  .pdf-btn:hover{ background: var(--gold-bright); }
+
+  .lang-switcher{
+    display:flex;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 2px;
+    font-size: 11px;
+  }
+  .lang-btn{
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: var(--cream-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn.active{
+    background: var(--gold);
+    color: var(--bg);
+    font-weight: 600;
   }
 
   header{
@@ -74,6 +137,19 @@
     line-height:1.4;
   }
   .palm-mark strong{ display:block; font-size:1rem; color: var(--gold-bright); }
+
+  .trial-banner{
+    background: rgba(201, 154, 59, 0.15);
+    border: 1px solid rgba(201, 154, 59, 0.4);
+    color: var(--gold-bright);
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   .grid{
     display:grid;
@@ -265,17 +341,54 @@
     margin-top: -8px;
     margin-bottom: 16px;
   }
+
+  /* Watermark styling for exported PDF view */
+  .pdf-watermark {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-family: 'Zilla Slab', serif;
+    font-weight: 800;
+    font-size: 72px;
+    color: rgba(224, 180, 84, 0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 999;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="pdf-container">
+
+  <!-- Watermark Element (visible during PDF generation) -->
+  <div class="pdf-watermark" id="watermark">E AUTOMATIONS OFFSHORE</div>
+
+  <div class="top-bar">
+    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Main Platform</span></a>
+    <div class="top-actions">
+      <button onclick="exportPDF()" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_export_pdf">Export PDF Report</span></button>
+      <div class="lang-switcher">
+        <button onclick="setLanguage('en')" id="lang-en" class="lang-btn active">EN</button>
+        <button onclick="setLanguage('zh')" id="lang-zh" class="lang-btn">中文</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="trial-banner">
+    <i class="fa-solid fa-gift"></i>
+    <span data-i18n="trial_notice">Limited-Time Offer: Free Full-Access Trial Period Active Now</span>
+  </div>
 
   <header>
     <div>
-      <h1>Fertilizer &amp; Return Planner</h1>
-      <p>Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.</p>
+      <h1 data-i18n="page_title">Fertilizer &amp; Return Planner</h1>
+      <p data-i18n="page_subtitle">Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.</p>
     </div>
-    <div class="palm-mark">Oil Palm Estate Tool<strong>FFB &amp; Nutrient Economics</strong></div>
+    <div class="palm-mark"><span data-i18n="header_badge_top">Oil Palm Estate Tool</span><strong data-i18n="header_badge_bot">FFB &amp; Nutrient Economics</strong></div>
   </header>
 
   <div class="grid">
@@ -283,52 +396,52 @@
     <!-- LEFT: INPUTS -->
     <div>
       <div class="panel">
-        <h2>Plantation</h2>
-        <p class="sub">Set the size and current performance of the block you're planning for.</p>
+        <h2 data-i18n="panel_plantation">Plantation</h2>
+        <p class="sub" data-i18n="sub_plantation">Set the size and current performance of the block you're planning for.</p>
 
         <div class="field-row">
-          <label>Plantation area
-            <span class="hint">Total mature area to be fertilized</span>
+          <label><span data-i18n="lbl_area">Plantation area</span>
+            <span class="hint" data-i18n="hint_area">Total mature area to be fertilized</span>
           </label>
           <input type="number" id="area" value="50" min="0" step="1">
         </div>
         <div class="field-row">
-          <label>Palm density
-            <span class="hint">Palms per hectare — 136 is a common 9m triangular spacing</span>
+          <label><span data-i18n="lbl_density">Palm density</span>
+            <span class="hint" data-i18n="hint_density">Palms per hectare — 136 is a common 9m triangular spacing</span>
           </label>
           <input type="number" id="density" value="136" min="0" step="1">
         </div>
         <div class="field-row">
-          <label>Current FFB yield
-            <span class="hint">Tonnes of fresh fruit bunches per hectare per year</span>
+          <label><span data-i18n="lbl_yield">Current FFB yield</span>
+            <span class="hint" data-i18n="hint_yield">Tonnes of fresh fruit bunches per hectare per year</span>
           </label>
           <input type="number" id="yield" value="18" min="0" step="0.1">
         </div>
         <div class="field-row">
-          <label>Expected yield increase
-            <span class="hint">From improved fertilization — base this on soil/leaf analysis or trial results, not a guess</span>
+          <label><span data-i18n="lbl_uplift">Expected yield increase</span>
+            <span class="hint" data-i18n="hint_uplift">From improved fertilization — base this on soil/leaf analysis or trial results, not a guess</span>
           </label>
           <input type="number" id="uplift" value="15" min="0" step="0.5">
         </div>
         <div class="field-row">
-          <label>FFB price
-            <span class="hint">Farm-gate price your mill pays, per tonne</span>
+          <label><span data-i18n="lbl_ffb_price">FFB price</span>
+            <span class="hint" data-i18n="hint_ffb_price">Farm-gate price your mill pays, per tonne</span>
           </label>
           <input type="number" id="ffbPrice" value="750" min="0" step="10">
         </div>
       </div>
 
       <div class="panel">
-        <h2>Fertilizer programme</h2>
-        <p class="sub">Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.</p>
-        <div class="currency-note">All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.</div>
+        <h2 data-i18n="panel_prog">Fertilizer programme</h2>
+        <p class="sub" data-i18n="sub_prog">Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.</p>
+        <div class="currency-note" data-i18n="currency_note">All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.</div>
         <table>
           <thead>
             <tr>
-              <th>Fertilizer</th>
-              <th class="num">Rate<br>(kg/palm/yr)</th>
-              <th class="num">Price<br>(per kg)</th>
-              <th class="num">Total cost</th>
+              <th data-i18n="th_fert">Fertilizer</th>
+              <th class="num" data-i18n="th_rate">Rate<br>(kg/palm/yr)</th>
+              <th class="num" data-i18n="th_price">Price<br>(per kg)</th>
+              <th class="num" data-i18n="th_cost">Total cost</th>
             </tr>
           </thead>
           <tbody id="fertBody"></tbody>
@@ -339,41 +452,41 @@
     <!-- RIGHT: RESULTS -->
     <div>
       <div class="panel" style="position:sticky; top:20px;">
-        <h2>Return on the programme</h2>
-        <p class="sub">Estimated net benefit for the whole plantation, per year.</p>
+        <h2 data-i18n="panel_return">Return on the programme</h2>
+        <p class="sub" data-i18n="sub_return">Estimated net benefit for the whole plantation, per year.</p>
 
         <div class="hero-number" id="heroNet">RM 0</div>
-        <div class="hero-label">Extra revenue minus fertilizer cost, per year</div>
+        <div class="hero-label" data-i18n="hero_label">Extra revenue minus fertilizer cost, per year</div>
         <div id="roiBadgeWrap"></div>
 
         <div class="stat-grid">
           <div class="stat">
             <div class="v" id="statFertCost">RM 0</div>
-            <div class="l">Total fertilizer cost / yr</div>
+            <div class="l" data-i18n="stat_l1">Total fertilizer cost / yr</div>
           </div>
           <div class="stat">
             <div class="v" id="statExtraRevenue">RM 0</div>
-            <div class="l">Extra FFB revenue / yr</div>
+            <div class="l" data-i18n="stat_l2">Extra FFB revenue / yr</div>
           </div>
           <div class="stat">
             <div class="v" id="statCostPerHa">RM 0</div>
-            <div class="l">Fertilizer cost / ha</div>
+            <div class="l" data-i18n="stat_l3">Fertilizer cost / ha</div>
           </div>
           <div class="stat">
             <div class="v" id="statExtraFFB">0 t</div>
-            <div class="l">Extra FFB / yr</div>
+            <div class="l" data-i18n="stat_l4">Extra FFB / yr</div>
           </div>
         </div>
 
         <div class="hero-caption">
-          <strong>Total palms:</strong> <span id="capTotalPalms">0</span> &nbsp;·&nbsp;
-          <strong>New yield:</strong> <span id="capNewYield">0</span> t/ha/yr
+          <strong data-i18n="cap_palms">Total palms:</strong> <span id="capTotalPalms">0</span> &nbsp;·&nbsp;
+          <strong data-i18n="cap_yield">New yield:</strong> <span id="capNewYield">0</span> t/ha/yr
         </div>
       </div>
 
       <div class="panel">
-        <h2>Cost breakdown</h2>
-        <p class="sub">Share of total fertilizer spend by input.</p>
+        <h2 data-i18n="panel_breakdown">Cost breakdown</h2>
+        <p class="sub" data-i18n="sub_breakdown">Share of total fertilizer spend by input.</p>
         <div id="barRows"></div>
       </div>
     </div>
@@ -381,19 +494,148 @@
   </div>
 
   <footer>
-    <strong>Note:</strong> This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status.
+    <strong data-i18n="footer_note_title">Note:</strong> <span data-i18n="footer_note_text">This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status.</span>
   </footer>
 
 </div>
 
 <script>
   const fertilizers = [
-    { key: 'urea', name: 'Urea', note: '46% N', rate: 2.0, price: 2.6 },
-    { key: 'rp',   name: 'Rock Phosphate', note: '~18% P₂O₅', rate: 1.0, price: 1.4 },
-    { key: 'mop',  name: 'Muriate of Potash', note: '60% K₂O', rate: 2.5, price: 2.9 },
-    { key: 'kieserite', name: 'Kieserite', note: '27% MgO', rate: 1.5, price: 2.2 },
-    { key: 'borate', name: 'Borate', note: 'Trace boron', rate: 0.08, price: 6.5 },
+    { key: 'urea', name: {en: 'Urea', zh: '尿素'}, note: '46% N', rate: 2.0, price: 2.6 },
+    { key: 'rp',   name: {en: 'Rock Phosphate', zh: '磷矿粉'}, note: '~18% P₂O₅', rate: 1.0, price: 1.4 },
+    { key: 'mop',  name: {en: 'Muriate of Potash', zh: '氯化钾'}, note: '60% K₂O', rate: 2.5, price: 2.9 },
+    { key: 'kieserite', name: {en: 'Kieserite', zh: '硫酸镁肥'}, note: '27% MgO', rate: 1.5, price: 2.2 },
+    { key: 'borate', name: {en: 'Borate', zh: '硼酸盐'}, note: 'Trace boron', rate: 0.08, price: 6.5 },
   ];
+
+  const translations = {
+    en: {
+      back_home: "Back to Main Platform",
+      btn_export_pdf: "Export PDF Report",
+      trial_notice: "Limited-Time Offer: Free Full-Access Trial Period Active Now",
+      page_title: "Fertilizer & Return Planner",
+      page_subtitle: "Work out how much fertilizer your palms need, what it costs, and the extra FFB revenue it's likely to bring in. Adjust every number below to match your estate.",
+      header_badge_top: "Oil Palm Estate Tool",
+      header_badge_bot: "FFB & Nutrient Economics",
+      panel_plantation: "Plantation",
+      sub_plantation: "Set the size and current performance of the block you're planning for.",
+      lbl_area: "Plantation area",
+      hint_area: "Total mature area to be fertilized",
+      lbl_density: "Palm density",
+      hint_density: "Palms per hectare — 136 is a common 9m triangular spacing",
+      lbl_yield: "Current FFB yield",
+      hint_yield: "Tonnes of fresh fruit bunches per hectare per year",
+      lbl_uplift: "Expected yield increase",
+      hint_uplift: "From improved fertilization — base this on soil/leaf analysis or trial results, not a guess",
+      lbl_ffb_price: "FFB price",
+      hint_ffb_price: "Farm-gate price your mill pays, per tonne",
+      panel_prog: "Fertilizer programme",
+      sub_prog: "Standard mature-palm nutrient sources. Rates are typical starting points — tune them to your recommendation sheet.",
+      currency_note: "All monetary figures use the same currency unit — set it once via the FFB price and fertilizer prices below.",
+      th_fert: "Fertilizer",
+      th_rate: "Rate\n(kg/palm/yr)",
+      th_price: "Price\n(per kg)",
+      th_cost: "Total cost",
+      panel_return: "Return on the programme",
+      sub_return: "Estimated net benefit for the whole plantation, per year.",
+      hero_label: "Extra revenue minus fertilizer cost, per year",
+      stat_l1: "Total fertilizer cost / yr",
+      stat_l2: "Extra FFB revenue / yr",
+      stat_l3: "Fertilizer cost / ha",
+      stat_l4: "Extra FFB / yr",
+      cap_palms: "Total palms:",
+      cap_yield: "New yield:",
+      panel_breakdown: "Cost breakdown",
+      sub_breakdown: "Share of total fertilizer spend by input.",
+      footer_note_title: "Note:",
+      footer_note_text: "This tool projects outcomes from the assumptions you enter — it does not diagnose nutrient deficiencies or prescribe a fertilizer regime. Actual rates should come from soil and leaf (foliar) analysis and local agronomic advice, since over- or under-application affects both yield and cost. Yield-response percentages vary widely by soil, palm age, rainfall and starting nutrient status."
+    },
+    zh: {
+      back_home: "返回主平台",
+      btn_export_pdf: "导出PDF报告",
+      trial_notice: "限时优惠：全功能免费试用期现已全面开启",
+      page_title: "肥料与收益规划器",
+      page_subtitle: "计算您的油棕所需肥料量、成本以及可能带来的额外鲜果串(FFB)收益。根据您的庄园情况调整各项数值。",
+      header_badge_top: "油棕庄园工具",
+      header_badge_bot: "鲜果串与养分经济学",
+      panel_plantation: "种植园",
+      sub_plantation: "设定您计划施肥区块的面积与当前产量表现。",
+      lbl_area: "种植面积",
+      hint_area: "需施肥的总成熟面积",
+      lbl_density: "种植密度",
+      hint_density: "每公顷株数 — 136株为常见的9米三角形间距",
+      lbl_yield: "当前FFB产量",
+      hint_yield: "每年每公顷鲜果串吨数",
+      lbl_uplift: "预期增产率",
+      hint_uplift: "基于改良施肥 — 请根据土壤/叶片分析或试验结果设定",
+      lbl_ffb_price: "FFB收购价",
+      hint_ffb_price: "棕油厂支付的每吨厂门收购价",
+      panel_prog: "施肥方案",
+      sub_prog: "成熟棕榈标准养分来源。施肥率为典型起点 — 请根据您的推荐表进行调整。",
+      currency_note: "所有金额单位保持一致 — 可通过下方的FFB价格和肥料价格统一设定。",
+      th_fert: "肥料种类",
+      th_rate: "用量<br>(公斤/株/年)",
+      th_price: "单价<br>(每公斤)",
+      th_cost: "总成本",
+      panel_return: "方案收益",
+      sub_return: "整个种植园每年的预计净收益。",
+      hero_label: "额外收益减去肥料成本，每年",
+      stat_l1: "肥料总成本 / 年",
+      stat_l2: "额外FFB收益 / 年",
+      stat_l3: "每公顷肥料成本",
+      stat_l4: "额外FFB产量 / 年",
+      cap_palms: "总株数：",
+      cap_yield: "新产量：",
+      panel_breakdown: "成本明细",
+      sub_breakdown: "各项肥料开支占总肥料支出的比例。",
+      footer_note_title: "注意：",
+      footer_note_text: "本工具根据您输入的假设预测结果 — 它不用于诊断养分缺乏症或开具施肥处方。实际施肥量应依据土壤及叶片（叶面）分析以及当地农艺建议，因为过量或不足施用都会影响产量和成本。不同土壤、树龄、降雨量及初始养分状况下的产量响应百分比差异很大。"
+    }
+  };
+
+  function setLanguage(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    if(lang === 'en') {
+      document.getElementById('lang-en').classList.add('active');
+    } else {
+      document.getElementById('lang-zh').classList.add('active');
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang] && translations[lang][key]) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+
+    const nameCells = document.querySelectorAll('.fert-name-cell');
+    nameCells.forEach((cell, idx) => {
+      const f = fertilizers[idx];
+      cell.innerHTML = `${f.name[lang]}<small>${f.note}</small>`;
+    });
+
+    localStorage.setItem('preferred_lang', lang);
+  }
+  window.setLanguage = setLanguage;
+
+  function exportPDF(){
+    const element = document.getElementById('pdf-container');
+    const watermark = document.getElementById('watermark');
+    watermark.style.display = 'block';
+
+    const opt = {
+      margin:       10,
+      filename:     'E_Automations_PalmOil_Fertilizer_Report.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#142B1C' },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    html2pdf().from(element).set(opt).save().then(() => {
+      watermark.style.display = 'none';
+    });
+  }
+  window.exportPDF = exportPDF;
 
   const fmt = (n, decimals = 0) => {
     if (!isFinite(n)) n = 0;
@@ -405,8 +647,9 @@
 
   fertilizers.forEach((f) => {
     const tr = document.createElement('tr');
+    const currentLang = localStorage.getItem('preferred_lang') || 'en';
     tr.innerHTML = `
-      <td class="name">${f.name}<small>${f.note}</small></td>
+      <td class="name fert-name-cell">${f.name[currentLang]}<small>${f.note}</small></td>
       <td class="num"><input type="number" id="rate-${f.key}" value="${f.rate}" min="0" step="0.05"></td>
       <td class="num"><input type="number" id="price-${f.key}" value="${f.price}" min="0" step="0.05"></td>
       <td class="result" id="cost-${f.key}">RM 0</td>
@@ -419,7 +662,7 @@
     const row = document.createElement('div');
     row.className = 'bar-row';
     row.innerHTML = `
-      <div>${f.name}</div>
+      <div>${f.name.en}</div>
       <div class="bar-track"><div class="bar-fill" id="bar-${f.key}" style="width:0%"></div></div>
       <div class="amt" id="baramt-${f.key}">RM 0</div>
     `;
@@ -452,14 +695,13 @@
       document.getElementById(`cost-${f.key}`).textContent = money(cost);
     });
 
-    // breakdown bars
     fertilizers.forEach((f) => {
       const pct = totalFertCost > 0 ? (costs[f.key] / totalFertCost) * 100 : 0;
       document.getElementById(`bar-${f.key}`).style.width = pct.toFixed(1) + '%';
       document.getElementById(`baramt-${f.key}`).textContent = money(costs[f.key]);
     });
 
-    const currentProduction = area * currentYield; // tonnes/yr
+    const currentProduction = area * currentYield;
     const extraFFB = currentProduction * (upliftPct / 100);
     const newProduction = currentProduction + extraFFB;
     const newYieldPerHa = area > 0 ? newProduction / area : 0;
@@ -480,9 +722,11 @@
     document.getElementById('capNewYield').textContent = fmt(newYieldPerHa, 1);
 
     const badgeWrap = document.getElementById('roiBadgeWrap');
+    const currentLang = localStorage.getItem('preferred_lang') || 'en';
     if (totalFertCost > 0) {
       const good = roi >= 0;
-      badgeWrap.innerHTML = `<div class="roi-badge ${good ? '' : 'warn'}">${good ? '+' : ''}${fmt(roi,0)}% return on fertilizer spend</div>`;
+      const returnText = currentLang === 'zh' ? '% 肥料投资回报率' : '% return on fertilizer spend';
+      badgeWrap.innerHTML = `<div class="roi-badge ${good ? '' : 'warn'}">${good ? '+' : ''}${fmt(roi,0)}${returnText}</div>`;
     } else {
       badgeWrap.innerHTML = '';
     }
@@ -492,7 +736,11 @@
     el.addEventListener('input', recalc);
   });
 
-  recalc();
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferred_lang') || 'en';
+    setLanguage(savedLang);
+    recalc();
+  });
 </script>
 
 </body>
