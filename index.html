@@ -110,7 +110,7 @@
             </div>
         </header>
 
-        <!-- Visual Showcase with Your Offshore Platform Photo -->
+        <!-- Visual Showcase with Offshore Platform Photo -->
         <section id="og-visual" class="py-24 px-6 bg-brand-dark border-t border-brand-border">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
@@ -119,10 +119,9 @@
                     <p class="text-brand-muted text-sm sm:text-base font-light" data-i18n="photo_sub">Real-world offshore infrastructure deployment managed under strict engineering governance and advanced simulation models.</p>
                 </div>
                 
-                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group">
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group bg-brand-card">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60 z-10 pointer-events-none"></div>
-                    <!-- Photo Integration -->
-                    <img src="offshore-platform.jpg" alt="Offshore Platform Installation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700">
+                    <img src="images/offshore-platform.jpg" alt="Offshore Platform Installation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80';">
                     <div class="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-brand-dark/80 backdrop-blur-md p-6 border border-brand-border">
                         <div>
                             <div class="text-xs font-mono text-brand-glow mb-1">FIELD TELEMETRY // ASSET DEPLOYMENT</div>
@@ -348,13 +347,38 @@
             </div>
 
             <div class="relative z-10 animate-bounce">
-                <a href="#bio-content" class="text-brand-muted hover:text-white transition">
+                <a href="#bio-visual" class="text-brand-muted hover:text-white transition">
                     <i class="fa-solid fa-arrow-down text-xl"></i>
                 </a>
             </div>
         </header>
 
-        <section id="bio-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-brand-dark">
+        <!-- Visual Showcase with Palm Oil Plantation Photo -->
+        <section id="bio-visual" class="py-24 px-6 bg-brand-dark border-t border-brand-border">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-amber">AGRO-INDUSTRIAL LANDSCAPE // SUSTAINABLE BIOMASS</span>
+                    <h2 class="text-3xl sm:text-5xl font-black uppercase tracking-tight" data-i18n="bio_photo_heading">Sustainable Palm Oil & Feedstock Integration</h2>
+                    <p class="text-brand-muted text-sm sm:text-base font-light" data-i18n="bio_photo_sub">Managing agricultural processing footprints and converting organic biomass by-products into high-value cogeneration power streams.</p>
+                </div>
+                
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border shadow-2xl group bg-brand-card">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-60 z-10 pointer-events-none"></div>
+                    <img src="images/palm-oil-plantation.jpg" alt="Palm Oil Plantation" class="w-full h-[500px] lg:h-[650px] object-cover object-center group-hover:scale-105 transition duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=1600&q=80';">
+                    <div class="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-brand-dark/80 backdrop-blur-md p-6 border border-brand-border">
+                        <div>
+                            <div class="text-xs font-mono text-brand-amber mb-1">PLANTATION TELEMETRY // BIOMASS FEEDSTOCK</div>
+                            <div class="text-lg font-bold uppercase tracking-wide">Sustainable Estate & Mill Waste Valorization</div>
+                        </div>
+                        <div class="mt-4 sm:mt-0 font-mono text-xs text-brand-muted">
+                            Status: <span class="text-amber-400 font-bold">Automation Optimized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bio-content" class="min-h-screen relative flex items-center justify-center py-28 px-6 border-t border-brand-border bg-[#05080E]">
             <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-amber" data-i18n="bio_sec_tag">01 / Agro-Industrial Efficiency</span>
@@ -400,7 +424,7 @@
     </div>
 
     <!-- Common Capabilities Grid -->
-    <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-[#05080E]">
+    <section id="capabilities" class="py-32 px-6 border-t border-brand-border bg-brand-dark">
         <div class="max-w-7xl mx-auto">
             <div class="max-w-2xl mb-20">
                 <span class="text-xs font-mono tracking-[0.2em] uppercase text-brand-glow" data-i18n="cap_eyebrow">Core Competencies</span>
@@ -434,7 +458,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-32 px-6 border-t border-brand-border bg-brand-dark text-center">
+    <section id="contact" class="py-32 px-6 border-t border-brand-border bg-[#05080E] text-center">
         <div class="max-w-3xl mx-auto space-y-8">
             <span class="text-xs font-mono tracking-[0.3em] uppercase text-brand-glow" data-i18n="contact_tag">Inquiries & Partnerships</span>
             <h2 class="text-4xl sm:text-6xl font-black uppercase tracking-tight" data-i18n="contact_title">Secure Your Mission Parameters</h2>
@@ -568,6 +592,10 @@
                 bio_title_1: "Palm Oil & Biomass",
                 bio_title_2: "Energy Automation",
                 bio_desc: "Intelligent mill automation, palm oil processing efficiency models, and biomass waste-to-energy conversion systems engineered for sustainable agricultural processing.",
+                
+                bio_photo_heading: "Sustainable Palm Oil & Feedstock Integration",
+                bio_photo_sub: "Managing agricultural processing footprints and converting organic biomass by-products into high-value cogeneration power streams.",
+
                 bio_sec_tag: "01 / Agro-Industrial Efficiency",
                 bio_sec_title: "Smart Mill Automation & Biomass Power",
                 bio_sec_desc: "Optimizing palm oil mill processing lines (CPO extraction, sterilization, clarification) and converting palm kernel shells (PKS) and empty fruit bunches (EFB) into high-efficiency cogeneration biomass power streams through advanced industrial automation.",
@@ -681,6 +709,10 @@
                 bio_title_1: "棕榈油与生物质",
                 bio_title_2: "能源自动化",
                 bio_desc: "专为可持续农业加工设计的智能化压榨厂自动化、棕榈油加工效率模型以及生物质废物转能源转化系统。",
+                
+                bio_photo_heading: "可持续棕榈油与原料集成",
+                bio_photo_sub: "管理农产品加工足迹，并将有机生物质副产品转化为高价值热电联产电源流。",
+
                 bio_sec_tag: "01 / 农工一体化效率",
                 bio_sec_title: "智能压榨厂自动化与生物质发电",
                 bio_sec_desc: "优化棕榈油压榨厂加工线（CPO提取、杀菌、澄清），并通过先进的工业自动化将棕榈壳（PKS）和空果串（EFB）转化为高效热电联产生物质电源流。",
