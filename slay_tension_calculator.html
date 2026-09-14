@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S-Lay Tension Calculator</title>
+<title>S-Lay Tension Calculator | E Automations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
     --abyss:#071C2C;
@@ -31,10 +32,17 @@
 
   .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
 
+  .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--panel-line);padding-bottom:12px;}
+  .back-link{font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--steel-dim);text-decoration:none;display:inline-flex;align-items:center;space-x:6px;}
+  .back-link:hover{color:var(--cream);}
+  .lang-switcher{display:flex;background:var(--panel);border:1px solid var(--panel-line);border-radius:6px;padding:2px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+  .lang-btn{padding:4px 10px;border-radius:4px;border:none;background:transparent;color:var(--steel-dim);cursor:pointer;transition:all 0.2s;}
+  .lang-btn.active{background:var(--surface);color:var(--cream);font-weight:600;}
+
   header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:22px;border-bottom:1px solid var(--panel-line);padding-bottom:18px;}
   header .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.01em;color:var(--cream);}
   header .title span{color:var(--pipe);}
-  header .sub{font-size:13px;color:var(--steel-dim);max-width:420px;line-height:1.5;}
+  header .sub{font-size:13px;color:var(--steel-dim);max-width:520px;line-height:1.5;}
 
   .grid{display:grid;grid-template-columns:320px 1fr;gap:18px;}
   @media (max-width:880px){.grid{grid-template-columns:1fr;}}
@@ -83,7 +91,6 @@
   }
   .apply-btn:hover{background:#f5c454;}
 
-  /* right column */
   .diagram-panel{padding:0;overflow:hidden;}
   .diagram-panel svg{display:block;width:100%;height:auto;}
 
@@ -105,19 +112,24 @@
   .note{font-size:11.5px;color:var(--steel-dim);line-height:1.6;padding:14px 16px;border-top:1px solid var(--panel-line-soft);}
   .note b{color:var(--cream);}
 
-  .warn{color:var(--coral);}
-  .goodflag{color:var(--ok);}
-
   footer.credit{margin-top:22px;font-size:11px;color:var(--steel-dim);text-align:center;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <div class="top-bar">
+    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Main Platform</span></a>
+    <div class="lang-switcher">
+      <button onclick="setLanguage('en')" id="lang-en" class="lang-btn active">EN</button>
+      <button onclick="setLanguage('zh')" id="lang-zh" class="lang-btn">中文</button>
+    </div>
+  </div>
+
   <header>
     <div>
-      <div class="title">S-Lay Tension <span>Calculator</span></div>
-      <div class="sub">Quasi-static catenary solution for offshore pipe-laying — computes bottom (horizontal) tension and top (barge) tension from water depth, submerged pipe weight and departure angle.</div>
+      <div class="title">S-Lay Tension <span data-i18n="header_title_highlight">Calculator</span></div>
+      <div class="sub" data-i18n="header_sub">Quasi-static catenary solution for offshore pipe-laying — computes bottom (horizontal) tension and top (barge) tension from water depth, submerged pipe weight and departure angle.</div>
     </div>
   </header>
 
@@ -126,21 +138,21 @@
     <!-- LEFT: INPUTS -->
     <div>
       <div class="panel">
-        <div class="panel-head"><h2>LAY PARAMETERS</h2></div>
+        <div class="panel-head"><h2 data-i18n="panel_lay_params">LAY PARAMETERS</h2></div>
         <div class="panel-body">
 
           <div class="field">
-            <label>Water depth <b id="dLbl">300</b><span class="val">m</span></label>
+            <label><span data-i18n="label_depth">Water depth</span> <b id="dLbl">300</b><span class="val">m</span></label>
             <input type="range" id="depth" min="10" max="3000" step="5" value="300">
           </div>
 
           <div class="field">
-            <label>Departure (stinger) angle <b id="phiLbl">75.0</b><span class="val">°</span></label>
+            <label><span data-i18n="label_phi">Departure (stinger) angle</span> <b id="phiLbl">75.0</b><span class="val">°</span></label>
             <input type="range" id="phi" min="30" max="88" step="0.5" value="75">
           </div>
 
           <div class="field">
-            <label>Submerged pipe weight <b id="wLbl">1.20</b><span class="val" id="wUnitLbl">kN/m</span></label>
+            <label><span data-i18n="label_weight">Submerged pipe weight</span> <b id="wLbl">1.20</b><span class="val" id="wUnitLbl">kN/m</span></label>
             <div class="numrow">
               <input type="number" id="wInput" value="1.20" step="0.01" min="0.01">
               <select id="wUnit">
@@ -153,58 +165,58 @@
           </div>
 
           <div class="toggle-row" id="advToggle">
-            <span class="minihead" style="margin:0;">Derive weight from pipe data</span>
+            <span class="minihead" style="margin:0;" data-i18n="derive_weight_toggle">Derive weight from pipe data</span>
             <span class="chev">▸</span>
           </div>
           <div class="adv-body" id="advBody">
             <div class="adv-inner">
 
-              <div class="minihead">Pipe geometry</div>
+              <div class="minihead" data-i18n="mh_pipe_geom">Pipe geometry</div>
               <div class="field">
-                <label>Outer diameter <span class="val" id="odVal">323.9</span><span class="val">mm</span></label>
+                <label><span data-i18n="label_od">Outer diameter</span> <span class="val" id="odVal">323.9</span><span class="val">mm</span></label>
                 <input type="range" id="od" min="50" max="1500" step="0.1" value="323.9">
               </div>
               <div class="field">
-                <label>Wall thickness <span class="val" id="wtVal">15.9</span><span class="val">mm</span></label>
+                <label><span data-i18n="label_wt">Wall thickness</span> <span class="val" id="wtVal">15.9</span><span class="val">mm</span></label>
                 <input type="range" id="wt" min="3" max="60" step="0.1" value="15.9">
               </div>
 
-              <div class="minihead">Coatings (outer diameter after each layer)</div>
+              <div class="minihead" data-i18n="mh_coatings">Coatings (outer diameter after each layer)</div>
               <div class="field">
-                <label>Corrosion coating OD <span class="val" id="ccVal">327.9</span><span class="val">mm</span></label>
+                <label><span data-i18n="label_cc">Corrosion coating OD</span> <span class="val" id="ccVal">327.9</span><span class="val">mm</span></label>
                 <input type="range" id="cc" min="0" max="1520" step="0.1" value="327.9">
-                <div style="font-size:11px;color:var(--steel-dim);margin-top:4px;">set equal to pipe OD to skip</div>
+                <div style="font-size:11px;color:var(--steel-dim);margin-top:4px;" data-i18n="note_skip_cc">set equal to pipe OD to skip</div>
               </div>
               <div class="numrow" style="margin-top:6px;">
                 <input type="number" id="ccDensity" value="1300" step="10">
-                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;">kg/m³ density</span>
+                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;" data-i18n="unit_density_cc">kg/m³ density</span>
               </div>
 
               <div class="field" style="margin-top:14px;">
-                <label>Concrete weight coating OD <span class="val" id="wcVal">327.9</span><span class="val">mm</span></label>
+                <label><span data-i18n="label_wc">Concrete weight coating OD</span> <span class="val" id="wcVal">327.9</span><span class="val">mm</span></label>
                 <input type="range" id="wc" min="0" max="1700" step="0.1" value="327.9">
-                <div style="font-size:11px;color:var(--steel-dim);margin-top:4px;">set equal to previous OD to skip</div>
+                <div style="font-size:11px;color:var(--steel-dim);margin-top:4px;" data-i18n="note_skip_wc">set equal to previous OD to skip</div>
               </div>
               <div class="numrow" style="margin-top:6px;">
                 <input type="number" id="wcDensity" value="3040" step="10">
-                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;">kg/m³ density</span>
+                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;" data-i18n="unit_density_wc">kg/m³ density</span>
               </div>
 
-              <div class="minihead">Densities</div>
+              <div class="minihead" data-i18n="mh_densities">Densities</div>
               <div class="numrow">
                 <input type="number" id="steelDensity" value="7850" step="10">
-                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;">steel kg/m³</span>
+                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;" data-i18n="unit_steel_rho">steel kg/m³</span>
               </div>
               <div class="numrow" style="margin-top:8px;">
                 <input type="number" id="contentsDensity" value="0" step="10">
-                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;">contents kg/m³</span>
+                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;" data-i18n="unit_contents_rho">contents kg/m³</span>
               </div>
               <div class="numrow" style="margin-top:8px;">
                 <input type="number" id="seawaterDensity" value="1025" step="1">
-                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;">seawater kg/m³</span>
+                <span style="align-self:center;font-size:11px;color:var(--steel-dim);white-space:nowrap;" data-i18n="unit_sea_rho">seawater kg/m³</span>
               </div>
 
-              <button class="apply-btn" id="applyWeight">Use this weight ▸</button>
+              <button class="apply-btn" id="applyWeight" data-i18n="btn_apply_weight">Use this weight ▸</button>
             </div>
           </div>
 
@@ -218,35 +230,35 @@
         <svg id="diagram" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="readouts">
           <div class="readout">
-            <div class="rlabel">Bottom tension</div>
+            <div class="rlabel" data-i18n="label_bottom_tension">Bottom tension</div>
             <div><span class="rval" id="outH">—</span><span class="runit">kN</span></div>
             <div class="rsub" id="outHalt">— t</div>
           </div>
           <div class="readout">
-            <div class="rlabel">Top tension</div>
+            <div class="rlabel" data-i18n="label_top_tension">Top tension</div>
             <div><span class="rval" id="outTop">—</span><span class="runit">kN</span></div>
             <div class="rsub" id="outTopAlt">— t</div>
           </div>
           <div class="readout">
-            <div class="rlabel">Suspended length</div>
+            <div class="rlabel" data-i18n="label_suspended_len">Suspended length</div>
             <div><span class="rval" id="outS">—</span><span class="runit">m</span></div>
-            <div class="rsub" id="outSNote">arc length, TDP → lay point</div>
+            <div class="rsub" id="outSNote" data-i18n="sub_arc_len">arc length, TDP → lay point</div>
           </div>
           <div class="readout">
-            <div class="rlabel">Sag-bend radius</div>
+            <div class="rlabel" data-i18n="label_sag_radius">Sag-bend radius</div>
             <div><span class="rval" id="outR">—</span><span class="runit">m</span></div>
-            <div class="rsub" id="outRNote">min. radius, R = H / w</div>
+            <div class="rsub" id="outRNote" data-i18n="sub_min_radius">min. radius, R = H / w</div>
           </div>
         </div>
       </div>
 
       <div class="panel secondary-panel">
-        <div class="panel-head"><h2>DERIVED VALUES</h2></div>
-        <div class="table-row"><span class="k">Horizontal reach (touchdown → lay point)</span><span class="v" id="dvX">—</span></div>
-        <div class="table-row"><span class="k">Vertical tension component at lay point</span><span class="v" id="dvV">—</span></div>
-        <div class="table-row"><span class="k">Catenary parameter, a = H / w</span><span class="v" id="dvA">—</span></div>
-        <div class="table-row"><span class="k">Top / bottom tension ratio</span><span class="v" id="dvRatio">—</span></div>
-        <div class="note">
+        <div class="panel-head"><h2 data-i18n="panel_derived_vals">DERIVED VALUES</h2></div>
+        <div class="table-row"><span class="k" data-i18n="dv_reach">Horizontal reach (touchdown → lay point)</span><span class="v" id="dvX">—</span></div>
+        <div class="table-row"><span class="k" data-i18n="dv_v_comp">Vertical tension component at lay point</span><span class="v" id="dvV">—</span></div>
+        <div class="table-row"><span class="k" data-i18n="dv_cat_param">Catenary parameter, a = H / w</span><span class="v" id="dvA">—</span></div>
+        <div class="table-row"><span class="k" data-i18n="dv_ratio">Top / bottom tension ratio</span><span class="v" id="dvRatio">—</span></div>
+        <div class="note" data-i18n="calc_model_note">
           Model: quasi-static, frictionless catenary from the touchdown point (TDP) to the lay point at the stinger tip.
           <b>Bottom tension</b> is the horizontal tension component, constant along the free span.
           <b>Top tension</b> = bottom tension ÷ cos(departure angle). This ignores stinger roller friction, dynamic (vessel motion) loads,
@@ -254,7 +266,7 @@
         </div>
       </div>
 
-      <footer class="credit">S-lay catenary solver · based on standard sag-bend catenary formulation</footer>
+      <footer class="credit" data-i18n="footer_credit">S-lay catenary solver · based on standard sag-bend catenary formulation</footer>
     </div>
 
   </div>
@@ -262,11 +274,112 @@
 
 <script>
 (function(){
+  const translations = {
+    en: {
+      back_home: "Back to Main Platform",
+      header_title_highlight: "Calculator",
+      header_sub: "Quasi-static catenary solution for offshore pipe-laying — computes bottom (horizontal) tension and top (barge) tension from water depth, submerged pipe weight and departure angle.",
+      panel_lay_params: "LAY PARAMETERS",
+      label_depth: "Water depth",
+      label_phi: "Departure (stinger) angle",
+      label_weight: "Submerged pipe weight",
+      derive_weight_toggle: "Derive weight from pipe data",
+      mh_pipe_geom: "Pipe geometry",
+      label_od: "Outer diameter",
+      label_wt: "Wall thickness",
+      mh_coatings: "Coatings (outer diameter after each layer)",
+      label_cc: "Corrosion coating OD",
+      note_skip_cc: "set equal to pipe OD to skip",
+      unit_density_cc: "kg/m³ density",
+      label_wc: "Concrete weight coating OD",
+      note_skip_wc: "set equal to previous OD to skip",
+      unit_density_wc: "kg/m³ density",
+      mh_densities: "Densities",
+      unit_steel_rho: "steel kg/m³",
+      unit_contents_rho: "contents kg/m³",
+      unit_sea_rho: "seawater kg/m³",
+      btn_apply_weight: "Use this weight ▸",
+      label_bottom_tension: "Bottom tension",
+      label_top_tension: "Top tension",
+      label_suspended_len: "Suspended length",
+      sub_arc_len: "arc length, TDP → lay point",
+      label_sag_radius: "Sag-bend radius",
+      sub_min_radius: "min. radius, R = H / w",
+      panel_derived_vals: "DERIVED VALUES",
+      dv_reach: "Horizontal reach (touchdown → lay point)",
+      dv_v_comp: "Vertical tension component at lay point",
+      dv_cat_param: "Catenary parameter, a = H / w",
+      dv_ratio: "Top / bottom tension ratio",
+      calc_model_note: "Model: quasi-static, frictionless catenary from the touchdown point (TDP) to the lay point at the stinger tip. <b>Bottom tension</b> is the horizontal tension component, constant along the free span. <b>Top tension</b> = bottom tension ÷ cos(departure angle). This ignores stinger roller friction, dynamic (vessel motion) loads, and residual lay tension held by the tensioners — treat results as a first-pass estimate, not a final engineering check.",
+      footer_credit: "S-lay catenary solver · based on standard sag-bend catenary formulation"
+    },
+    zh: {
+      back_home: "返回主平台",
+      header_title_highlight: "计算器",
+      header_sub: "海上管道铺设的拟静力悬链线求解器 —— 根据水深、管道水下重量及滑道离开角计算底部（水平）张力与顶部（铺管船）张力。",
+      panel_lay_params: "铺设参数",
+      label_depth: "水深",
+      label_phi: "滑道离开角 (Departure Angle)",
+      label_weight: "管道水下重量",
+      derive_weight_toggle: "从管道数据推算重量",
+      mh_pipe_geom: "管道几何参数",
+      label_od: "外径 (OD)",
+      label_wt: "壁厚 (WT)",
+      mh_coatings: "防腐与配重层 (各层外径)",
+      label_cc: "防腐涂层外径",
+      note_skip_cc: "设为与管道外径相同以跳过",
+      unit_density_cc: "kg/m³ 密度",
+      label_wc: "混凝土配重层外径",
+      note_skip_wc: "设为与上一层外径相同以跳过",
+      unit_density_wc: "kg/m³ 密度",
+      mh_densities: "材料密度",
+      unit_steel_rho: "钢材 kg/m³",
+      unit_contents_rho: "内部介质 kg/m³",
+      unit_sea_rho: "海水 kg/m³",
+      btn_apply_weight: "采用此重量计算 ▸",
+      label_bottom_tension: "底部张力",
+      label_top_tension: "顶部张力",
+      label_suspended_len: "悬挂长度",
+      sub_arc_len: "弧长，触底点(TDP) → 铺管点",
+      label_sag_radius: "下弯段曲率半径",
+      sub_min_radius: "最小半径, R = H / w",
+      panel_derived_vals: "导出参数",
+      dv_reach: "水平跨距 (触底点 → 铺管点)",
+      dv_v_comp: "铺管点垂直张力分量",
+      dv_cat_param: "悬链线参数, a = H / w",
+      dv_ratio: "顶底张力比值",
+      calc_model_note: "模型：从触底点(TDP)到滑道末端铺管点的拟静力无摩擦悬链线。<b>底部张力</b>为水平张力分量，在整个自由段保持恒定。<b>顶部张力</b> = 底部张力 ÷ cos(离开角)。此计算忽略了滑道滚轮摩擦、船舶动态载荷以及张紧器持有的残余铺设张力，结果仅作为初步估算，不可直接用于最终工程校核。",
+      footer_credit: "S铺悬链线求解器 · 基于标准下弯段悬链线公式"
+    }
+  };
+
+  function setLanguage(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    if(lang === 'en') {
+      document.getElementById('lang-en').classList.add('active');
+    } else {
+      document.getElementById('lang-zh').classList.add('active');
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang] && translations[lang][key]) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+    localStorage.setItem('preferred_lang', lang);
+  }
+  window.setLanguage = setLanguage;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferred_lang') || 'en';
+    setLanguage(savedLang);
+  });
+
   const $ = id => document.getElementById(id);
   const depthEl = $('depth'), phiEl = $('phi'), wInput = $('wInput'), wUnit = $('wUnit');
   const g = 9.80665;
 
-  // ---------- unit conversion for submerged weight ----------
   function toKNperM(value, unit){
     switch(unit){
       case 'kNm': return value;
@@ -276,19 +389,7 @@
       default: return value;
     }
   }
-  function fromKNperM(value, unit){
-    switch(unit){
-      case 'kNm': return value;
-      case 'Nm': return value*1000;
-      case 'kgm': return value*1000/g;
-      case 'lbft': return value*1000/4.4482216153*0.3048;
-      default: return value;
-    }
-  }
 
-  // ---------- catenary solver ----------
-  // given water depth d (m), submerged weight w (kN/m), departure angle phi (deg)
-  // a = d / (sec(phi) - 1); H = w*a; Ttop = H/cos(phi); S = a*tan(phi); X = a*asinh(tan(phi))
   function solve(d, w, phiDeg){
     const phi = phiDeg*Math.PI/180;
     const sec = 1/Math.cos(phi);
@@ -306,7 +407,6 @@
     return n.toLocaleString(undefined,{minimumFractionDigits:dp,maximumFractionDigits:dp});
   }
 
-  // ---------- diagram ----------
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = $('diagram');
 
@@ -319,13 +419,13 @@
         <stop offset="100%" stop-color="#F4E7CB"/>
       </linearGradient>
       <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="${'#2E7FA1'}"/>
-        <stop offset="55%" stop-color="${'#175577'}"/>
-        <stop offset="100%" stop-color="${'#0E3350'}"/>
+        <stop offset="0%" stop-color="#2E7FA1"/>
+        <stop offset="55%" stop-color="#175577"/>
+        <stop offset="100%" stop-color="#0E3350"/>
       </linearGradient>
       <linearGradient id="sandGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="${'#8C6A42'}"/>
-        <stop offset="100%" stop-color="${'#6E5232'}"/>
+        <stop offset="0%" stop-color="#8C6A42"/>
+        <stop offset="100%" stop-color="#6E5232"/>
       </linearGradient>
     `;
     svg.appendChild(defs);
@@ -338,17 +438,11 @@
   function draw(res, d){
     buildStaticDefs();
 
-    // sky
-    const sky = rectEl(0,0,W,surfaceY,'url(#skyGrad)');
-    svg.appendChild(sky);
-    // sea
+    svg.appendChild(rectEl(0,0,W,surfaceY,'url(#skyGrad)'));
     svg.appendChild(rectEl(0,surfaceY,W,bedY-surfaceY,'url(#seaGrad)'));
-    // seabed
     svg.appendChild(rectEl(0,bedY,W,H-bedY,'url(#sandGrad)'));
-    // sea level line
     svg.appendChild(lineEl(0,surfaceY,W,surfaceY,'#9FD3E8',1));
 
-    // scale
     const availW = W-leftPad-rightPad;
     const availH = bedY-surfaceY;
     const scaleH = availW/Math.max(res.X,1);
@@ -358,68 +452,49 @@
     const topX = tdpX + res.X*scaleH;
     const topY = surfaceY;
 
-    // build catenary path (touchdown at bed, rising to surface at topX)
     const N=60;
     let pathD = '';
     for(let i=0;i<=N;i++){
-      const t = (i/N)*res.X; // meters along x from TDP
-      const y = res.a*(Math.cosh(t/res.a)-1); // meters above seabed
+      const t = (i/N)*res.X;
+      const y = res.a*(Math.cosh(t/res.a)-1);
       const px = tdpX + t*scaleH;
       const py = bedY - y*scaleV;
       pathD += (i===0?'M':'L') + px.toFixed(2)+','+py.toFixed(2)+' ';
     }
 
-    // pipe path - dark outline then yellow fill line
-    const pipeOutline = pathEl(pathD,'none','#0A1620',7);
-    const pipeCore = pathEl(pathD,'none','#F0B429',3.5);
-    svg.appendChild(pipeOutline);
-    svg.appendChild(pipeCore);
-
-    // touchdown marker
+    svg.appendChild(pathEl(pathD,'none','#0A1620',7));
+    svg.appendChild(pathEl(pathD,'none','#F0B429',3.5));
     svg.appendChild(circleEl(tdpX,bedY,4.5,'#F0B429','#0A1620'));
 
-    // stinger arc (decorative, barge to a bit below surface, over-bend)
     const stingerPath = `M ${topX-46},${topY-18} Q ${topX-8},${topY+10} ${topX+2},${topY+4}`;
     svg.appendChild(pathEl(stingerPath,'none','#1A1F22',6));
     svg.appendChild(pathEl(stingerPath,'none','#F0B429',3));
 
-    // barge silhouette (simple, schematic)
     const bx = topX - 40, by = topY-18;
     const barge = document.createElementNS(svgNS,'path');
-    barge.setAttribute('d', `M ${bx-70},${by+2}
-      L ${bx-60},${by-16}
-      L ${bx+40},${by-16}
-      L ${bx+60},${by+2}
-      L ${bx+60},${by+16}
-      L ${bx-70},${by+16} Z`);
+    barge.setAttribute('d', `M ${bx-70},${by+2} L ${bx-60},${by-16} L ${bx+40},${by-16} L ${bx+60},${by+2} L ${bx+60},${by+16} L ${bx-70},${by+16} Z`);
     barge.setAttribute('fill', '#B9C4CB');
     barge.setAttribute('stroke', '#0A1620');
     barge.setAttribute('stroke-width','1.5');
     svg.appendChild(barge);
-    // deckhouse
+
     const deck = document.createElementNS(svgNS,'rect');
     deck.setAttribute('x', bx-14); deck.setAttribute('y', by-34);
     deck.setAttribute('width', 26); deck.setAttribute('height', 20);
     deck.setAttribute('fill','#8DA0AC'); deck.setAttribute('stroke','#0A1620'); deck.setAttribute('stroke-width','1.2');
     svg.appendChild(deck);
 
-    // labels
-    addLabel(tdpX, bedY+22, 'TOUCHDOWN', tdpX> W-120 ? 'end':'start');
-    addLabel(tdpX, bedY+38, 'POINT', tdpX> W-120 ? 'end':'start', true);
-
+    addLabel(tdpX, bedY+22, 'TDP', tdpX> W-120 ? 'end':'start');
     addLabel(topX-4, by-46, 'LAY POINT', 'middle');
 
-    // sea level label
     addLabelSmall(10, surfaceY-8, 'SEA LEVEL');
     addLabelSmall(10, bedY+ (H-bedY)/2+4, 'SEABED');
 
-    // water depth dimension line (left side)
     const dimX = 26;
     svg.appendChild(lineEl(dimX,surfaceY,dimX,bedY,'#7FA8BC',1));
     svg.appendChild(lineEl(dimX-5,surfaceY,dimX+5,surfaceY,'#7FA8BC',1));
     svg.appendChild(lineEl(dimX-5,bedY,dimX+5,bedY,'#7FA8BC',1));
 
-    // angle arc at lay point
     const arcR = 34;
     const phi = res.phi;
     const ax0 = topX, ay0 = topY;
@@ -430,74 +505,21 @@
     const anglePath = `M ${arcEndX.toFixed(1)},${arcEndY.toFixed(1)} A ${arcR},${arcR} 0 0 0 ${arcStartX.toFixed(1)},${arcStartY.toFixed(1)}`;
     svg.appendChild(pathEl(anglePath,'none','#F0B429',1.4));
 
-    // top / bottom tension arrows + text
     addTensionArrow(topX+16, topY-2, topX+16-arcR*0.55, topY+arcR*0.9, '#E2624A');
     addLabel(topX+30, topY+26, 'TOP TENSION', 'start');
 
     addTensionArrow(tdpX+50, bedY-6, tdpX+92, bedY-6, '#5EC49A');
-    addLabel(tdpX+50, bedY-16, 'BOTTOM TENSION (H)', 'start');
+    addLabel(tdpX+50, bedY-16, 'BOTTOM H', 'start');
   }
 
-  function rectEl(x,y,w,h,fill){
-    const r=document.createElementNS(svgNS,'rect');
-    r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);r.setAttribute('fill',fill);
-    return r;
-  }
-  function lineEl(x1,y1,x2,y2,stroke,w){
-    const l=document.createElementNS(svgNS,'line');
-    l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
-    l.setAttribute('stroke',stroke);l.setAttribute('stroke-width',w);
-    return l;
-  }
-  function pathEl(d,fill,stroke,w){
-    const p=document.createElementNS(svgNS,'path');
-    p.setAttribute('d',d);p.setAttribute('fill',fill);p.setAttribute('stroke',stroke);
-    p.setAttribute('stroke-width',w);p.setAttribute('stroke-linecap','round');
-    return p;
-  }
-  function circleEl(cx,cy,r,fill,stroke){
-    const c=document.createElementNS(svgNS,'circle');
-    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);
-    c.setAttribute('fill',fill);c.setAttribute('stroke',stroke);c.setAttribute('stroke-width',1.5);
-    return c;
-  }
-  function addLabel(x,y,text,anchor,dim){
-    const t=document.createElementNS(svgNS,'text');
-    t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('text-anchor',anchor||'start');
-    t.setAttribute('font-family',"'IBM Plex Mono',monospace");
-    t.setAttribute('font-size','11');
-    t.setAttribute('fill', dim ? '#C9D3D8' : '#EFE9DA');
-    t.setAttribute('letter-spacing','0.03em');
-    t.textContent=text;
-    svg.appendChild(t);
-  }
-  function addLabelSmall(x,y,text){
-    const t=document.createElementNS(svgNS,'text');
-    t.setAttribute('x',x);t.setAttribute('y',y);
-    t.setAttribute('font-family',"'IBM Plex Mono',monospace");
-    t.setAttribute('font-size','10');
-    t.setAttribute('fill','#B9CBD6');
-    t.setAttribute('letter-spacing','0.05em');
-    t.textContent=text;
-    svg.appendChild(t);
-  }
-  function addTensionArrow(x1,y1,x2,y2,color){
-    const l = document.createElementNS(svgNS,'line');
-    l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
-    l.setAttribute('stroke',color);l.setAttribute('stroke-width',2);
-    svg.appendChild(l);
-    const ang = Math.atan2(y1-y2,x1-x2);
-    const ah = 6;
-    const p = document.createElementNS(svgNS,'path');
-    const ax=x2,ay=y2;
-    const x3 = ax+ah*Math.cos(ang-0.4), y3 = ay+ah*Math.sin(ang-0.4);
-    const x4 = ax+ah*Math.cos(ang+0.4), y4 = ay+ah*Math.sin(ang+0.4);
-    p.setAttribute('d',`M ${ax},${ay} L ${x3},${y3} L ${x4},${y4} Z`);
-    p.setAttribute('fill',color);
-    svg.appendChild(p);
-  }
+  function rectEl(x,y,w,h,fill){ const r=document.createElementNS(svgNS,'rect'); r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);r.setAttribute('fill',fill); return r; }
+  function lineEl(x1,y1,x2,y2,stroke,w){ const l=document.createElementNS(svgNS,'line'); l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2); l.setAttribute('stroke',stroke);l.setAttribute('stroke-width',w); return l; }
+  function pathEl(d,fill,stroke,w){ const p=document.createElementNS(svgNS,'path'); p.setAttribute('d',d);p.setAttribute('fill',fill);p.setAttribute('stroke',stroke); p.setAttribute('stroke-width',w);p.setAttribute('stroke-linecap','round'); return p; }
+  function circleEl(cx,cy,r,fill,stroke){ const c=document.createElementNS(svgNS,'circle'); c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r); c.setAttribute('fill',fill);c.setAttribute('stroke',stroke);c.setAttribute('stroke-width',1.5); return c; }
+  function addLabel(x,y,text,anchor,dim){ const t=document.createElementNS(svgNS,'text'); t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('text-anchor',anchor||'start'); t.setAttribute('font-family',"'IBM Plex Mono',monospace"); t.setAttribute('font-size','11'); t.setAttribute('fill', dim ? '#C9D3D8' : '#EFE9DA'); t.setAttribute('letter-spacing','0.03em'); t.textContent=text; svg.appendChild(t); }
+  function addLabelSmall(x,y,text){ const t=document.createElementNS(svgNS,'text'); t.setAttribute('x',x);t.setAttribute('y',y); t.setAttribute('font-family',"'IBM Plex Mono',monospace"); t.setAttribute('font-size','10'); t.setAttribute('fill','#B9CBD6'); t.setAttribute('letter-spacing','0.05em'); t.textContent=text; svg.appendChild(t); }
+  function addTensionArrow(x1,y1,x2,y2,color){ const l = document.createElementNS(svgNS,'line'); l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2); l.setAttribute('stroke',color);l.setAttribute('stroke-width',2); svg.appendChild(l); const ang = Math.atan2(y1-y2,x1-x2); const ah = 6; const p = document.createElementNS(svgNS,'path'); const ax=x2,ay=y2; const x3 = ax+ah*Math.cos(ang-0.4), y3 = ay+ah*Math.sin(ang-0.4); const x4 = ax+ah*Math.cos(ang+0.4), y4 = ay+ah*Math.sin(ang+0.4); p.setAttribute('d',`M ${ax},${ay} L ${x3},${y3} L ${x4},${y4} Z`); p.setAttribute('fill',color); svg.appendChild(p); }
 
-  // ---------- main update ----------
   function update(){
     const d = parseFloat(depthEl.value);
     const phi = parseFloat(phiEl.value);
@@ -515,12 +537,9 @@
     const res = solve(d,w,phi);
 
     $('outH').textContent = fmt(res.H,1);
-    $('outHalt').textContent = fmt(res.H/9.80665*1, 1)+' t'; // 1 kN = 0.10197 t ; simpler: H(kN)/g*1000 -> tonnes = H*1000/(g*1000)=H/g... use standard: tonnes-force = kN/9.80665
     $('outHalt').textContent = fmt(res.H/9.80665,2)+' t';
-
     $('outTop').textContent = fmt(res.Ttop,1);
     $('outTopAlt').textContent = fmt(res.Ttop/9.80665,2)+' t';
-
     $('outS').textContent = fmt(res.S,1);
     $('outR').textContent = fmt(res.a,1);
 
@@ -536,12 +555,10 @@
   phiEl.addEventListener('input', update);
   wInput.addEventListener('input', update);
   wUnit.addEventListener('change', function(){
-    // convert displayed number so the underlying kN/m stays sensible when unit switches
     update();
     $('wUnitLbl').textContent = wUnit.options[wUnit.selectedIndex].text;
   });
 
-  // ---------- advanced weight calculator ----------
   const advToggle = $('advToggle'), advBody = $('advBody');
   advToggle.addEventListener('click', function(){
     advToggle.classList.toggle('open');
@@ -556,7 +573,6 @@
     $('wtVal').textContent = parseFloat(wt.value).toFixed(1);
     $('ccVal').textContent = parseFloat(cc.value).toFixed(1);
     $('wcVal').textContent = parseFloat(wc.value).toFixed(1);
-    // keep coating sliders' min bounded to previous OD so layers stay logical
     cc.min = od.value;
     wc.min = cc.value;
     if(parseFloat(cc.value) < parseFloat(od.value)) cc.value = od.value;
@@ -566,8 +582,8 @@
   syncAdvLabels();
 
   function computeSubmergedWeight_kNm(){
-    const OD = parseFloat(od.value)/1000;       // m
-    const WT = parseFloat(wt.value)/1000;        // m
+    const OD = parseFloat(od.value)/1000;
+    const WT = parseFloat(wt.value)/1000;
     const ID = OD - 2*WT;
     const CC_OD = Math.max(parseFloat(cc.value)/1000, OD);
     const WC_OD = Math.max(parseFloat(wc.value)/1000, CC_OD);
@@ -583,12 +599,11 @@
     const areaContents = Math.PI/4*(ID*ID);
     const areaDisplaced = Math.PI/4*(WC_OD*WC_OD);
 
-    const massPerM = areaSteel*rhoSteel + areaCC*rhoCC + areaWC*rhoWC + areaContents*rhoContents; // kg/m
-    const buoyancyPerM = areaDisplaced*rhoSea; // kg/m equivalent
-
-    const netMassPerM = massPerM - buoyancyPerM; // kg/m (can be negative -> buoyant pipe)
-    const w_Npm = netMassPerM * g; // N/m
-    return w_Npm/1000; // kN/m
+    const massPerM = areaSteel*rhoSteel + areaCC*rhoCC + areaWC*rhoWC + areaContents*rhoContents;
+    const buoyancyPerM = areaDisplaced*rhoSea;
+    const netMassPerM = massPerM - buoyancyPerM;
+    const w_Npm = netMassPerM * g;
+    return w_Npm/1000;
   }
 
   $('applyWeight').addEventListener('click', function(){
@@ -599,7 +614,6 @@
     update();
   });
 
-  // initial paint
   syncAdvLabels();
   update();
 })();
