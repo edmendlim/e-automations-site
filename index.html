@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E Automations | Multi-Sector Energy & Autonomous Systems</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -38,11 +39,8 @@
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <a href="https://www.linkedin.com/company/73072667/admin/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 group">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-brand-primary to-brand-glow p-0.5 flex items-center justify-center shadow-lg shadow-brand-primary/20 group-hover:scale-105 transition">
-                    <div class="w-full h-full bg-brand-dark rounded-[6px] flex items-center justify-center">
-                        <svg class="w-5 h-5 text-brand-glow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                    <div class="w-full h-full bg-brand-dark rounded-[6px] flex items-center justify-center overflow-hidden">
+                        <img src="logo.png" alt="Logo" class="w-7 h-7 object-contain">
                     </div>
                 </div>
                 <div>
@@ -151,7 +149,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="slay_tension_calculator.html" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-primary text-white text-xs uppercase font-bold tracking-widest hover:bg-blue-600 transition shadow-xl shadow-brand-primary/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
+                        <a href="slay_tension_calculator.html" target="_blank" rel="noopener noreferrer" onclick="trackUniqueClick('slay_tension_calculator')" class="px-8 py-4 bg-brand-primary text-white text-xs uppercase font-bold tracking-widest hover:bg-blue-600 transition shadow-xl shadow-brand-primary/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
                             <span data-i18n="tool_card_btn">Launch Calculator</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-brand-glow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
                         </a>
@@ -419,7 +417,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="palm-oil-fertilizer-calculator.html" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-brand-amber text-brand-dark text-xs uppercase font-bold tracking-widest hover:bg-amber-400 transition shadow-xl shadow-brand-amber/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
+                        <a href="palm-oil-fertilizer-calculator.html" target="_blank" rel="noopener noreferrer" onclick="trackUniqueClick('palm_oil_fertilizer_calculator')" class="px-8 py-4 bg-brand-amber text-brand-dark text-xs uppercase font-bold tracking-widest hover:bg-amber-400 transition shadow-xl shadow-brand-amber/25 rounded-none inline-flex items-center space-x-3 group whitespace-nowrap">
                             <span data-i18n="bio_tool_btn">Launch Planner</span>
                             <i class="fa-solid fa-arrow-up-right-from-square group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
                         </a>
@@ -541,6 +539,18 @@
 
     <!-- Multi-Sector & Bilingual Switcher Script -->
     <script>
+        // Unique Click Tracker via localStorage linked to API or Client logic
+        window.trackUniqueClick = function(calculatorName) {
+            const storageKey = `clicked_${calculatorName}`;
+            if (!localStorage.getItem(storageKey)) {
+                localStorage.setItem(storageKey, 'true');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'unique_calculator_click', { 'calculator_name': calculatorName });
+                }
+                console.log(`Unique click recorded for: ${calculatorName}`);
+            }
+        };
+
         function switchSector(sectorId) {
             document.querySelectorAll('.sector-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('sector-' + sectorId).classList.remove('hidden');
@@ -698,7 +708,7 @@
                 og_badge: "油气工程董事会",
                 og_title_1: "自主化",
                 og_title_2: "SURF 与水下系统",
-                og_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术。",
+                og_desc: "面向刚性S铺、J铺、复杂水下结构及完整EPCI执行范围的AI驱动分析与自主工程精密技术.",
                 
                 photo_heading: "重型海洋与平台工程",
                 photo_sub: "在严格的工程治理与先进模拟模型管理下进行的真实海上基础设施部署。",
